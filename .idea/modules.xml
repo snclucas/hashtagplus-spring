@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hashtagplus.iml" filepath="$PROJECT_DIR$/.idea/modules/hashtagplus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hashtagplus_main.iml" filepath="$PROJECT_DIR$/.idea/modules/hashtagplus_main.iml" group="hashtagplus" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hashtagplus_test.iml" filepath="$PROJECT_DIR$/.idea/modules/hashtagplus_test.iml" group="hashtagplus" />
+    </modules>
+  </component>
+</project>
