@@ -20,10 +20,7 @@ public class ResourceController {
 
     @Secured({"ROLE_ADMIN"})
     @RequestMapping("/resource")
-    public Map<String, Object> home(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userRepository.findOne(userDetails.getUsername());
-        Map<String, Object> model = new HashMap<>();
-        model.put("roles", user.getRoles());
-        return model;
+    public String home(@AuthenticationPrincipal UserDetails userDetails) {
+        return "YAY";
     }
 }
