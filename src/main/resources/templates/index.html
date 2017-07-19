@@ -4,21 +4,7 @@
     <meta charset="utf-8"/>
     <title>Stashy.IO - Fast, custom RESTful endpoints for all your data</title>
 
-    <meta name="description" content="Create public and private endpoints for your data."/>
-    <meta name="robots" content="index, follow"/>
-    <meta name="author" content="stashyio"/>
-
-    <meta property="og:type" content="profile"/>
-    <meta property="og:title" content="Stashy.IO - Custom RESTful endpoints"/>
-    <meta property="og:url" content="http://stashy.io"/>
-    <meta property="og:image" content="http://stashy.io/img/logo-trans-white.png"/>
-    <meta property="og:description" content="Create public and private endpoints for your data."/>
-
-    <meta name="twitter:card" content="product"/>
-    <meta name="twitter:site" content="@stashyio"/>
-    <meta name="twitter:title" content="Stashy.IO - Custom RESTful endpoints"/>
-    <meta name="twitter:description" content="Create public and private endpoints for your data."/>
-    <meta name="twitter:image" content="http://stashy.io/img/logo-trans-white.png"/>
+    <div th:replace="fragments/meta :: meta"></div>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -41,49 +27,14 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="/js/modernizr.js"></script>
+    <script src="js/modernizr.js"></script>
 
 </head>
 
 <body>
 
 
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-            <a class="navbar-brand" href="/"> <img src="/img/logo-trans-white.png" alt="logo" height="50px"/></a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="/">HOME</a></li>
-                <!--
-                <li class="hidden-sm"><a href="features.html">FEATURES</a></li>
-                <li><a href="contact.html">CONTACT</a></li>
-                -->
-                <li class="active"><a href="/docs">DOCS</a></li>
-                <li class="active"><a href="/usage">USAGE</a></li>
-                <li class="active"><a href="/plans">PLANS</a></li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Simon<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/profile">Profile</a></li>
-                        <li><a href="/change_password">Change password</a></li>
-                        <li><a href="/logout">Logout</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="/login" role="button">Login</a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-
-    </div>
-</nav>
+<div th:replace="fragments/nav :: nav"></div>
 
 
 

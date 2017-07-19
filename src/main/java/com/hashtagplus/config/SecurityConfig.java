@@ -32,9 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.formLogin().defaultSuccessUrl("/resource")
+        http.formLogin().loginPage("/login").defaultSuccessUrl("/resource")
                 .and().logout().and().authorizeRequests()
-                .antMatchers("/index.html", "/home.html", "/login.html", "/", "/access", "/logout", "/save").permitAll().anyRequest()
+                .antMatchers("/index.html", "/home.html", "/login", "/", "/access", "/logout", "/save").permitAll().anyRequest()
                 .authenticated()
                 .and().csrf().disable();
     }
