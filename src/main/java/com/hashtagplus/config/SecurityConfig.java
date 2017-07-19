@@ -26,17 +26,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/js/**", "/css/**", "/img/**", "/fonts/**");
+        web.ignoring()
+                .antMatchers("/js/**", "/css/**", "/img/**", "/fonts/**");
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-        http.formLogin().loginPage("/login").defaultSuccessUrl("/resource")
-                .and().logout().and().authorizeRequests()
-                .antMatchers("/index.html", "/home.html", "/login", "/", "/access", "/logout", "/save").permitAll().anyRequest()
-                .authenticated()
-                .and().csrf().disable();
+      //  httpSecurity.formLogin()
+      //          .loginPage("/login")
+      //          .defaultSuccessUrl("/resource")
+      //          .and().logout().and().authorizeRequests()
+      //          .antMatchers("/signup", "/messages", "/index.html", "/home.html", "/login", "/", "/access", "/logout", "/save").permitAll().anyRequest()
+     //           .authenticated()
+      //          .and().csrf().disable();
+
+        httpSecurity
+                .authorizeRequests()
+                .antMatchers("/signup").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login").permitAll()
+                .and()
+                .logout().permitAll();
     }
 
     @Autowired

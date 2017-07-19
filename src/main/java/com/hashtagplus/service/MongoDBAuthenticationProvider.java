@@ -1,13 +1,13 @@
 package com.hashtagplus.service;
 
-import com.hashtagplus.model.User;
-import com.hashtagplus.model.UserRepository;
+import com.hashtagplus.model.HtplUserDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +26,9 @@ public class MongoDBAuthenticationProvider extends AbstractUserDetailsAuthentica
         UserDetails loadedUser;
 
         try {
-            //User user = userRepository.findByUsername(username);
-            User user = userService.getUserByUsername(username);
-            loadedUser = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getRoles());
+            //HtplUserDetails user = userRepository.findByUsername(username);
+            HtplUserDetails user = userService.getUserByUsername(username);
+            loadedUser = new User(user.getUsername(), user.getPassword(), user.getAuthorities());
         } catch (Exception repositoryProblem) {
             throw new InternalAuthenticationServiceException(repositoryProblem.getMessage(), repositoryProblem);
         }

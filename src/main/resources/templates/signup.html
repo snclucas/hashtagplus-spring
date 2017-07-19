@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Stashy.io - Fast, custom RESTful endpoints for all your data</title>
+
+    <div th:replace="fragments/meta :: meta"></div>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+
+
+    <link href="css/style.css" rel="stylesheet" media="all"/>
+
+    <link href="css/login_signup.css" rel="stylesheet" media="all"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div th:replace="fragments/nav :: nav"></div>
+
+<div class="container">
+    <div class="card card-container">
+        <h4>Signup</h4>
+        <hr/>
+
+                <div th:if="${param.error}" class="notification is-danger">
+                    Invalid username and password.
+                </div>
+                <div th:if="${param.logout}" class="notification is-success">
+                    You have been logged out.
+                </div>
+
+                <form name="f" th:action="@{/signup}" method="post" th:object="${userDetails}">
+                    <label class="label">Username</label>
+                    <p class="control">
+                        <input class="form-control"  type="text" placeholder="username" name="username" th:field="*{username}" />
+                    </p>
+
+                    <label class="label">Password</label>
+                    <p class="control">
+                        <input class="form-control"  type="password" placeholder="password" name="password" th:field="*{password}" />
+                    </p>
+
+                    <p class="control">
+                        <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign up</button>
+                    </p>
+                </form>
+                Already have an account? <a href="/login">Login</a>
+        <p>
+            If you don't have an account, you can <a href="/signup">sign up</a> for free!.
+        </p>
+    </div>
+</div>
+
+
+<!--==============BOOTSTRAP JS=================-->
+<script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

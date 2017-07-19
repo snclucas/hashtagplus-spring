@@ -1,11 +1,8 @@
 package com.hashtagplus.service;
 
-import com.hashtagplus.model.User;
-import com.hashtagplus.model.UserRepository;
+import com.hashtagplus.model.HtplUserDetails;
+import com.hashtagplus.model.UserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,22 +11,31 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDetailsRepository userRepository;
 
-    public List<User> getAllUsers() {
+    @Autowired
+    public UserService(UserDetailsRepository userDetailsRepository) {
+        this.userRepository = userDetailsRepository;
+    }
+
+    public List<HtplUserDetails> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public User getUserById(String id) {
+    public HtplUserDetails getUserById(String id) {
         return userRepository.findOne(id);
     }
 
-    public User getUserByUsername(String username) {
+    public HtplUserDetails getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public User saveUser(String username, String password, List<GrantedAuthority> roles) {
-        return userRepository.save(new User(username, password, roles));
+   // public HtplUserDetails saveUser(String username, String password) {
+    //    return userRepository.save(new HtplUserDetails(username, password));
+   // }
+
+    public HtplUserDetails save(HtplUserDetails customUserDetails) {
+        return this.userRepository.insert(customUserDetails);
     }
 
 }
