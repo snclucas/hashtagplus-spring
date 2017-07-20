@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface MessageRepository extends MongoRepository<Message, String> {
 
-    public Message findByTitle(String title);
+    Message findByTitle(String title);
 
     @Query(value = "{hashtags: ?0}")
-    public List<Message> findByHashtag(String hashtag);
+    List<Message> findByHashtag(String hashtag);
 
 }

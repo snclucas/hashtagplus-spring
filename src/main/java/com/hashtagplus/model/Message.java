@@ -5,10 +5,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.text.DateFormat;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 @Immutable
 @Document(collection = "messages")
@@ -20,8 +23,12 @@ public class Message {
     public String title;
     public String text;
     public String created_at;
+    public String slug;
 
     public List<String> hashtags;
+
+    private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
     public Message() {}
 
@@ -35,6 +42,8 @@ public class Message {
         df.setTimeZone(tz);
         String nowAsISO = df.format(new Date());
         this.created_at = nowAsISO;
+
+        this.slug = toSlug(title);
     }
 
     @Override
@@ -42,6 +51,13 @@ public class Message {
         return String.format(
                 "Message[id=%s, title='%s', text='%s']",
                 id, title, text);
+    }
+
+    public static String toSlug(String input) {
+        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+        String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
+        String slug = NONLATIN.matcher(normalized).replaceAll("");
+        return slug.toLowerCase(Locale.ENGLISH);
     }
 
 }

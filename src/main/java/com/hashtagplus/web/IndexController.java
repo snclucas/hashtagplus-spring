@@ -18,9 +18,4 @@ public class IndexController {
         return "index";
     }
 
-   // @RequestMapping(value = "/signup", method = RequestMethod.GET)
-   // public String showSignUpPage() {
-     //   return "signup";
-   // }
-
 }

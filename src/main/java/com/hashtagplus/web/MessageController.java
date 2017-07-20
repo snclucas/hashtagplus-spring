@@ -7,6 +7,7 @@ import com.hashtagplus.service.MessageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -31,13 +32,6 @@ public class MessageController {
     @GetMapping("/save")
     @ResponseBody
     public String save() {
-       // List<GrantedAuthority> list = new ArrayList<>();
-
-        //list.add(new SimpleGrantedAuthority("ROLE_" + "TEST"));
-
-        //this.userRepository.save(new HtplUserDetails("simon", "password"));
-
-
         List<String> hashtags = new ArrayList<>();
         hashtags.add("tree");
         hashtags.add("egg");
@@ -45,9 +39,18 @@ public class MessageController {
         return this.messageService.saveMessage("test2", "new message2", hashtags).toString();
     }
 
+    @Secured({"ROLE_USER"})
+    @RequestMapping(method=GET, value={"/message/{id}"})
+    public ModelAndView message(
+            @PathVariable("id") String id) {
+        Message message =  messageService.getMessageById(id);
+        ModelAndView mav = new ModelAndView("message");
+        mav.addObject("message", message);
+        return mav;
+    }
 
     @RequestMapping(method=GET, value={"/messages"})
-    public ModelAndView  getMessages(
+    public ModelAndView getMessages(
             @RequestParam(value="sortby", defaultValue="created_at") String sortby,
             @RequestParam(value="order", defaultValue="asc") String order,
             @RequestParam(value="page", defaultValue="1") int page,
@@ -57,7 +60,6 @@ public class MessageController {
                 order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
 
         List<Message> messages =  this.messageService.getAllMessages(sort, page, limit);
-
         ModelAndView mav = new ModelAndView("messages");
         mav.addObject("messages", messages);
         return mav;

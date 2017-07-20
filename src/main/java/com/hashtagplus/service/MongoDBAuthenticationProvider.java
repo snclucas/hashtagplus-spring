@@ -35,7 +35,7 @@ public class MongoDBAuthenticationProvider extends AbstractUserDetailsAuthentica
         try {
             HtplUserDetails user = userService.getUserByUsername(username);
             boolean passwordMatches = passwordEncoder.matches(authentication.getCredentials().toString(), user.getPassword());
-            if(user != null && passwordMatches) {
+            if(passwordMatches) {
                 loadedUser = new User(user.getUsername(), user.getPassword(), user.getAuthorities());
             }
             else {

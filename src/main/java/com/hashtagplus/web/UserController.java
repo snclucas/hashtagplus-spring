@@ -20,12 +20,9 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @RequestMapping(value = "/signup", method=RequestMethod.GET)
     public String showForm(Model model) {
         HtplUserDetails userDetails = new HtplUserDetails();
-        //foo.setBar("bar");
-
         model.addAttribute("userDetails", userDetails);
         return "signup";
     }
