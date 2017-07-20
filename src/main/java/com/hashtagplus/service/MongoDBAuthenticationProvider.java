@@ -9,6 +9,7 @@ import org.springframework.security.authentication.dao.AbstractUserDetailsAuthen
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,18 +18,29 @@ public class MongoDBAuthenticationProvider extends AbstractUserDetailsAuthentica
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
-    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+    protected void additionalAuthenticationChecks(UserDetails userDetails,
+                                                  UsernamePasswordAuthenticationToken authentication)
+            throws AuthenticationException {
     }
 
     @Override
-    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
+            throws AuthenticationException {
         UserDetails loadedUser;
 
         try {
-            //HtplUserDetails user = userRepository.findByUsername(username);
             HtplUserDetails user = userService.getUserByUsername(username);
-            loadedUser = new User(user.getUsername(), user.getPassword(), user.getAuthorities());
+            boolean passwordMatches = passwordEncoder.matches(authentication.getCredentials().toString(), user.getPassword());
+            if(user != null && passwordMatches) {
+                loadedUser = new User(user.getUsername(), user.getPassword(), user.getAuthorities());
+            }
+            else {
+                loadedUser = null;
+            }
         } catch (Exception repositoryProblem) {
             throw new InternalAuthenticationServiceException(repositoryProblem.getMessage(), repositoryProblem);
         }

@@ -20,6 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @RequestMapping(value = "/signup", method=RequestMethod.GET)
     public String showForm(Model model) {
         HtplUserDetails userDetails = new HtplUserDetails();

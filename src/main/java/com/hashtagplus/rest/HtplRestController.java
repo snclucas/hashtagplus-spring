@@ -21,14 +21,14 @@ public class HtplRestController {
     private MessageService messageService;
 
     @Secured({"ROLE_ADMIN"})
-    @RequestMapping(method=GET, value={"/message/{id}"})
+    @RequestMapping(method=GET, value={"/api/message/{id}"})
     public Message message(
             @PathVariable("id") String id,
             @RequestParam(value="test", defaultValue="") String test) {
         if(test.equals("egg"))
             return messageService.getMessageById(id);
         else
-            return new Message("Oops", "Egg", new ArrayList<String>());
+            return new Message("Oops", "Egg", new ArrayList<>());
     }
 
 }

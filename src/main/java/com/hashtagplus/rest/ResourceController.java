@@ -14,9 +14,9 @@ public class ResourceController {
     @Autowired
     private UserDetailsRepository userRepository;
 
-    @Secured({"ROLE_ADMIN"})
+    //@Secured({"ROLE_ADMIN"})
     @RequestMapping("/resource")
     public String home(@AuthenticationPrincipal UserDetails userDetails) {
-        return "YAY";
+        return userDetails.getAuthorities().toString();
     }
 }
