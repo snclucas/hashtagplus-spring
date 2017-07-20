@@ -21,6 +21,7 @@
 
     <link href="css/style.css" rel="stylesheet" media="all"/>
     <link href="css/messages.css" rel="stylesheet" media="all"/>
+    <link href="css/buttons.css" rel="stylesheet" media="all"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -39,12 +40,18 @@
 
 
 <div class="container">
+
+    <div class="row PageHead">
+        <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#exampleModal">Sort <span class="glyphicon glyphicon-calendar"></span></a>
+        <a class="btn btn-warning text-uppercase" data-toggle="collapse" href="#replyTwo"><span class="glyphicon glyphicon-comment"></span> 1 comment</a>
+    </div>
+
     <div class="row">
 
         <ul class="media-list">
             <li class="media" th:each="message : ${messages}">
                 <div class="media-body">
-                    <div class="well well-lg">
+                    <div class="well well-sm">
                         <h4 class="media-heading text-uppercase reviews" th:text="${message.title}">Titile</h4>
                         <ul class="media-date text-uppercase reviews list-inline">
                             <li class="dd">22</li>
@@ -54,8 +61,8 @@
                         <p class="media-comment" th:text="${message.text}">
                             Message text
                         </p>
-                        <a class="btn btn-info btn-circle text-uppercase" href="#" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
-                        <a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" href="#replyTwo"><span class="glyphicon glyphicon-comment"></span> 1 comment</a>
+                        <a class="btn btn-info text-uppercase" href="#" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
+                        <a class="btn btn-warning text-uppercase" data-toggle="collapse" href="#replyTwo"><span class="glyphicon glyphicon-comment"></span> 1 comment</a>
                     </div>
                 </div>
                 <div class="collapse" id="replyTwo">
@@ -89,7 +96,7 @@
 
 
 
-
+<div th:replace="fragments/add_message_modal :: add_message_modal"></div>
 </body>
 
 

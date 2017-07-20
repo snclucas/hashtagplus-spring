@@ -39,7 +39,11 @@ public class MessageService {
     }
 
     public Message saveMessage(String title, String description, List<String> hashtags) {
-        return messageRepository.save(new Message(title, description, hashtags));
+        return saveMessage(new Message(title, description, hashtags));
+    }
+
+    public Message saveMessage(Message message) {
+        return messageRepository.save(message);
     }
 
 }

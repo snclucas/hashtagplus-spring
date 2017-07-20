@@ -1,6 +1,5 @@
-package com.hashtagplus.web;
+package com.hashtagplus.controller;
 
-import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.UserDetailsRepository;
 import com.hashtagplus.service.MessageService;
@@ -8,8 +7,6 @@ import com.hashtagplus.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;

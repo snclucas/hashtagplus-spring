@@ -1,19 +1,18 @@
 package com.hashtagplus.rest;
 
+import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class HtplRestController {
@@ -46,5 +45,11 @@ public class HtplRestController {
         List<Message> messages =  this.messageService.getAllMessages(sort, page, limit);
 
         return messages;
+    }
+
+    @Secured({"ROLE_USER"})
+    @RequestMapping(method=POST, value={"/api/messages/add"})
+    public Message addMessages(@ModelAttribute(value = "message") Message message) {
+        return messageService.saveMessage(message);
     }
 }

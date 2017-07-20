@@ -22,7 +22,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: "application"
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
 
@@ -34,9 +34,9 @@ repositories {
 
 dependencies {
 
-    compile group: "com.sparkjava",
-            name: "spark-core",
-            version: "2.5.4"
+    compile group: "org.webjars",
+            name: "bootstrap",
+            version: "3.3.7"
 
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
