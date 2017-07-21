@@ -15,16 +15,9 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="/">HOME</a></li>
-                <!--
-                <li class="hidden-sm"><a href="features.html">FEATURES</a></li>
-                <li><a href="contact.html">CONTACT</a></li>
-                -->
-                <li class="active"><a href="/docs">DOCS</a></li>
-                <li class="active"><a href="/usage">USAGE</a></li>
-                <li class="active"><a href="/plans">PLANS</a></li>
 
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Simon<b class="caret"></b></a>
+                <li class="dropdown" sec:authorize="isAuthenticated()">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span sec:authentication="name">Bob</span><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/profile">Profile</a></li>
                         <li><a href="/change_password">Change password</a></li>
@@ -32,10 +25,11 @@
                     </ul>
                 </li>
 
-                <li><a href="/login" role="button">Login</a></li>
+                <li ec:authorize="isAnonymous()">
+                    <a href="/login" role="button">Login</a>
+                </li>
             </ul>
         </div>
-        <!-- /.navbar-collapse -->
 
     </div>
 </nav>

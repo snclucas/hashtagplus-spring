@@ -2,6 +2,7 @@
 
 
 $(function() {
+
     $("#add_message_form").submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -11,8 +12,7 @@ $(function() {
             data: $("#add_message_form").serialize(),
             async: true,
             success: function(data) {
-                console.log(data);
-                //window.location.href = data.redirect;
+                window.location.reload();
             }
         });
     })

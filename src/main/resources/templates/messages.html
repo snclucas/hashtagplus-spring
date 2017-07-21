@@ -31,7 +31,7 @@
 
     <script src="js/modernizr.js"></script>
 
-    <script src="js/messages.js"></script>
+
 
 </head>
 
@@ -44,9 +44,15 @@
 <div class="container">
 
     <div class="row PageHead">
-        <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Sort <span class="glyphicon glyphicon-calendar"></span></a>
-        <a class="btn btn-warning text-uppercase" data-toggle="collapse" href="#replyTwo"><span class="glyphicon glyphicon-comment"></span> 1 comment</a>
+        <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Add message <span class="glyphicon glyphicon-plus"></span></a>
     </div>
+
+    <sec:authorize access="hasRole('supervisor')">
+
+        This content will only be visible to users who have
+        the "supervisor" authority in their list of <tt>GrantedAuthority</tt>s.
+
+    </sec:authorize>
 
     <div class="row">
 
@@ -106,5 +112,6 @@
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+<script src="js/messages.js"></script>
 
 </html>

@@ -55,9 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/messages", "/signup").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").permitAll()
+                .formLogin().loginPage("/login").defaultSuccessUrl("/messages").permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().logoutUrl("/logout").permitAll();
     }
 
     @Autowired
