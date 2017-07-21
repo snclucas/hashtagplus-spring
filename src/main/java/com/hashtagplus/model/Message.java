@@ -22,14 +22,15 @@ public class Message {
     public String created_at;
     public String slug;
 
-    public List<String> hashtags = new ArrayList<>();
+    @DbRef
+    public List<Hashtag> hashtags = new ArrayList<>();
 
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
     public Message() {}
 
-    public Message(String title, String text, List<String> hashtags) {
+    public Message(String title, String text, List<Hashtag> hashtags) {
         this.title = title;
         this.text = text;
         this.hashtags = hashtags;
@@ -57,6 +58,14 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public List<Hashtag> getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(List<Hashtag> hashtags) {
+        this.hashtags = hashtags;
     }
 
     public void setSlug(String text) {

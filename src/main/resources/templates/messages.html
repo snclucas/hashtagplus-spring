@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Stashy.IO - Fast, custom RESTful endpoints for all your data</title>
+    <title>Htpl | Messages</title>
 
     <div th:replace="fragments/meta :: meta"></div>
 
@@ -10,14 +10,9 @@
 
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen" />
 
-    <!--==============GOOGLE FONT - OPEN SANS================= -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
 
-    <!--============== ICON FONT FONT-AWESOME================= -->
-
     <link href="css/font-awesome.css" rel="stylesheet"/>
-
-    <!--==============MAIN CSS FOR HOSTING PAGE================= -->
 
     <link href="css/style.css" rel="stylesheet" media="all"/>
     <link href="css/messages.css" rel="stylesheet" media="all"/>
@@ -30,88 +25,44 @@
     <![endif]-->
 
     <script src="js/modernizr.js"></script>
-
-
-
 </head>
 
 <body>
 
-
 <div th:replace="fragments/nav :: nav"></div>
 
-
 <div class="container">
-
     <div class="row PageHead">
         <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Add message <span class="glyphicon glyphicon-plus"></span></a>
     </div>
 
-    <sec:authorize access="hasRole('supervisor')">
-
-        This content will only be visible to users who have
-        the "supervisor" authority in their list of <tt>GrantedAuthority</tt>s.
-
-    </sec:authorize>
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="connect">WebSocket connection:</label>
+            <button id="connect" class="btn btn-default" type="submit">Connect</button>
+            <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+            </button>
+            <button id="tester" class="btn btn-default" type="submit">Connect</button>
+        </div>
+    </form>
 
     <div class="row">
-
-        <ul class="media-list">
-            <li class="media" th:each="message : ${messages}">
-                <div class="media-body">
-                    <div class="well well-sm">
-                        <h4 class="media-heading text-uppercase reviews" th:text="${message.title}">Titile</h4>
-                        <ul class="media-date text-uppercase reviews list-inline">
-                            <li class="dd">22</li>
-                            <li class="mm">09</li>
-                            <li class="aaaa">2014</li>
-                        </ul>
-                        <p class="media-comment" th:text="${message.text}">
-                            Message text
-                        </p>
-                        <a class="btn btn-info text-uppercase" href="#" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
-                        <a class="btn btn-warning text-uppercase" data-toggle="collapse" href="#replyTwo"><span class="glyphicon glyphicon-comment"></span> 1 comment</a>
-                    </div>
-                </div>
-                <div class="collapse" id="replyTwo">
-                    <ul class="media-list">
-                        <li class="media media-replied">
-                            <a class="pull-left" href="#">
-                                <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/jackiesaik/128.jpg" alt="profile"/>
-                            </a>
-                            <div class="media-body">
-                                <div class="well well-lg">
-                                    <h4 class="media-heading text-uppercase reviews"><span class="glyphicon glyphicon-share-alt"></span> Lizz</h4>
-                                    <ul class="media-date text-uppercase reviews list-inline">
-                                        <li class="dd">22</li>
-                                        <li class="mm">09</li>
-                                        <li class="aaaa">2014</li>
-                                    </ul>
-                                    <p class="media-comment">
-                                        Classy!
-                                    </p>
-                                    <a class="btn btn-info btn-circle text-uppercase" href="#" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
+        <div class="[ col-xs-12 col-sm-offset-2 col-sm-6 ]">
+            <div th:replace="fragments/message_list2 :: message_list2"></div>
+        </div>
     </div>
 </div>
-
 
 <div th:replace="fragments/add_message_modal :: add_message_modal"></div>
 
 </body>
 
-<script
-        src="https://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<div th:replace="fragments/commonjs :: commonjs"></div>
+
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 
 <script src="js/messages.js"></script>
+<script src="js/ws.js"></script>
 
 </html>

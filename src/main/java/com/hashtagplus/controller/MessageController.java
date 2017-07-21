@@ -1,5 +1,6 @@
 package com.hashtagplus.controller;
 
+import com.hashtagplus.model.Hashtag;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.UserDetailsRepository;
 import com.hashtagplus.service.MessageService;
@@ -29,9 +30,9 @@ public class MessageController {
     @GetMapping("/save")
     @ResponseBody
     public String save() {
-        List<String> hashtags = new ArrayList<>();
-        hashtags.add("tree");
-        hashtags.add("egg");
+        List<Hashtag> hashtags = new ArrayList<>();
+        hashtags.add(new Hashtag("tree"));
+        hashtags.add(new Hashtag("egg"));
 
         return this.messageService.saveMessage("test2", "new message2", hashtags).toString();
     }

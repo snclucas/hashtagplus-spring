@@ -1,5 +1,6 @@
 package com.hashtagplus.service;
 
+import com.hashtagplus.model.Hashtag;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class MessageService {
         return messageRepository.findByHashtag(hashtag);
     }
 
-    public Message saveMessage(String title, String description, List<String> hashtags) {
+    public Message saveMessage(String title, String description, List<Hashtag> hashtags) {
         return saveMessage(new Message(title, description, hashtags));
     }
 
