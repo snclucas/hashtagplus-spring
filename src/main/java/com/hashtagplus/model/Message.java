@@ -2,6 +2,7 @@ package com.hashtagplus.model;
 
 import com.mongodb.annotations.Immutable;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.text.DateFormat;
@@ -22,7 +23,7 @@ public class Message {
     public String created_at;
     public String slug;
 
-    @DbRef
+    @DBRef
     public List<Hashtag> hashtags = new ArrayList<>();
 
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
