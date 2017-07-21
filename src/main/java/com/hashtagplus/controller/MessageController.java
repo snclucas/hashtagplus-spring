@@ -58,6 +58,7 @@ public class MessageController {
 
         List<Message> messages =  this.messageService.getAllMessages(sort, page, limit);
         ModelAndView mav = new ModelAndView("messages");
+        mav.addObject("message", new Message());
         mav.addObject("messages", messages);
         return mav;
     }

@@ -50,6 +50,8 @@ public class HtplRestController {
     @Secured({"ROLE_USER"})
     @RequestMapping(method=POST, value={"/api/messages/add"})
     public Message addMessages(@ModelAttribute(value = "message") Message message) {
+        message.setSlug(message.getTitle());
+        message.setCreatedOnNow();
         return messageService.saveMessage(message);
     }
 }

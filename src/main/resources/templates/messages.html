@@ -31,6 +31,8 @@
 
     <script src="js/modernizr.js"></script>
 
+    <script src="js/messages.js"></script>
+
 </head>
 
 <body>
@@ -42,7 +44,7 @@
 <div class="container">
 
     <div class="row PageHead">
-        <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#exampleModal">Sort <span class="glyphicon glyphicon-calendar"></span></a>
+        <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Sort <span class="glyphicon glyphicon-calendar"></span></a>
         <a class="btn btn-warning text-uppercase" data-toggle="collapse" href="#replyTwo"><span class="glyphicon glyphicon-comment"></span> 1 comment</a>
     </div>
 
@@ -94,10 +96,15 @@
 </div>
 
 
-
-
 <div th:replace="fragments/add_message_modal :: add_message_modal"></div>
+
 </body>
+
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 
 </html>

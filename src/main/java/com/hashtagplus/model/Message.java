@@ -7,10 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Immutable
@@ -25,7 +22,7 @@ public class Message {
     public String created_at;
     public String slug;
 
-    public List<String> hashtags;
+    public List<String> hashtags = new ArrayList<>();
 
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
@@ -44,6 +41,34 @@ public class Message {
         this.created_at = nowAsISO;
 
         this.slug = toSlug(title);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setSlug(String text) {
+        this.slug = toSlug(text);
+    }
+
+    public void setCreatedOnNow() {
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+        df.setTimeZone(tz);
+        String nowAsISO = df.format(new Date());
+        this.created_at = nowAsISO;
     }
 
     @Override
