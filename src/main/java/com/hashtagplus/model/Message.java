@@ -1,6 +1,7 @@
 package com.hashtagplus.model;
 
 import com.mongodb.annotations.Immutable;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,19 +12,18 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
-@Immutable
 @Document(collection = "messages")
 public class Message {
 
     @Id
-    public String id;
+    public ObjectId id;
 
     public String title;
     public String text;
     public String created_at;
     public String slug;
 
-    @DBRef
+    @DBRef(lazy = true)
     public List<Hashtag> hashtags = new ArrayList<>();
 
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
@@ -31,10 +31,9 @@ public class Message {
 
     public Message() {}
 
-    public Message(String title, String text, List<Hashtag> hashtags) {
+    public Message(String title, String text) {
         this.title = title;
         this.text = text;
-        this.hashtags = hashtags;
 
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset

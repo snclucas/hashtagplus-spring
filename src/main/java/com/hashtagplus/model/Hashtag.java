@@ -1,21 +1,17 @@
 package com.hashtagplus.model;
 
 import com.mongodb.annotations.Immutable;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.text.DateFormat;
-import java.text.Normalizer;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.List;
 
-@Immutable
 @Document(collection = "hashtags")
 public class Hashtag {
 
     @Id
-    public String id;
+    public ObjectId id;
 
     public String text;
 
@@ -29,10 +25,9 @@ public class Hashtag {
         return text;
     }
 
-   public void setText(String text) {
+    public void setText(String text) {
         this.text = text;
     }
-
 
     @Override
     public String toString() {

@@ -1,15 +1,18 @@
 package com.hashtagplus.rest;
 
-import com.hashtagplus.model.HtplUserDetails;
+import com.hashtagplus.model.Hashtag;
 import com.hashtagplus.model.Message;
+import com.hashtagplus.model.form.MessageFormData;
+import com.hashtagplus.service.HashtagService;
+import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -21,6 +24,12 @@ public class HtplRestController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private HashtagService hashtagService;
+
+    @Autowired
+    private MessageHashtagService messageHashtagService;
+
     @Secured({"ROLE_USER"})
     @RequestMapping(method=GET, value={"/api/message/{id}"})
     public Message message(
@@ -29,7 +38,7 @@ public class HtplRestController {
         if(test.equals("egg"))
             return messageService.getMessageById(id);
         else
-            return new Message("Oops", "Egg", new ArrayList<>());
+            return new Message("Oops", "Egg");
     }
 
     @Secured({"ROLE_USER"})
@@ -50,9 +59,19 @@ public class HtplRestController {
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method=POST, value={"/api/messages/add"})
-    public Message addMessages(@ModelAttribute(value = "message") Message message) {
-        message.setSlug(message.getTitle());
-        message.setCreatedOnNow();
+    public Message addMessages(@ModelAttribute(value = "messageFormData") MessageFormData messageFormData ) {
+        Message message = new Message(messageFormData.getTitle(), messageFormData.getText());
+        message.id = new ObjectId();
+
+        List<Hashtag> hashtagList = new ArrayList<>();
+        String[] hashtags = messageFormData.getHashtags().split(",");
+        for(String hashtag : hashtags) {
+            Hashtag hashtagToSave = new Hashtag(hashtag);
+            hashtagToSave = hashtagService.saveHashtag(hashtagToSave);
+            hashtagList.add(hashtagToSave);
+            messageHashtagService.saveMessageHashtag(message, hashtagToSave);
+        }
+        message.setHashtags(hashtagList);
         return messageService.saveMessage(message);
     }
 }

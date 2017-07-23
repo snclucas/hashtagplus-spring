@@ -1,7 +1,8 @@
-package com.hashtagplus.model;
+package com.hashtagplus.model.repo;
 
 import java.util.List;
 
+import com.hashtagplus.model.Message;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

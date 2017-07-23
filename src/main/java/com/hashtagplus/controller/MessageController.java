@@ -2,9 +2,12 @@ package com.hashtagplus.controller;
 
 import com.hashtagplus.model.Hashtag;
 import com.hashtagplus.model.Message;
-import com.hashtagplus.model.UserDetailsRepository;
+import com.hashtagplus.model.form.MessageFormData;
+import com.hashtagplus.model.repo.UserDetailsRepository;
+import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageService;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
@@ -24,6 +27,9 @@ public class MessageController {
     private MessageService messageService;
 
     @Autowired
+    private HashtagService hashtagService;
+
+    @Autowired
     private UserDetailsRepository userRepository;
 
 
@@ -31,10 +37,29 @@ public class MessageController {
     @ResponseBody
     public String save() {
         List<Hashtag> hashtags = new ArrayList<>();
-        hashtags.add(new Hashtag("tree"));
-        hashtags.add(new Hashtag("egg"));
 
-        return this.messageService.saveMessage("test2", "new message2", hashtags).toString();
+        Hashtag h1 = new Hashtag("tree");
+        Hashtag h2 = new Hashtag("egg");
+
+        h1.id = new ObjectId();
+        h2.id = new ObjectId();
+
+        hashtags.add(h1);
+        hashtags.add(h2);
+
+        Message m = new Message("test2", "new message2");
+        m.setHashtags(hashtags);
+        m.id = new ObjectId();
+
+       // h1.setMessage(m);
+       // h2.setMessage(m);
+
+        hashtagService.saveHashtag(h1);
+        hashtagService.saveHashtag(h2);
+
+        m = this.messageService.saveMessage(m);
+
+        return m.toString();
     }
 
     @Secured({"ROLE_USER"})
@@ -59,7 +84,7 @@ public class MessageController {
 
         List<Message> messages =  this.messageService.getAllMessages(sort, page, limit);
         ModelAndView mav = new ModelAndView("messages");
-        mav.addObject("message", new Message());
+        mav.addObject("messageFormData", new MessageFormData());
         mav.addObject("messages", messages);
         return mav;
     }

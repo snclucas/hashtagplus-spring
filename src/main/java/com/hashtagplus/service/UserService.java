@@ -1,7 +1,7 @@
 package com.hashtagplus.service;
 
 import com.hashtagplus.model.HtplUserDetails;
-import com.hashtagplus.model.UserDetailsRepository;
+import com.hashtagplus.model.repo.UserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
