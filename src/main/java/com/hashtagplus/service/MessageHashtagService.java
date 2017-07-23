@@ -28,4 +28,9 @@ public class MessageHashtagService {
         return messageHashtagRepository.findByHashtag_id(message.id);
     }
 
+    public void deleteAllForMessage(Message message) {
+        messageHashtagRepository.deleteMessageHashtagsByMessage(message);
+    }
+
+
 }

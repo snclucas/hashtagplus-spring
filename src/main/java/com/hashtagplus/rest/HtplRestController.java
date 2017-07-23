@@ -74,4 +74,18 @@ public class HtplRestController {
         message.setHashtags(hashtagList);
         return messageService.saveMessage(message);
     }
+
+
+
+    @Secured({"ROLE_USER"})
+    @RequestMapping(method=POST, value={"/api/messages/delete/{message_id}"})
+    public Message deleteMessages(@PathVariable("message_id") String message_id) {
+        Message message = messageService.getMessageById(message_id);
+        messageService.deleteMessage(message);
+        messageHashtagService.deleteAllForMessage(message);
+        return message;
+    }
+
+
+
 }

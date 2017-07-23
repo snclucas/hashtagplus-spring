@@ -43,4 +43,12 @@ public class MessageService {
         return messageRepository.save(message);
     }
 
+    public void deleteMessage(Message message) {
+        messageRepository.delete(message);
+    }
+
+    public void deleteMessage(String id) {
+        messageRepository.delete(id);
+    }
+
 }
