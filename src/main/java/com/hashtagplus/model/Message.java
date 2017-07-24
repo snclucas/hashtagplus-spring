@@ -38,8 +38,7 @@ public class Message {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
         df.setTimeZone(tz);
-        String nowAsISO = df.format(new Date());
-        this.created_at = nowAsISO;
+        this.created_at = df.format(new Date());
 
         this.slug = toSlug(title);
     }
@@ -76,8 +75,7 @@ public class Message {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
         df.setTimeZone(tz);
-        String nowAsISO = df.format(new Date());
-        this.created_at = nowAsISO;
+        this.created_at = df.format(new Date());
     }
 
     @Override

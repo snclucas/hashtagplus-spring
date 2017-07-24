@@ -21,7 +21,11 @@ public class MessageHashtagService {
     }
 
     public List<Message> getMessagesWithHashtag(Hashtag hashtag) {
-        return messageHashtagRepository.findByMessage_id(hashtag.id);
+        return messageHashtagRepository.findByHashtag_id(hashtag.id);
+    }
+
+    public List<Message> getMessagesWithHashtags(List<Hashtag> hashtags) {
+        return messageHashtagRepository.findAllWithHashtags(hashtags);
     }
 
     public List<Hashtag> getHashtagsWithMessage(Message message) {

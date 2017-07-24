@@ -13,6 +13,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -48,13 +49,9 @@ public class HtplRestController {
             @RequestParam(value="order", defaultValue="asc") String order,
             @RequestParam(value="page", defaultValue="1") int page,
             @RequestParam(value="limit", defaultValue="100") int limit) {
-
         Sort sort = new Sort(
                 order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
-
-        List<Message> messages =  this.messageService.getAllMessages(sort, page, limit);
-
-        return messages;
+        return this.messageService.getAllMessages(sort, page, limit);
     }
 
     @Secured({"ROLE_USER"})
@@ -87,5 +84,20 @@ public class HtplRestController {
     }
 
 
+    @Secured({"ROLE_USER"})
+    @RequestMapping(method=GET, value={"/api/messages/2"})
+    public List<Message> getMEssagesWithHashtags(@RequestParam("hashtags") String hashtags) {
+        List<String> hashtagsArr = Arrays.asList(hashtags.split(","));
+
+        Hashtag hashtag = hashtagService.findHashtag("house");
+        List<Hashtag> hashtagList = new ArrayList<>();
+        hashtagList.add(hashtag);
+
+        List<Message> messages = messageHashtagService.getMessagesWithHashtag(hashtag);
+
+
+
+        return messages;
+    }
 
 }

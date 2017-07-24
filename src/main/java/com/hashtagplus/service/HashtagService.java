@@ -24,7 +24,9 @@ public class HashtagService {
         return hashtagRepository.findAll(request).getContent();
     }
 
-
+    public Hashtag findHashtag(String hashtag) {
+        return hashtagRepository.findByHashtag(hashtag);
+    }
 
     public Hashtag saveHashtag(Hashtag hashtag) {
         Hashtag existingHashtag = hashtagRepository.findByHashtag(hashtag.getText());

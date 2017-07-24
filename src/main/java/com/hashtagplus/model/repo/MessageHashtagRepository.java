@@ -17,6 +17,9 @@ public interface MessageHashtagRepository extends MongoRepository<MessageHashtag
     //@Query(value = "{'text': ?0}")
     List<Hashtag> findByHashtag_id(ObjectId hashtag_id);
 
+    @Query(value = "{'hashtag': ?0}")
+    List<Message> findAllWithHashtags(List<Hashtag> hashtags);
+
     @Override
     @Query(value = "{'message': ?0}")
     void deleteAll();
