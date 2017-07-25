@@ -9,13 +9,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Hashtag {
 
     @Id
-    public ObjectId id;
+    public String id;
 
     public String text;
 
-    public Hashtag() {}
+    public Hashtag() {
+        this.id = new ObjectId().toString();}
 
     public Hashtag(String text) {
+        this();
         this.text = text;
     }
 

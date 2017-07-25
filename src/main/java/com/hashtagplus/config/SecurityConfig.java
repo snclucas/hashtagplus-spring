@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/js/**", "/css/**", "/img/**", "/fonts/**");
+                .antMatchers("/js/**", "/css/**", "/img/**", "/fonts/**", "/api/**");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/", "/signup").permitAll()
+                .antMatchers("/", "/signup", "/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/messages").permitAll()
@@ -65,6 +65,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService());
         auth.authenticationProvider(authenticationProvider);
     }
+
+
+
 
 
 }

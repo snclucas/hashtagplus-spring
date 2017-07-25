@@ -14,6 +14,8 @@ public class HtplUserDetails implements UserDetails {
     private String username;
     private String password;
 
+    private String token;
+
     public HtplUserDetails() {}
 
     public HtplUserDetails(String username, String password) {
@@ -57,6 +59,14 @@ public class HtplUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

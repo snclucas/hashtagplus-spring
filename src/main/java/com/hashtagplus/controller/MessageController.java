@@ -5,6 +5,7 @@ import com.hashtagplus.model.Message;
 import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.model.repo.UserDetailsRepository;
 import com.hashtagplus.service.HashtagService;
+import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
 
 import org.bson.types.ObjectId;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 public class MessageController {
@@ -32,6 +34,9 @@ public class MessageController {
     @Autowired
     private UserDetailsRepository userRepository;
 
+    @Autowired
+    private MessageHashtagService messageHashtagService;
+
 
     @GetMapping("/save")
     @ResponseBody
@@ -41,15 +46,15 @@ public class MessageController {
         Hashtag h1 = new Hashtag("tree");
         Hashtag h2 = new Hashtag("egg");
 
-        h1.id = new ObjectId();
-        h2.id = new ObjectId();
+        h1.id = new ObjectId().toString();
+        h2.id = new ObjectId().toString();
 
         hashtags.add(h1);
         hashtags.add(h2);
 
         Message m = new Message("test2", "new message2");
         m.setHashtags(hashtags);
-        m.id = new ObjectId();
+      //  m.id = new ObjectId();
 
        // h1.setMessage(m);
        // h2.setMessage(m);
@@ -88,4 +93,18 @@ public class MessageController {
         mav.addObject("messages", messages);
         return mav;
     }
+
+
+
+
+    @Secured({"ROLE_USER"})
+    @RequestMapping(method=POST, value={"/messages/add"})
+    public Message addMessages(@ModelAttribute(value = "messageFormData") MessageFormData messageFormData ) {
+        return messageHashtagService.saveMessageWithHashtags(messageFormData);
+    }
+
+
+
+
+
 }

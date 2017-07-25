@@ -30,9 +30,9 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-   // public HtplUserDetails saveUser(String username, String password) {
-    //    return userRepository.save(new HtplUserDetails(username, password));
-   // }
+    public HtplUserDetails getUserByToken(String token) {
+        return userRepository.findByToken(token);
+    }
 
     public HtplUserDetails save(HtplUserDetails customUserDetails) {
         return this.userRepository.insert(customUserDetails);

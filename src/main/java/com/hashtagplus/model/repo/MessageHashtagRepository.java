@@ -19,8 +19,10 @@ public interface MessageHashtagRepository extends MongoRepository<MessageHashtag
 
     List<MessageHashtag> findByMessage(Message message);
 
-    @Query(value = "{'hashtag': ?0}")
-    List<Message> findAllWithHashtags(List<Hashtag> hashtags);
+    //@Query(value = "{'$or':[ ?0 ] }")
+    //List<Message> findByHashtags(String hashtags[]);
+
+    List<MessageHashtag> findByHashtagsIn(List<String> hashtags);
 
     @Override
     @Query(value = "{'message': ?0}")

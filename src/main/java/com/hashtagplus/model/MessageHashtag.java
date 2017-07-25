@@ -9,17 +9,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MessageHashtag {
 
     @Id
-    public ObjectId id;
+    public String id;
 
     @DBRef
     public Message message;
 
     public String hashtag;
 
-    public MessageHashtag() {}
+    public MessageHashtag() {
+        this.id = new ObjectId().toString();
+    }
 
 
     public MessageHashtag(Message message, String hashtag) {
+        this();
         this.message = message;
         this.hashtag = hashtag;
     }

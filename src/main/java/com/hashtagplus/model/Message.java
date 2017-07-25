@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class Message {
 
     @Id
-    public ObjectId id;
+    public String id;
 
     public String title;
     public String text;
@@ -29,9 +29,12 @@ public class Message {
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
-    public Message() {}
+    public Message() {
+        this.id = new ObjectId().toString();
+    }
 
     public Message(String title, String text) {
+        this();
         this.title = title;
         this.text = text;
 

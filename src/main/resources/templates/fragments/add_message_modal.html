@@ -11,7 +11,7 @@
                 <h5 class="modal-title">Add new message</h5>
             </div>
             <div class="modal-body">
-                <form id="add_message_form" th:action="@{/api/messages/add}" method="POST" th:object="${messageFormData}">
+                <form id="add_message_form" th:action="@{/messages/add}" method="POST" th:object="${messageFormData}">
                     <div class="form-group">
                         <input type="text" id="title" th:field="*{title}" name="title" class="form-control" placeholder="Title (optional)"/>
                     </div>

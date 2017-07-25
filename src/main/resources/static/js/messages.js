@@ -7,7 +7,7 @@ $(function() {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '/api/messages/add',
+            url: '/messages/add',
             dataType: "json",
             data: $("#add_message_form").serialize(),
             async: true,

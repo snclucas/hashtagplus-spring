@@ -31,7 +31,6 @@ public class HashtagService {
     public Hashtag saveHashtag(Hashtag hashtag) {
         Hashtag existingHashtag = hashtagRepository.findByHashtag(hashtag.getText());
         if(existingHashtag == null) {
-            hashtag.id = new ObjectId();
             return hashtagRepository.save(hashtag);
         }
         else

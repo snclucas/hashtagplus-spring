@@ -21,7 +21,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-public class HtplRestController {
+public class MessageRestController {
 
     @Autowired
     private MessageService messageService;
@@ -32,7 +32,7 @@ public class HtplRestController {
     @Autowired
     private MessageHashtagService messageHashtagService;
 
-    @Secured({"ROLE_USER"})
+
     @RequestMapping(method=GET, value={"/api/message/{id}"})
     public Message message(
             @PathVariable("id") String id,
@@ -43,7 +43,6 @@ public class HtplRestController {
             return new Message("Oops", "Egg");
     }
 
-    @Secured({"ROLE_USER"})
     @RequestMapping(method=GET, value={"/api/messages"})
     public List<Message> getMessages(
             @RequestParam(value="sortby", defaultValue="created_at") String sortby,
@@ -55,27 +54,14 @@ public class HtplRestController {
         return this.messageService.getAllMessages(sort, page, limit);
     }
 
-    @Secured({"ROLE_USER"})
-    @RequestMapping(method=POST, value={"/api/messages/add"})
-    public Message addMessages(@ModelAttribute(value = "messageFormData") MessageFormData messageFormData ) {
-        Message message = new Message(messageFormData.getTitle(), messageFormData.getText());
-        message.id = new ObjectId();
 
-        List<Hashtag> hashtagList = new ArrayList<>();
-        String[] hashtags = messageFormData.getHashtags().split(",");
-        for(String hashtag : hashtags) {
-            Hashtag hashtagToSave = new Hashtag(hashtag);
-            hashtagToSave = hashtagService.saveHashtag(hashtagToSave);
-            hashtagList.add(hashtagToSave);
-            messageHashtagService.saveMessageHashtag(message, hashtagToSave);
-        }
-        message.setHashtags(hashtagList);
-        return messageService.saveMessage(message);
+    @RequestMapping(method=POST, value={"/api/messages/add"})
+    public Message addMessages(@RequestBody MessageFormData messageFormData ) {
+        return messageHashtagService.saveMessageWithHashtags(messageFormData);
     }
 
 
 
-    @Secured({"ROLE_USER"})
     @RequestMapping(method=POST, value={"/api/messages/delete/{message_id}"})
     public Message deleteMessages(@PathVariable("message_id") String message_id) {
         Message message = messageService.getMessageById(message_id);
@@ -85,20 +71,18 @@ public class HtplRestController {
     }
 
 
-    @Secured({"ROLE_USER"})
     @RequestMapping(method=GET, value={"/api/messages/2"})
     public List<MessageHashtag> getMessagesWithHashtags(@RequestParam("hashtags") String hashtags) {
-        List<String> hashtagsArr = Arrays.asList(hashtags.split(","));
+        List<String> hashtagsList = Arrays.asList(hashtags.split(","));
 
-        Hashtag hashtag = hashtagService.findHashtag("house");
-        List<Hashtag> hashtagList = new ArrayList<>();
-        hashtagList.add(hashtag);
+        String[] hashtagsArr = hashtags.split(",");
+        List<MessageHashtag> messages = messageHashtagService.getMessagesWithHashtag(hashtagsArr[0]);
 
-        List<MessageHashtag> messages = messageHashtagService.getMessagesWithHashtag(hashtag);
-
-
+        List<MessageHashtag> messages2 = messageHashtagService.getMessagesWithHashtags(hashtagsList);
 
         return messages;
     }
+
+
 
 }
