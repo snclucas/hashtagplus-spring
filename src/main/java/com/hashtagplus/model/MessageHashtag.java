@@ -14,13 +14,12 @@ public class MessageHashtag {
     @DBRef
     public Message message;
 
-    @DBRef
-    public Hashtag hashtag;
+    public String hashtag;
 
     public MessageHashtag() {}
 
 
-    public MessageHashtag(Message message, Hashtag hashtag) {
+    public MessageHashtag(Message message, String hashtag) {
         this.message = message;
         this.hashtag = hashtag;
     }
@@ -33,11 +32,11 @@ public class MessageHashtag {
         this.message = message;
     }
 
-    public Hashtag getHashtag() {
+    public String getHashtag() {
         return hashtag;
     }
 
-    public void setHashtag(Hashtag hashtag) {
+    public void setHashtag(String hashtag) {
         this.hashtag = hashtag;
     }
 }

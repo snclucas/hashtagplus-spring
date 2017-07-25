@@ -43,6 +43,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
+    //compile 'org.springframework.security:spring-security-test:4.1.1'
+    compile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.3.RELEASE'
     compile("org.springframework.social:spring-social-twitter")
 
     compile("org.springframework.boot:spring-boot-starter-websocket")
@@ -54,4 +56,5 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.3.RELEASE'
 }

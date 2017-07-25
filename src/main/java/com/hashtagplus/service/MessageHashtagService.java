@@ -16,20 +16,20 @@ public class MessageHashtagService {
     private MessageHashtagRepository messageHashtagRepository;
 
     public MessageHashtag saveMessageHashtag(Message message, Hashtag hashtag) {
-        MessageHashtag mh = new MessageHashtag(message, hashtag);
+        MessageHashtag mh = new MessageHashtag(message, hashtag.getText());
         return messageHashtagRepository.save(mh);
     }
 
-    public List<Message> getMessagesWithHashtag(Hashtag hashtag) {
-        return messageHashtagRepository.findByHashtag_id(hashtag.id);
+    public List<MessageHashtag> getMessagesWithHashtag(Hashtag hashtag) {
+        return messageHashtagRepository.findByHashtag(hashtag.getText());
     }
 
     public List<Message> getMessagesWithHashtags(List<Hashtag> hashtags) {
         return messageHashtagRepository.findAllWithHashtags(hashtags);
     }
 
-    public List<Hashtag> getHashtagsWithMessage(Message message) {
-        return messageHashtagRepository.findByHashtag_id(message.id);
+    public List<MessageHashtag> getHashtagsWithMessage(Message message) {
+        return messageHashtagRepository.findByMessage(message);
     }
 
     public void deleteAllForMessage(Message message) {

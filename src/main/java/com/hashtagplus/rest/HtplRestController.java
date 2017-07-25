@@ -2,6 +2,7 @@ package com.hashtagplus.rest;
 
 import com.hashtagplus.model.Hashtag;
 import com.hashtagplus.model.Message;
+import com.hashtagplus.model.MessageHashtag;
 import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
@@ -86,14 +87,14 @@ public class HtplRestController {
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method=GET, value={"/api/messages/2"})
-    public List<Message> getMEssagesWithHashtags(@RequestParam("hashtags") String hashtags) {
+    public List<MessageHashtag> getMessagesWithHashtags(@RequestParam("hashtags") String hashtags) {
         List<String> hashtagsArr = Arrays.asList(hashtags.split(","));
 
         Hashtag hashtag = hashtagService.findHashtag("house");
         List<Hashtag> hashtagList = new ArrayList<>();
         hashtagList.add(hashtag);
 
-        List<Message> messages = messageHashtagService.getMessagesWithHashtag(hashtag);
+        List<MessageHashtag> messages = messageHashtagService.getMessagesWithHashtag(hashtag);
 
 
 
