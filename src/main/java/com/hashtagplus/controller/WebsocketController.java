@@ -1,7 +1,11 @@
 package com.hashtagplus.controller;
 
+import com.hashtagplus.model.HtplUser;
 import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.Message;
+import com.hashtagplus.model.repo.AggDao;
+import com.hashtagplus.service.HashtagService;
+import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -10,6 +14,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,6 +31,9 @@ public class WebsocketController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private MessageHashtagService messageHastageService;
 
     @Autowired
     private SimpMessagingTemplate template;
@@ -64,8 +72,9 @@ public class WebsocketController {
 
     @MessageMapping("/hashtags")
     @SendTo("/topic/greetings2")
-    public String getHashtags(String message) throws Exception {
-        return "ddd";
+    public List<AggDao> getHashtags(@AuthenticationPrincipal UserDetails user, String message) throws Exception {
+        HtplUser htplUser = (HtplUser) user;
+        return messageHastageService.aggregate(htplUser);
     }
 
 }

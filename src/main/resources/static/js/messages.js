@@ -7,11 +7,13 @@ $(function() {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '/messages/add',
+            url: '/api/messages/add',
             dataType: "json",
+            //contentType: 'application/json',
             data: $("#add_message_form").serialize(),
             async: true,
             success: function(data) {
+                console.log("dddd");
                 window.location.reload();
             }
         });

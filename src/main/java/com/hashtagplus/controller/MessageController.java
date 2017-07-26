@@ -105,7 +105,7 @@ public class MessageController {
                                @ModelAttribute(value = "messageFormData") MessageFormData messageFormData ) {
         HtplUser htplUser = (HtplUser) user;
         messageHashtagService.saveMessageWithHashtags(messageFormData, htplUser);
-        THIS DOESNT WORK, ALSO LOOK AT USERS
+        //THIS DOESNT WORK, ALSO LOOK AT USERS
         return "messages";
     }
 

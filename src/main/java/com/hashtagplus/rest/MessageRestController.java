@@ -5,15 +5,12 @@ import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,11 +56,37 @@ public class MessageRestController {
     }
 
 
-    @RequestMapping(method=POST, value={"/api/messages/add"})
-    public Message addMessages(@RequestBody MessageFormData messageFormData ) {
+
+
+
+
+
+
+
+
+    @RequestMapping(method=POST, value={"/api/messages/add"},
+            produces={"application/json"},
+            consumes={"application/json"})
+    public Message createMessagesFromJSON(@RequestBody MessageFormData messageFormData ) {
+        return createMessage(messageFormData);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value={"/api/messages/add"},
+            headers = "content-type=application/x-www-form-urlencoded")
+    public Message createMessagesFromForm(@ModelAttribute MessageFormData messageFormData ) {
+        return createMessage(messageFormData);
+    }
+
+    private Message createMessage(MessageFormData messageFormData ) {
         HtplUser user = (HtplUser) context.getAttribute("user_from_token");
         return messageHashtagService.saveMessageWithHashtags(messageFormData, user);
     }
+
+
+
+
+
+
 
 
 
@@ -77,7 +100,7 @@ public class MessageRestController {
 
 
     @RequestMapping(method=GET, value={"/api/messages/2"})
-    public List<MessageHashtag> getMessagesWithHashtags(Principal principal, @RequestParam("hashtags") String hashtags) {
+    public List<MessageHashtag> getMessagesWithHashtags(@RequestParam(value="hashtags", defaultValue="") String hashtags) {
         List<String> hashtagsList = Arrays.asList(hashtags.split(","));
 
         String[] hashtagsArr = hashtags.split(",");

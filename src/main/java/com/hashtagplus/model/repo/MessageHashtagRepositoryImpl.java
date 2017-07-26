@@ -1,6 +1,7 @@
 package com.hashtagplus.model.repo;
 
 
+import com.hashtagplus.model.HtplUser;
 import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.MessageHashtag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
     }
 
     @Override
-    public List<AggDao> aggregate(HtplUserDetails user) {
+    public List<AggDao> aggregate(HtplUser user) {
         GroupOperation groupOperation = getGroupOperation();
         Aggregation agg = Aggregation.newAggregation(getMatchOperation(user), groupOperation);
         AggregationResults<AggDao> output
@@ -34,8 +35,8 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
         return output.getMappedResults();
     }
 
-    private MatchOperation getMatchOperation(HtplUserDetails user) {
-        String user_id = user.id;
+    private MatchOperation getMatchOperation(HtplUser user) {
+        String user_id = user.getId();
         Criteria userCriteria = where("user_id").is(user_id);
         return match(userCriteria);
     }

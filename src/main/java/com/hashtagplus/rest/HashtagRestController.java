@@ -1,5 +1,6 @@
 package com.hashtagplus.rest;
 
+import com.hashtagplus.model.HtplUser;
 import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.MessageHashtag;
@@ -32,7 +33,7 @@ public class HashtagRestController {
 
     @RequestMapping(method=GET, value={"/api/hashtags/aggregate"})
     public List<AggDao> getAggregatedHashtagCount() {
-        HtplUserDetails user = (HtplUserDetails) context.getAttribute("user_from_token");
+        HtplUser user = (HtplUser) context.getAttribute("user_from_token");
         List<AggDao> results = messageHashtagService.aggregate(user);
         return results;
     }

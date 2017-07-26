@@ -64,7 +64,7 @@ public class MessageHashtagService {
         messageHashtagRepository.deleteMessageHashtagsByMessage(message);
     }
 
-    public List<AggDao> aggregate(HtplUserDetails user) {
+    public List<AggDao> aggregate(HtplUser user) {
         return messageHashtagRepository.aggregate(user);
     }
 

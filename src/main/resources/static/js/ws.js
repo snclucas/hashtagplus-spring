@@ -108,8 +108,8 @@ return html;
 }
 
 function askHashtags() {
-
-    stompClient.send("/app/hashtags", {}, JSON.stringify({'name': $("#name").val()}));
+    console.log(JSON.stringify({'name': $("#name").val()}));
+    stompClient.send("/app/hashtags", {}, JSON.stringify({"name": "fgdfg"}));
 
 }
 

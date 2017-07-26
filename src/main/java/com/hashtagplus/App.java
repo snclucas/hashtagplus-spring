@@ -15,9 +15,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.request.RequestAttributes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootApplication
@@ -41,6 +38,7 @@ public class App {
 
         };
     }
+
 
     @Bean
     public FilterRegistrationBean apiTokenFilter() {
