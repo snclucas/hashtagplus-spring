@@ -1,5 +1,6 @@
 package com.hashtagplus.service;
 
+import com.hashtagplus.model.HtplUser;
 import com.hashtagplus.model.HtplUserDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class MongoDBAuthenticationProvider extends AbstractUserDetailsAuthentica
             HtplUserDetails user = userService.getUserByUsername(username);
             boolean passwordMatches = passwordEncoder.matches(authentication.getCredentials().toString(), user.getPassword());
             if(passwordMatches) {
-                loadedUser = new User(user.getUsername(), user.getPassword(), user.getAuthorities());
+                loadedUser = new HtplUser(user.getUsername(), user.getPassword(), user.id, user.getAuthorities());
             }
             else {
                 loadedUser = null;

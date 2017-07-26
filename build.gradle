@@ -48,6 +48,8 @@ dependencies {
     compile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.3.RELEASE'
     compile("org.springframework.social:spring-social-twitter")
 
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.2.3.RELEASE'
+
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.webjars:webjars-locator")
     compile("org.webjars:sockjs-client:1.0.2")

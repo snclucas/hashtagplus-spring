@@ -31,7 +31,7 @@ public class HashtagRestController {
 
 
     @RequestMapping(method=GET, value={"/api/hashtags/aggregate"})
-    public List<AggDao> getMessagesWithHashtags() {
+    public List<AggDao> getAggregatedHashtagCount() {
         HtplUserDetails user = (HtplUserDetails) context.getAttribute("user_from_token");
         List<AggDao> results = messageHashtagService.aggregate(user);
         return results;

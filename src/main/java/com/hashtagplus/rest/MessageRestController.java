@@ -1,9 +1,6 @@
 package com.hashtagplus.rest;
 
-import com.hashtagplus.model.Hashtag;
-import com.hashtagplus.model.HtplUserDetails;
-import com.hashtagplus.model.Message;
-import com.hashtagplus.model.MessageHashtag;
+import com.hashtagplus.model.*;
 import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
@@ -46,7 +43,7 @@ public class MessageRestController {
         if(test.equals("egg"))
             return messageService.getMessageById(id);
         else
-            return new Message("Oops", "Egg");
+            return new Message("Oops", "Egg", "0");
     }
 
     @RequestMapping(method=GET, value={"/api/messages"})
@@ -55,15 +52,16 @@ public class MessageRestController {
             @RequestParam(value="order", defaultValue="asc") String order,
             @RequestParam(value="page", defaultValue="1") int page,
             @RequestParam(value="limit", defaultValue="100") int limit) {
+        HtplUserDetails user = (HtplUserDetails) context.getAttribute("user_from_token");
         Sort sort = new Sort(
                 order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
-        return this.messageService.getAllMessages(sort, page, limit);
+        return this.messageService.getAllMessages(user, sort, page, limit);
     }
 
 
     @RequestMapping(method=POST, value={"/api/messages/add"})
     public Message addMessages(@RequestBody MessageFormData messageFormData ) {
-        HtplUserDetails user = (HtplUserDetails) context.getAttribute("user_from_token");
+        HtplUser user = (HtplUser) context.getAttribute("user_from_token");
         return messageHashtagService.saveMessageWithHashtags(messageFormData, user);
     }
 

@@ -1,10 +1,10 @@
 package com.hashtagplus.controller;
 
 import com.hashtagplus.model.Hashtag;
+import com.hashtagplus.model.HtplUser;
 import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.form.MessageFormData;
-import com.hashtagplus.model.repo.UserDetailsRepository;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
@@ -14,11 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,6 @@ public class MessageController {
 
     @Autowired
     private HashtagService hashtagService;
-
-    @Autowired
-    private UserDetailsRepository userRepository;
 
     @Autowired
     private MessageHashtagService messageHashtagService;
@@ -55,7 +53,7 @@ public class MessageController {
         hashtags.add(h1);
         hashtags.add(h2);
 
-        Message m = new Message("test2", "new message2");
+        Message m = new Message("test2", "new message2", "0");
         m.setHashtags(hashtags);
       //  m.id = new ObjectId();
 
@@ -82,6 +80,7 @@ public class MessageController {
 
     @RequestMapping(method=GET, value={"/messages"})
     public ModelAndView getMessages(
+            @AuthenticationPrincipal HtplUserDetails user,
             @RequestParam(value="sortby", defaultValue="created_at") String sortby,
             @RequestParam(value="order", defaultValue="asc") String order,
             @RequestParam(value="page", defaultValue="1") int page,
@@ -90,7 +89,7 @@ public class MessageController {
         Sort sort = new Sort(
                 order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
 
-        List<Message> messages =  this.messageService.getAllMessages(sort, page, limit);
+        List<Message> messages =  this.messageService.getAllMessages(user, sort, page, limit);
         ModelAndView mav = new ModelAndView("messages");
         mav.addObject("messageFormData", new MessageFormData());
         mav.addObject("messages", messages);
@@ -102,11 +101,12 @@ public class MessageController {
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method=POST, value={"/messages/add"})
-    public Message addMessages(Principal principal, @ModelAttribute(value = "messageFormData") MessageFormData messageFormData ) {
-
-        HtplUserDetails activeUser = (HtplUserDetails) ((Authentication) principal).getPrincipal();
-
-        return messageHashtagService.saveMessageWithHashtags(messageFormData, activeUser);
+    public String addMessages(@AuthenticationPrincipal UserDetails user,
+                               @ModelAttribute(value = "messageFormData") MessageFormData messageFormData ) {
+        HtplUser htplUser = (HtplUser) user;
+        messageHashtagService.saveMessageWithHashtags(messageFormData, htplUser);
+        THIS DOESNT WORK, ALSO LOOK AT USERS
+        return "messages";
     }
 
 

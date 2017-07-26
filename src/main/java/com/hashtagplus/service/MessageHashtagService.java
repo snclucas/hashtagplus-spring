@@ -1,13 +1,11 @@
 package com.hashtagplus.service;
 
-import com.hashtagplus.model.Hashtag;
-import com.hashtagplus.model.HtplUserDetails;
-import com.hashtagplus.model.Message;
-import com.hashtagplus.model.MessageHashtag;
+import com.hashtagplus.model.*;
 import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.model.repo.AggDao;
 import com.hashtagplus.model.repo.MessageHashtagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -25,14 +23,14 @@ public class MessageHashtagService {
     @Autowired
     private HashtagService hashtagService;
 
-    public MessageHashtag saveMessageHashtag(Message message, Hashtag hashtag, HtplUserDetails user) {
-        MessageHashtag mh = new MessageHashtag(message, hashtag.getText(), user.id);
+    public MessageHashtag saveMessageHashtag(Message message, Hashtag hashtag, HtplUser user) {
+        MessageHashtag mh = new MessageHashtag(message, hashtag.getText(), user.getId());
         return messageHashtagRepository.save(mh);
     }
 
 
-    public Message saveMessageWithHashtags(MessageFormData messageFormData, HtplUserDetails user) {
-        Message message = new Message(messageFormData.getTitle(), messageFormData.getText());
+    public Message saveMessageWithHashtags(MessageFormData messageFormData, HtplUser user) {
+        Message message = new Message(messageFormData.getTitle(), messageFormData.getText(), user.getId());
 
         List<Hashtag> hashtagList = new ArrayList<>();
         String[] hashtags = new String[]{};

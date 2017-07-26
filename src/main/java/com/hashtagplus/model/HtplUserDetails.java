@@ -7,10 +7,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 @Document(collection = "users")
-public class HtplUserDetails implements UserDetails {
+public class HtplUserDetails implements UserDetails{
 
     @Id
     public String id;

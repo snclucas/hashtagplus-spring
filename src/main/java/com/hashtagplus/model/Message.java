@@ -23,6 +23,8 @@ public class Message {
     public String created_at;
     public String slug;
 
+    public String user_id;
+
     @DBRef(lazy = true)
     public List<Hashtag> hashtags = new ArrayList<>();
 
@@ -33,10 +35,11 @@ public class Message {
         this.id = new ObjectId().toString();
     }
 
-    public Message(String title, String text) {
+    public Message(String title, String text, String user_id) {
         this();
         this.title = title;
         this.text = text;
+        this.user_id = user_id;
 
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
@@ -72,6 +75,14 @@ public class Message {
 
     public void setSlug(String text) {
         this.slug = toSlug(text);
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public void setCreatedOnNow() {
