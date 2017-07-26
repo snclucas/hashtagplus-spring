@@ -1,6 +1,7 @@
 package com.hashtagplus.controller;
 
 import com.hashtagplus.model.Hashtag;
+import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.model.repo.UserDetailsRepository;
@@ -12,10 +13,12 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,8 +102,11 @@ public class MessageController {
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method=POST, value={"/messages/add"})
-    public Message addMessages(@ModelAttribute(value = "messageFormData") MessageFormData messageFormData ) {
-        return messageHashtagService.saveMessageWithHashtags(messageFormData);
+    public Message addMessages(Principal principal, @ModelAttribute(value = "messageFormData") MessageFormData messageFormData ) {
+
+        HtplUserDetails activeUser = (HtplUserDetails) ((Authentication) principal).getPrincipal();
+
+        return messageHashtagService.saveMessageWithHashtags(messageFormData, activeUser);
     }
 
 

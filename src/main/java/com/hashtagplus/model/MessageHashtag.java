@@ -14,6 +14,8 @@ public class MessageHashtag {
     @DBRef
     public Message message;
 
+    public String user_id;
+
     public String hashtag;
 
     public MessageHashtag() {
@@ -21,10 +23,11 @@ public class MessageHashtag {
     }
 
 
-    public MessageHashtag(Message message, String hashtag) {
+    public MessageHashtag(Message message, String hashtag, String user_id) {
         this();
         this.message = message;
         this.hashtag = hashtag;
+        this.user_id = user_id;
     }
 
     public Message getMessage() {
@@ -41,5 +44,13 @@ public class MessageHashtag {
 
     public void setHashtag(String hashtag) {
         this.hashtag = hashtag;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 }

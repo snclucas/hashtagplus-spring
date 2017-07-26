@@ -1,6 +1,7 @@
 package com.hashtagplus.rest;
 
 import com.hashtagplus.model.Hashtag;
+import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.MessageHashtag;
 import com.hashtagplus.model.form.MessageFormData;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +34,9 @@ public class MessageRestController {
 
     @Autowired
     private MessageHashtagService messageHashtagService;
+
+    @Autowired
+    private HttpServletRequest context;
 
 
     @RequestMapping(method=GET, value={"/api/message/{id}"})
@@ -57,7 +63,8 @@ public class MessageRestController {
 
     @RequestMapping(method=POST, value={"/api/messages/add"})
     public Message addMessages(@RequestBody MessageFormData messageFormData ) {
-        return messageHashtagService.saveMessageWithHashtags(messageFormData);
+        HtplUserDetails user = (HtplUserDetails) context.getAttribute("user_from_token");
+        return messageHashtagService.saveMessageWithHashtags(messageFormData, user);
     }
 
 
@@ -72,14 +79,13 @@ public class MessageRestController {
 
 
     @RequestMapping(method=GET, value={"/api/messages/2"})
-    public List<MessageHashtag> getMessagesWithHashtags(@RequestParam("hashtags") String hashtags) {
+    public List<MessageHashtag> getMessagesWithHashtags(Principal principal, @RequestParam("hashtags") String hashtags) {
         List<String> hashtagsList = Arrays.asList(hashtags.split(","));
 
         String[] hashtagsArr = hashtags.split(",");
         List<MessageHashtag> messages = messageHashtagService.getMessagesWithHashtag(hashtagsArr[0]);
 
         List<MessageHashtag> messages2 = messageHashtagService.getMessagesWithHashtags(hashtagsList);
-
         return messages;
     }
 

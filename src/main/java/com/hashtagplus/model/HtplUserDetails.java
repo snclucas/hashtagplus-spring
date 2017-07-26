@@ -1,5 +1,6 @@
 package com.hashtagplus.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -10,6 +11,9 @@ import java.util.List;
 
 @Document(collection = "users")
 public class HtplUserDetails implements UserDetails {
+
+    @Id
+    public String id;
 
     private String username;
     private String password;

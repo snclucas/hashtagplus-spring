@@ -45,6 +45,9 @@ public class APITokenFilter extends GenericFilterBean {
             HtplUserDetails user = userService.getUserByToken(token);
             if(user == null)
                 throw new ServletException("Invalid token");
+
+            req.setAttribute("user_from_token", user);
+
             chain.doFilter(req, res);
         }
     }

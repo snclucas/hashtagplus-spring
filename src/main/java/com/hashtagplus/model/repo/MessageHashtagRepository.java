@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
-public interface MessageHashtagRepository extends MongoRepository<MessageHashtag, String> {
+public interface MessageHashtagRepository extends MongoRepository<MessageHashtag, String>, MessageHashtagRepositoryCustom  {
 
     //@Query(value = "{'message_id': ?0}")
     List<Message> findByMessage_id(ObjectId message_id);
@@ -22,7 +22,8 @@ public interface MessageHashtagRepository extends MongoRepository<MessageHashtag
     //@Query(value = "{'$or':[ ?0 ] }")
     //List<Message> findByHashtags(String hashtags[]);
 
-    List<MessageHashtag> findByHashtagsIn(List<String> hashtags);
+    List<MessageHashtag> findByHashtagIn(List<String> hashtags);
+
 
     @Override
     @Query(value = "{'message': ?0}")
