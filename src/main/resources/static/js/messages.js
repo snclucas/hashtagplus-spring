@@ -1,5 +1,6 @@
-
-
+$(function() {
+    new Taggle('example1');
+});
 
 $(function() {
 
