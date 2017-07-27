@@ -2,7 +2,7 @@ package com.hashtagplus.service;
 
 import com.hashtagplus.model.Hashtag;
 import com.hashtagplus.model.repo.HashtagRepository;
-import org.bson.types.ObjectId;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

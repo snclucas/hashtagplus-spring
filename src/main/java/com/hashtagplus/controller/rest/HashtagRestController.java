@@ -1,25 +1,15 @@
-package com.hashtagplus.rest;
+package com.hashtagplus.controller.rest;
 
 import com.hashtagplus.model.HtplUser;
-import com.hashtagplus.model.HtplUserDetails;
-import com.hashtagplus.model.Message;
-import com.hashtagplus.model.MessageHashtag;
-import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.model.repo.AggDao;
-import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
-import com.hashtagplus.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class HashtagRestController {

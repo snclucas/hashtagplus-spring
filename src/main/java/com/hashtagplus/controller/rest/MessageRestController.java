@@ -1,4 +1,4 @@
-package com.hashtagplus.rest;
+package com.hashtagplus.controller.rest;
 
 import com.hashtagplus.model.*;
 import com.hashtagplus.model.form.MessageFormData;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 

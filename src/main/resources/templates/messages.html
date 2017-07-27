@@ -16,6 +16,7 @@
 
     <link href="css/style.css" rel="stylesheet" media="all"/>
     <link href="css/messages.css" rel="stylesheet" media="all"/>
+    <link href="css/hashtaglist.css" rel="stylesheet" media="all"/>
     <link href="css/buttons.css" rel="stylesheet" media="all"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -47,8 +48,14 @@
     </form>
 
     <div class="row">
-        <div class="[ col-xs-12 col-sm-offset-2 col-sm-6 ]">
-            <div th:replace="fragments/message_list2 :: message_list2"></div>
+        <div class="[ col-xs-2 col-sm-offset-2 col-sm-2 ]">
+            <div th:replace="fragments/hashtag_list :: hashtag_list"></div>
+        </div>
+        <div class="[ col-xs-5 col-sm-5 ]">
+            <div th:replace="fragments/message_list :: message_list"></div>
+        </div>
+        <div class="[ col-xs-5 col-sm-5 ]">
+
         </div>
     </div>
 </div>

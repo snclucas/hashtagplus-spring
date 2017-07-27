@@ -1,4 +1,4 @@
-package com.hashtagplus.rest;
+package com.hashtagplus.controller.rest;
 
 import com.hashtagplus.model.repo.UserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;

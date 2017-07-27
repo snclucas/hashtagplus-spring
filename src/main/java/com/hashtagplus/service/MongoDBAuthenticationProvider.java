@@ -8,7 +8,6 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class MongoDBAuthenticationProvider extends AbstractUserDetailsAuthentica
             HtplUserDetails user = userService.getUserByUsername(username);
             boolean passwordMatches = passwordEncoder.matches(authentication.getCredentials().toString(), user.getPassword());
             if(passwordMatches) {
-                loadedUser = new HtplUser(user.getUsername(), user.getPassword(), user.id, user.getAuthorities());
+                loadedUser = new HtplUser(user.getUsername(), user.getPassword(), user.id,  user.getAuthorities());
             }
             else {
                 loadedUser = null;

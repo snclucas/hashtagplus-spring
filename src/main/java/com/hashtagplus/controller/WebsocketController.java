@@ -7,9 +7,11 @@ import com.hashtagplus.model.repo.AggDao;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
+import com.hashtagplus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
@@ -30,6 +32,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class WebsocketController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private MessageService messageService;
 
     @Autowired
@@ -41,8 +46,8 @@ public class WebsocketController {
     @Autowired
     private HttpServletRequest context;
 
-    @RequestMapping(method=GET, value = "/greeting")
-    String index(){
+    @RequestMapping(method = GET, value = "/greeting")
+    String index() {
         return "websocket";
     }
 
@@ -55,7 +60,7 @@ public class WebsocketController {
         String order = "desc";
         String sortby = "_id";
         Sort sort = new Sort(
-                order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
+                order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
 
         List<Message> messages = messageService.getAllMessages(user, sort, 1, 100);
 
@@ -65,15 +70,19 @@ public class WebsocketController {
 
         return messages;
 
-       // return new Message("Hello, " + message.getText() + "!", "asdasdasd", new ArrayList<>());
+        // return new Message("Hello, " + message.getText() + "!", "asdasdasd", new ArrayList<>());
     }
-
 
 
     @MessageMapping("/hashtags")
     @SendTo("/topic/greetings2")
-    public List<AggDao> getHashtags(@AuthenticationPrincipal UserDetails user, String message) throws Exception {
-        HtplUser htplUser = (HtplUser) user;
+    public List<AggDao> getHashtags(@Payload String message, Principal principal) throws Exception {
+
+        HtplUserDetails htplUserDetails = userService.getUserByUsername(principal.getName());
+        HtplUser htplUser = new HtplUser(htplUserDetails.getUsername(),
+                htplUserDetails.getPassword(),
+                htplUserDetails.id, htplUserDetails.getAuthorities());
+
         return messageHastageService.aggregate(htplUser);
     }
 

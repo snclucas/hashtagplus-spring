@@ -5,6 +5,7 @@ import com.hashtagplus.model.HtplUser;
 import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.MessageHashtag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,6 +16,8 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.grou
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
 public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCustom  {
 
@@ -29,7 +32,10 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
     @Override
     public List<AggDao> aggregate(HtplUser user) {
         GroupOperation groupOperation = getGroupOperation();
-        Aggregation agg = Aggregation.newAggregation(getMatchOperation(user), groupOperation);
+
+        SortOperation sorter = sort(new Sort(Sort.Direction.DESC, "count")).and(Sort.Direction.ASC, "hashtag");
+
+        Aggregation agg = Aggregation.newAggregation(getMatchOperation(user), groupOperation, sorter);
         AggregationResults<AggDao> output
                 = mongoTemplate.aggregate(agg, "message_hashtag", AggDao.class);
         return output.getMappedResults();

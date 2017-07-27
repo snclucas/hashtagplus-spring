@@ -28,6 +28,7 @@ function connect() {
         });
         stompClient.subscribe('/topic/greetings2', function (greeting) {
             console.log(greeting.body);
+            constructHashtagList(JSON.parse(greeting.body));
         });
     });
 
@@ -75,15 +76,22 @@ function constructMessageList(messages) {
 }
 
 
+function constructHashtagList(hashtagAggs) {
+    var contentLength = $('ul#hashtag-list > li').length;
+    hashtagAggs.forEach(function(hashtagAgg){
+        $('ul#hashtag-list').append('<li><a href="#">'+hashtagAgg.hashtag + ' ('+hashtagAgg.count+')'  +'</a></li>');
+    });
+
+}
+
+
 function makeMessage(title, text) {
 
  var html = ' \
    <li th:each="message : ${messages}"> \
       <time datetime="2014-07-20"> \
       <span class="day">4</span> \
-      <span class="month">Jul</span> \
-       <span class="year">2014</span> \
-        <span class="time">ALL DAY</span> \
+      <span class="month">103</span> \
     </time> \
     <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" /> \
         <div class="info"> \
@@ -106,6 +114,9 @@ function makeMessage(title, text) {
 return html;
 
 }
+
+
+
 
 function askHashtags() {
     console.log(JSON.stringify({'name': $("#name").val()}));
