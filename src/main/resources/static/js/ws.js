@@ -63,13 +63,17 @@ $(function () {
 
 $( document ).ready(function() {
     connect();
+    doSomething();
 });
 
-function constructMessageList(messages) {
+function constructMessageList(body) {
+    var messages = body[0];
+    var user = body[1];
+
     var contentLength = $('ul#message-list > li').length;
     //$('ul#message-list').empty();
     messages.forEach(function(message){
-        var content = makeMessage(message.title, message.text);
+        var content = makeMessage(message, user);
         $('ul#message-list').append(content);
     });
 
@@ -85,32 +89,23 @@ function constructHashtagList(hashtagAggs) {
 }
 
 
-function makeMessage(title, text) {
+function doSomething() {
 
- var html = ' \
-   <li th:each="message : ${messages}"> \
-      <time datetime="2014-07-20"> \
-      <span class="day">4</span> \
-      <span class="month">103</span> \
-    </time> \
-    <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" /> \
-        <div class="info"> \
-        <h2 class="title">'+title+'</h2> \
-        <p class="desc">'+text+'</p> \
-        <ul> \
-        <li style="width:33%;">1 <span class="glyphicon glyphicon-ok"></span></li> \
-        <li style="width:33%;">103 <span class="fa fa-envelope"></span></li> \
-        </ul> \
-        </div> \
-        <div class="social"> \
-        <ul> \
-        <li class="edit" style="width:33%;"><a href="#"><span class="glyphicon glyphicon-chevron-up"></span></a></li> \
-        <li class="confirm" style="width:34%;"><a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></li> \
-        <li class="delete" style="width:33%;"><a href="#"><span class="fa fa-trash-o"></span></a></li> \
-        </ul> \
-        </div> \
-        </li> \
-';
+    var notificationsList =  $("[data-messages]");
+    //find prototype
+    var liPrototype = $notificationsList.find("[cm-notification-prototype]").clone();
+
+}
+
+
+
+function makeMessage(message, user) {
+
+    var notificationsList =  $("[data-messages]");
+    //find prototype
+    var liPrototype = $notificationsList.find("[cm-notification-prototype]").clone();
+
+
 return html;
 
 }

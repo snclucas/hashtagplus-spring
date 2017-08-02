@@ -80,19 +80,21 @@ public class MessageController {
 
     @RequestMapping(method=GET, value={"/messages"})
     public ModelAndView getMessages(
-            @AuthenticationPrincipal HtplUserDetails user,
+            @AuthenticationPrincipal UserDetails user,
             @RequestParam(value="sortby", defaultValue="created_at") String sortby,
             @RequestParam(value="order", defaultValue="asc") String order,
             @RequestParam(value="page", defaultValue="1") int page,
             @RequestParam(value="limit", defaultValue="100") int limit) {
 
+      HtplUser htplUser = (HtplUser) user;
         Sort sort = new Sort(
                 order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
 
-        List<Message> messages =  this.messageService.getAllMessages(user, sort, page, limit);
+        List<Message> messages =  this.messageService.getAllMessages(htplUser, sort, page, limit);
         ModelAndView mav = new ModelAndView("messages");
         mav.addObject("messageFormData", new MessageFormData());
         mav.addObject("messages", messages);
+        mav.addObject("user", null);
         return mav;
     }
 

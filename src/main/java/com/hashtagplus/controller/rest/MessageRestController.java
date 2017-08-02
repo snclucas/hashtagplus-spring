@@ -48,7 +48,7 @@ public class MessageRestController {
             @RequestParam(value="order", defaultValue="asc") String order,
             @RequestParam(value="page", defaultValue="1") int page,
             @RequestParam(value="limit", defaultValue="100") int limit) {
-        HtplUserDetails user = (HtplUserDetails) context.getAttribute("user_from_token");
+        HtplUser user = (HtplUser) context.getAttribute("user_from_token");
         Sort sort = new Sort(
                 order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
         return this.messageService.getAllMessages(user, sort, page, limit);

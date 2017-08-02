@@ -15,6 +15,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,7 @@ public class WebsocketController {
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
-    public List<Message> greeting(@AuthenticationPrincipal HtplUserDetails user,
+    public List<Message> greeting(@AuthenticationPrincipal Principal user,
                                   String message) throws Exception {
         //Thread.sleep(1000); // simulated delay
 
@@ -62,9 +63,12 @@ public class WebsocketController {
         Sort sort = new Sort(
                 order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
 
-        List<Message> messages = messageService.getAllMessages(user, sort, 1, 100);
+        HtplUser htplUser = new HtplUser(user.getName(), "", "", new ArrayList<GrantedAuthority>());
+        List<Message> messages = messageService.getAllMessages(htplUser, sort, 1, 100);
 
-        this.template.convertAndSend("/topic/greetings", messages);
+
+
+        this.template.convertAndSend("/topic/greetings", new Object[]{messages, user});
 
         Thread.sleep(1000);
 

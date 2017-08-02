@@ -13,4 +13,6 @@ public interface MessageRepository extends MongoRepository<Message, String> {
     @Query(value = "{hashtags: ?0}")
     List<Message> findByHashtag(String hashtag);
 
+    @Query(value = "{user_id: ?0}")
+    List<Message> findAll(String user_id);
 }

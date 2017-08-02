@@ -1,6 +1,7 @@
 package com.hashtagplus.service;
 
 import com.hashtagplus.model.Hashtag;
+import com.hashtagplus.model.HtplUser;
 import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.repo.MessageRepository;
@@ -27,10 +28,10 @@ public class MessageService {
         return "Hello " + this.name;
     }
 
-    public List<Message> getAllMessages(UserDetails user, Sort sort, int pageNumber, int limit) {
+    public List<Message> getAllMessages(HtplUser user, Sort sort, int pageNumber, int limit) {
         Pageable request =
                 new PageRequest(pageNumber - 1, limit, sort);
-        return messageRepository.findAll(request).getContent();
+        return messageRepository.findAll(user.getId());
     }
 
     public Message getMessageById(String id) {
