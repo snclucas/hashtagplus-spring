@@ -93,7 +93,8 @@ function doSomething() {
 
     var notificationsList =  $("[data-messages]");
     //find prototype
-    var liPrototype = $notificationsList.find("[cm-notification-prototype]").clone();
+    var liPrototype = $notificationsList.find("[data-message-prototype]").clone();
+    var gg="";
 
 }
 
