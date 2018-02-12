@@ -4,8 +4,8 @@
 <head>
 </head>
 <body>
-<ul  th:attr="data-messages='s'" id="message-list" class="event-list" th:fragment="message_list">
-    <li th:each="message : ${messages}">
+<ul th:attr="data-messages='s'" id="message-list" class="event-list" th:fragment="message_list">
+    <li th:attr="data-message-prototype='s'" th:each="message : ${messages}">
         <time datetime="2014-07-20">
             <span class="day">4</span>
             <span class="month">103</span>
