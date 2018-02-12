@@ -1,6 +1,7 @@
 package com.hashtagplus.service;
 
 import com.hashtagplus.model.Hashtag;
+import com.hashtagplus.model.HtplUser;
 import com.hashtagplus.model.repo.HashtagRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class HashtagService {
     private HashtagRepository hashtagRepository;
 
 
-    public List<Hashtag> getAllHashtags(Sort sort, int pageNumber, int limit) {
+    public List<Hashtag> getAllHashtags(HtplUser user, Sort sort, int pageNumber, int limit) {
         Pageable request =
                 new PageRequest(pageNumber - 1, limit, sort);
         return hashtagRepository.findAll(request).getContent();
