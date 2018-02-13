@@ -14,20 +14,21 @@ public class MessageHashtag {
     @DBRef
     public Message message;
 
-    public String user_id;
+    public String userid;
 
-    public String hashtag;
+    @DBRef
+    public Hashtag hashtag;
 
     public MessageHashtag() {
         this.id = new ObjectId().toString();
     }
 
 
-    public MessageHashtag(Message message, String hashtag, String user_id) {
+    public MessageHashtag(Message message, Hashtag hashtag, String userid) {
         this();
         this.message = message;
         this.hashtag = hashtag;
-        this.user_id = user_id;
+        this.userid = userid;
     }
 
     public Message getMessage() {
@@ -38,19 +39,19 @@ public class MessageHashtag {
         this.message = message;
     }
 
-    public String getHashtag() {
+    public Hashtag getHashtag() {
         return hashtag;
     }
 
-    public void setHashtag(String hashtag) {
+    public void setHashtag(Hashtag hashtag) {
         this.hashtag = hashtag;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUser_id(String userid) {
+        this.userid = userid;
     }
 }

@@ -99,11 +99,11 @@ public class MessageRestController {
 
 
     @RequestMapping(method=GET, value={"/api/messages/2"})
-    public List<MessageHashtag> getMessagesWithHashtags(@RequestParam(value="hashtags", defaultValue="") String hashtags) {
+    public List<Message> getMessagesWithHashtags(@RequestParam(value="hashtags", defaultValue="") String hashtags) {
         List<String> hashtagsList = Arrays.asList(hashtags.split(","));
 
         String[] hashtagsArr = hashtags.split(",");
-        List<MessageHashtag> messages = messageHashtagService.getMessagesWithHashtag(hashtagsArr[0]);
+        List<Message> messages = messageHashtagService.getMessagesWithHashtag(hashtagsArr[0]);
 
         List<MessageHashtag> messages2 = messageHashtagService.getMessagesWithHashtags(hashtagsList);
         return messages;

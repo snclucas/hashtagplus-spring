@@ -4,12 +4,16 @@ import com.hashtagplus.model.*;
 import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.model.repo.AggDao;
 import com.hashtagplus.model.repo.MessageHashtagRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MessageHashtagService {
@@ -24,7 +28,7 @@ public class MessageHashtagService {
     private HashtagService hashtagService;
 
     public MessageHashtag saveMessageHashtag(Message message, Hashtag hashtag, HtplUser user) {
-        MessageHashtag mh = new MessageHashtag(message, hashtag.getText(), user.getId());
+        MessageHashtag mh = new MessageHashtag(message, hashtag, user.getId());
         return messageHashtagRepository.save(mh);
     }
 
@@ -47,9 +51,43 @@ public class MessageHashtagService {
         return messageService.saveMessage(message);
     }
 
-    public List<MessageHashtag> getMessagesWithHashtag(String hashtag) {
-        List<MessageHashtag> d = messageHashtagRepository.findByHashtag(hashtag);
-        return d;
+    public List<Message> getMessagesWithHashtag(String hashtagsText) {
+
+      hashtagsText = hashtagsText.replace(" ", "");
+      List<String> hashTags = Arrays.asList(hashtagsText.split("'"));
+
+      List<String> fss = hashTags.stream()
+              .map(ht -> hashtagService.findHashtag(ht))
+              .map(htt -> htt.)
+              .collect(Collectors.toList());
+
+
+
+      Hashtag hashtag = new Hashtag(hashtagsText);
+
+      Hashtag ht = hashtagService.findHashtag(hashtagsText);
+      Hashtag ht2 = hashtagService.findHashtag("poo");
+   //   messageHashtagRepository.
+
+      List<String> hashList= new ArrayList<>();
+      hashList.add("cat");
+
+      List<ObjectId> hashIDList= new ArrayList<>();
+      hashIDList.add(new ObjectId(ht.id));
+
+      List<Hashtag> hashStrList= new ArrayList<>();
+      hashStrList.add(ht);
+      hashStrList.add(ht2);
+
+      List<MessageHashtag> d = messageHashtagRepository.findByHashtagIn(hashList);
+
+        List<MessageHashtag> d2 =messageHashtagRepository.findByHashtag(new ObjectId(ht.id));
+
+        List<MessageHashtag> d3 = messageHashtagRepository.findMessageHashtagsByHashtagIdIn(hashStrList);
+
+
+
+        return d.stream().map(mh -> mh.getMessage()).collect(Collectors.toList());
     }
 
     public List<MessageHashtag> getMessagesWithHashtags(List<String> hashtags) {

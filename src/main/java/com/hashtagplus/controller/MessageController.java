@@ -29,90 +29,93 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 public class MessageController {
 
-    @Autowired
-    private MessageService messageService;
+  @Autowired
+  private MessageService messageService;
 
-    @Autowired
-    private HashtagService hashtagService;
+  @Autowired
+  private HashtagService hashtagService;
 
-    @Autowired
-    private MessageHashtagService messageHashtagService;
+  @Autowired
+  private MessageHashtagService messageHashtagService;
 
 
-    @GetMapping("/save")
-    @ResponseBody
-    public String save() {
-        List<Hashtag> hashtags = new ArrayList<>();
+  @GetMapping("/save")
+  @ResponseBody
+  public String save() {
+    List<Hashtag> hashtags = new ArrayList<>();
 
-        Hashtag h1 = new Hashtag("tree");
-        Hashtag h2 = new Hashtag("egg");
+    Hashtag h1 = new Hashtag("tree");
+    Hashtag h2 = new Hashtag("egg");
 
-        h1.id = new ObjectId().toString();
-        h2.id = new ObjectId().toString();
+    h1.id = new ObjectId().toString();
+    h2.id = new ObjectId().toString();
 
-        hashtags.add(h1);
-        hashtags.add(h2);
+    hashtags.add(h1);
+    hashtags.add(h2);
 
-        Message m = new Message("test2", "new message2", "0");
-        m.setHashtags(hashtags);
-      //  m.id = new ObjectId();
+    Message m = new Message("test2", "new message2", "0");
+    m.setHashtags(hashtags);
+    //  m.id = new ObjectId();
 
-       // h1.setMessage(m);
-       // h2.setMessage(m);
+    // h1.setMessage(m);
+    // h2.setMessage(m);
 
-        hashtagService.saveHashtag(h1);
-        hashtagService.saveHashtag(h2);
+    hashtagService.saveHashtag(h1);
+    hashtagService.saveHashtag(h2);
 
-        m = this.messageService.saveMessage(m);
+    m = this.messageService.saveMessage(m);
 
-        return m.toString();
+    return m.toString();
+  }
+
+  @Secured({"ROLE_USER"})
+  @RequestMapping(method = GET, value = {"/message/{id}"})
+  public ModelAndView message(
+          @PathVariable("id") String id) {
+    Message message = messageService.getMessageById(id);
+    ModelAndView mav = new ModelAndView("message");
+    mav.addObject("message", message);
+    return mav;
+  }
+
+  @RequestMapping(method = GET, value = {"/messages"})
+  public ModelAndView getMessages(
+          @AuthenticationPrincipal UserDetails user,
+          @RequestParam(value = "sortby", defaultValue = "created_at") String sortby,
+          @RequestParam(value = "order", defaultValue = "asc") String order,
+          @RequestParam(value = "page", defaultValue = "1") int page,
+          @RequestParam(value = "limit", defaultValue = "100") int limit,
+          @RequestParam(value = "hashtags", defaultValue = "") String hashtags) {
+
+    HtplUser htplUser = (HtplUser) user;
+    Sort sort = new Sort(
+            order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
+
+    List<Message> messages;
+    if(!hashtags.equals("")) {
+      messages = this.messageHashtagService.getMessagesWithHashtag(hashtags);
+    }
+    else {
+      messages = this.messageService.getAllMessages(htplUser, sort, page, limit);
     }
 
-    @Secured({"ROLE_USER"})
-    @RequestMapping(method=GET, value={"/message/{id}"})
-    public ModelAndView message(
-            @PathVariable("id") String id) {
-        Message message =  messageService.getMessageById(id);
-        ModelAndView mav = new ModelAndView("message");
-        mav.addObject("message", message);
-        return mav;
-    }
-
-    @RequestMapping(method=GET, value={"/messages"})
-    public ModelAndView getMessages(
-            @AuthenticationPrincipal UserDetails user,
-            @RequestParam(value="sortby", defaultValue="created_at") String sortby,
-            @RequestParam(value="order", defaultValue="asc") String order,
-            @RequestParam(value="page", defaultValue="1") int page,
-            @RequestParam(value="limit", defaultValue="100") int limit) {
-
-      HtplUser htplUser = (HtplUser) user;
-        Sort sort = new Sort(
-                order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
-
-        List<Message> messages =  this.messageService.getAllMessages(htplUser, sort, page, limit);
-        ModelAndView mav = new ModelAndView("messages");
-        mav.addObject("messageFormData", new MessageFormData());
-        mav.addObject("messages", messages);
-        mav.addObject("user", null);
-        return mav;
-    }
+    ModelAndView mav = new ModelAndView("messages");
+    mav.addObject("messageFormData", new MessageFormData());
+    mav.addObject("messages", messages);
+    mav.addObject("user", null);
+    return mav;
+  }
 
 
-
-
-    @Secured({"ROLE_USER"})
-    @RequestMapping(method=POST, value={"/messages/add"})
-    public String addMessages(@AuthenticationPrincipal UserDetails user,
-                               @ModelAttribute(value = "messageFormData") MessageFormData messageFormData ) {
-        HtplUser htplUser = (HtplUser) user;
-        messageHashtagService.saveMessageWithHashtags(messageFormData, htplUser);
-        //THIS DOESNT WORK, ALSO LOOK AT USERS
-        return "messages";
-    }
-
-
-
+  @Secured({"ROLE_USER"})
+  @RequestMapping(method = POST, value = {"/messages/add"})
+  public String addMessages(@AuthenticationPrincipal UserDetails user,
+                            @ModelAttribute(value = "messageFormData") MessageFormData messageFormData) {
+    HtplUser htplUser = (HtplUser) user;
+    messageHashtagService.saveMessageWithHashtags(messageFormData, htplUser);
+    //THIS DOESNT WORK, ALSO LOOK AT USERS
+    return "messages";
+  }
 
 
 }

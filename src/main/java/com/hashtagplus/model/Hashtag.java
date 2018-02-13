@@ -35,5 +35,4 @@ public class Hashtag {
                 "Message[id=%s, text='%s']",
                 id, text);
     }
-
 }

@@ -8,11 +8,19 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface MessageRepository extends MongoRepository<Message, String> {
 
-    Message findByTitle(String title);
+  Message findByTitle(String title);
 
-    @Query(value = "{hashtags: ?0}")
-    List<Message> findByHashtag(String hashtag);
+  @Query(value = "{hashtags: ?0}")
+  List<Message> findByHashtag(String hashtag);
 
-    @Query(value = "{user_id: ?0}")
-    List<Message> findAll(String user_id);
+  @Query(value = "{user_id: ?0}")
+  List<Message> findAll(String user_id);
+
+  @Query(value = "{user_id: ?0, hashtags: ?1}")
+  List<Message> findByUserIdAndHashtags(String user_id, String hashtag);
+
+  @Query(value = "{hashtags: ?0}")
+  List<Message> findAllByHashtag(String user_id);
+
+  //List<Message> findByUserInAndHashtagIn(List<String> emails, List<String> pinCodes);
 }
