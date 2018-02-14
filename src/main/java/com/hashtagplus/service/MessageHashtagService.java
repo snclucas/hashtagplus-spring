@@ -81,4 +81,19 @@ public class MessageHashtagService {
   }
 
 
+  public List<Message> getMessagesWithTopicAndHashtags(String topic, String hashtagsText) {
+    hashtagsText = hashtagsText.replace(" ", "");
+
+    Hashtag topicHashtag = hashtagService.findHashtag(topic);
+
+    List<String> hashTagsTextList = hashtagsText.equals("") ? Collections.emptyList() : Arrays.asList(hashtagsText.split(","));
+
+    List<Hashtag> hashtagList = hashTagsTextList.stream()
+            .map(ht -> hashtagService.findHashtag(ht))
+            .collect(Collectors.toList());
+
+    List<MessageHashtag> messageHashtags = messageHashtagRepository.getMessagesWithTopicAndHashtags(topicHashtag, hashtagList);
+    return messageHashtags.stream().map(MessageHashtag::getMessage).collect(Collectors.toList());
+  }
+
 }

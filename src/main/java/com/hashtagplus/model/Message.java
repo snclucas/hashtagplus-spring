@@ -108,4 +108,18 @@ public class Message {
         return slug.toLowerCase(Locale.ENGLISH) + "-" + randomPart;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final Message message = (Message) o;
+
+        return id != null ? id.equals(message.id) : message.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

@@ -14,7 +14,7 @@ public class MessageHashtag {
     @DBRef
     public Message message;
 
-    public String userid;
+    public String user_id;
 
     @DBRef
     public Hashtag hashtag;
@@ -24,11 +24,11 @@ public class MessageHashtag {
     }
 
 
-    public MessageHashtag(Message message, Hashtag hashtag, String userid) {
+    public MessageHashtag(Message message, Hashtag hashtag, String user_id) {
         this();
         this.message = message;
         this.hashtag = hashtag;
-        this.userid = userid;
+        this.user_id = user_id;
     }
 
     public Message getMessage() {
@@ -47,11 +47,26 @@ public class MessageHashtag {
         this.hashtag = hashtag;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setUser_id(String userid) {
-        this.userid = userid;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    final MessageHashtag that = (MessageHashtag) o;
+
+    return getMessage() != null ? getMessage().equals(that.getMessage()) : that.getMessage() == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return getMessage() != null ? getMessage().hashCode() : 0;
+  }
 }

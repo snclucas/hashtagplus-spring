@@ -8,7 +8,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
@@ -17,58 +19,60 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
-public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCustom  {
+public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCustom {
 
 
-    private final MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
 
-    @Autowired
-    public MessageHashtagRepositoryImpl(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
+  @Autowired
+  public MessageHashtagRepositoryImpl(MongoTemplate mongoTemplate) {
+    this.mongoTemplate = mongoTemplate;
+  }
+
+  @Override
+  public List<AggDao> aggregate(HtplUser user) {
+    GroupOperation groupOperation = getGroupOperation();
+
+    SortOperation sorter = sort(new Sort(Sort.Direction.DESC, "count")).and(Sort.Direction.ASC, "hashtag");
+
+    Aggregation agg = Aggregation.newAggregation(getMatchOperation(user), groupOperation, sorter);
+    AggregationResults<AggDao> output
+            = mongoTemplate.aggregate(agg, "message_hashtag", AggDao.class);
+    return output.getMappedResults();
+  }
+
+  private MatchOperation getMatchOperation(HtplUser user) {
+    String user_id = user.getId();
+    Criteria userCriteria = where("user_id").is(user_id);
+    return match(userCriteria);
+  }
+
+  private GroupOperation getGroupOperation() {
+    return group("hashtag")
+            .count().as("count");
+  }
+
+  public List<MessageHashtag> getMessagesWithTopicAndHashtags(Hashtag topicHashtag, List<Hashtag> hashtags) {
+    List<Criteria> orCriterias = new ArrayList<>(hashtags.size());
+    Criteria topicCriteria = Criteria.where("hashtag.id").is(topicHashtag.id);
+
+    for (Hashtag hashtag : hashtags) {
+      orCriterias.add(Criteria.where("hashtag.id").is(hashtag.id));
+    }
+    Criteria orCriteria;
+    if(orCriterias.size() > 0) {
+      orCriteria = new Criteria().orOperator(orCriterias.toArray(new Criteria[hashtags.size()]));
+    } else {
+      orCriteria = new Criteria();
     }
 
-    @Override
-    public List<AggDao> aggregate(HtplUser user) {
-        GroupOperation groupOperation = getGroupOperation();
+    Query topicQuery = new Query().addCriteria(topicCriteria);
+    List<MessageHashtag> withTopic = mongoTemplate.find(topicQuery, MessageHashtag.class);
 
-        SortOperation sorter = sort(new Sort(Sort.Direction.DESC, "count")).and(Sort.Direction.ASC, "hashtag");
+    Query hashtagQuery = new Query().addCriteria(orCriteria);
+    List<MessageHashtag> withHashtags = mongoTemplate.find(hashtagQuery, MessageHashtag.class);
 
-        Aggregation agg = Aggregation.newAggregation(getMatchOperation(user), groupOperation, sorter);
-        AggregationResults<AggDao> output
-                = mongoTemplate.aggregate(agg, "message_hashtag", AggDao.class);
-        return output.getMappedResults();
-    }
-
-    private MatchOperation getMatchOperation(HtplUser user) {
-        String user_id = user.getId();
-        Criteria userCriteria = where("user_id").is(user_id);
-        return match(userCriteria);
-    }
-
-    private GroupOperation getGroupOperation() {
-        return group("hashtag")
-                .count().as("count");
-    }
-
-    private void que(List<Hashtag> hashtags) {
-      Query query = new Query();
-      Criteria criteria = Criteria.where("");
-      for(Hashtag hashtag: hashtags) {
-        //criteria.andOperator(new Criteria.where("").is())
-      }
-      query.addCriteria(Criteria.where("name").regex("c$"));
-     // List<User> users = mongoTemplate.find(query, User.class);
-    }
+    return withTopic.stream().filter(withHashtags::contains).collect(Collectors.toList());
+  }
 
 }
-
-//  Criteria criteria = Criteria.where("contentType").is("application/vnd.sometype");
-//
-//  List<Criteria> docCriterias = new ArrayList<Criteria>(docs.size());
-//
-//for (Document doc: docs) {
-//        docCriterias.add(Criteria.where("metadata.name").is(doc.getName())
-//        .and("metadata.version").is(doc.getVersion()));
-//        }
-//
-//        criteria = criteria.orOperator(docCriterias.toArray(new Criteria[docs.size()]));

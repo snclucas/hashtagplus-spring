@@ -108,7 +108,7 @@ public class MessageController {
           @RequestParam(value = "hashtags", defaultValue = "") String hashtags) {
 
     HtplUser htplUser = (HtplUser) user;
-    List<Message> messages = getMessages(htplUser, sortby, order, page, limit, hashtags);
+    List<Message> messages = this.messageHashtagService.getMessagesWithTopicAndHashtags(topic, hashtags);
 
     ModelAndView mav = new ModelAndView("messages");
     mav.addObject("messageFormData", new MessageFormData());
