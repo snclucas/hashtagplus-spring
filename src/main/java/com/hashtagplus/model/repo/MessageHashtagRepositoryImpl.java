@@ -1,14 +1,12 @@
 package com.hashtagplus.model.repo;
 
 
-import com.hashtagplus.model.HtplUser;
-import com.hashtagplus.model.HtplUserDetails;
-import com.hashtagplus.model.MessageHashtag;
+import com.hashtagplus.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
-import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.*;
 
 import java.util.List;
 
@@ -52,4 +50,25 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
                 .count().as("count");
     }
 
+    private void que(List<Hashtag> hashtags) {
+      Query query = new Query();
+      Criteria criteria = Criteria.where("");
+      for(Hashtag hashtag: hashtags) {
+        //criteria.andOperator(new Criteria.where("").is())
+      }
+      query.addCriteria(Criteria.where("name").regex("c$"));
+     // List<User> users = mongoTemplate.find(query, User.class);
+    }
+
 }
+
+//  Criteria criteria = Criteria.where("contentType").is("application/vnd.sometype");
+//
+//  List<Criteria> docCriterias = new ArrayList<Criteria>(docs.size());
+//
+//for (Document doc: docs) {
+//        docCriterias.add(Criteria.where("metadata.name").is(doc.getName())
+//        .and("metadata.version").is(doc.getVersion()));
+//        }
+//
+//        criteria = criteria.orOperator(docCriterias.toArray(new Criteria[docs.size()]));
