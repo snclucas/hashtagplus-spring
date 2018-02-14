@@ -1,5 +1,6 @@
 package com.hashtagplus.model;
 
+import com.hashtagplus.model.util.*;
 import com.mongodb.annotations.Immutable;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -99,11 +100,12 @@ public class Message {
                 id, title, text);
     }
 
-    public static String toSlug(String input) {
+    private static String toSlug(String input) {
+        String randomPart = new RandomString(6).nextString();
         String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
         String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
         String slug = NONLATIN.matcher(normalized).replaceAll("");
-        return slug.toLowerCase(Locale.ENGLISH);
+        return slug.toLowerCase(Locale.ENGLISH) + "-" + randomPart;
     }
 
 }

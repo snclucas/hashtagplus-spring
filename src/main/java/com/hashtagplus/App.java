@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class App {
 
         };
     }
+
 
 
     @Bean

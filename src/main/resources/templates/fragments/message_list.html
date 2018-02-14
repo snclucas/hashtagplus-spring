@@ -5,7 +5,9 @@
 </head>
 <body>
 <ul th:attr="data-messages='s'" id="message-list" class="event-list" th:fragment="message_list">
+
     <li th:attr="data-message-prototype='s'" th:each="message : ${messages}">
+
         <time datetime="2014-07-20">
             <span class="day">4</span>
             <span class="month">103</span>
@@ -25,7 +27,9 @@
                 <li class="confirm" style="width:34%;"><a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></li>
             </ul>
         </div>
+
     </li>
+
 </ul>
 </body>
 </html>

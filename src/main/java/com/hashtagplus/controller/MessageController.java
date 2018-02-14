@@ -69,7 +69,7 @@ public class MessageController {
   }
 
   @Secured({"ROLE_USER"})
-  @RequestMapping(method = GET, value = {"/message/{id}"})
+  @RequestMapping(method = GET, value = {"/message/m/{id}"})
   public ModelAndView message(
           @PathVariable("id") String id) {
     Message message = messageService.getMessageById(id);
@@ -88,6 +88,37 @@ public class MessageController {
           @RequestParam(value = "hashtags", defaultValue = "") String hashtags) {
 
     HtplUser htplUser = (HtplUser) user;
+    List<Message> messages = getMessages(htplUser, sortby, order, page, limit, hashtags);
+
+    ModelAndView mav = new ModelAndView("messages");
+    mav.addObject("messageFormData", new MessageFormData());
+    mav.addObject("messages", messages);
+    mav.addObject("user", null);
+    return mav;
+  }
+
+  @RequestMapping(method = GET, value = {"/messages/{topic}"})
+  public ModelAndView getMessages(
+          @AuthenticationPrincipal UserDetails user,
+          @PathVariable("topic") String topic,
+          @RequestParam(value = "sortby", defaultValue = "created_at") String sortby,
+          @RequestParam(value = "order", defaultValue = "asc") String order,
+          @RequestParam(value = "page", defaultValue = "1") int page,
+          @RequestParam(value = "limit", defaultValue = "100") int limit,
+          @RequestParam(value = "hashtags", defaultValue = "") String hashtags) {
+
+    HtplUser htplUser = (HtplUser) user;
+    List<Message> messages = getMessages(htplUser, sortby, order, page, limit, hashtags);
+
+    ModelAndView mav = new ModelAndView("messages");
+    mav.addObject("messageFormData", new MessageFormData());
+    mav.addObject("messages", messages);
+    mav.addObject("user", null);
+    return mav;
+  }
+
+
+  private List<Message> getMessages(HtplUser htplUser, String sortby, String order, int page, int limit, String hashtags) {
     Sort sort = new Sort(
             order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
 
@@ -98,14 +129,8 @@ public class MessageController {
     else {
       messages = this.messageService.getAllMessages(htplUser, sort, page, limit);
     }
-
-    ModelAndView mav = new ModelAndView("messages");
-    mav.addObject("messageFormData", new MessageFormData());
-    mav.addObject("messages", messages);
-    mav.addObject("user", null);
-    return mav;
+    return messages;
   }
-
 
   @Secured({"ROLE_USER"})
   @RequestMapping(method = POST, value = {"/messages/add"})

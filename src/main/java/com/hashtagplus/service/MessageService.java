@@ -31,7 +31,7 @@ public class MessageService {
     public List<Message> getAllMessages(HtplUser user, Sort sort, int pageNumber, int limit) {
         Pageable request =
                 new PageRequest(pageNumber - 1, limit, sort);
-        return messageRepository.findAll(user.getId());
+        return messageRepository.findAll(user.getId(), request);
     }
 
     public Message getMessageById(String id) {
