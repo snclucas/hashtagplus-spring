@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -61,7 +58,7 @@ public class MessageHashtagService {
 
     List<MessageHashtag> messageHashtags = messageHashtagRepository.findMessageHashtagsByHashtagIdIn(hashtagList);
 
-    return messageHashtags.stream().map(MessageHashtag::getMessage).collect(Collectors.toList());
+    return messageHashtags.stream().map(MessageHashtag::getMessage).distinct().collect(Collectors.toList());
   }
 
   public List<MessageHashtag> getMessagesWithHashtags(List<String> hashtags) {
@@ -90,6 +87,7 @@ public class MessageHashtagService {
 
     List<Hashtag> hashtagList = hashTagsTextList.stream()
             .map(ht -> hashtagService.findHashtag(ht))
+            .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
     List<MessageHashtag> messageHashtags = messageHashtagRepository.getMessagesWithTopicAndHashtags(topicHashtag, hashtagList);
