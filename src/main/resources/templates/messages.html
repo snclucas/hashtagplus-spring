@@ -37,27 +37,18 @@
 <div class="container">
     <div class="row PageHead">
         <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Add message <span class="glyphicon glyphicon-plus"></span></a>
+        <button id="clear_topic" class="btn btn-default">Clear topic</button>
+        <button id="clear_hashtags" class="btn btn-default">Clear hashtags</button>
     </div>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="connect">WebSocket connection:</label>
-            <button id="connect" class="btn btn-default" type="submit">Connect</button>
-            <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-            </button>
-            <button id="tester" class="btn btn-default" type="submit">Connect</button>
-        </div>
-    </form>
-
     <div class="row">
-        <div class="[ col-xs-2 col-sm-offset-2 col-sm-2 ]">
+
+    </div>
+    <div class="row">
+        <div class="[ col-xs-2 col-sm-2 ]">
             <div th:replace="fragments/hashtag_list :: hashtag_list"></div>
         </div>
-        <div class="[ col-xs-5 col-sm-5 ]">
+        <div class="[ col-xs-10 col-sm-10 ]">
             <div th:replace="fragments/message_list :: message_list"></div>
-        </div>
-        <div class="[ col-xs-5 col-sm-5 ]">
-
         </div>
     </div>
 </div>

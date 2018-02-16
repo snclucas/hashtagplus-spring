@@ -69,7 +69,7 @@ public class MessageController {
   }
 
   @Secured({"ROLE_USER"})
-  @RequestMapping(method = GET, value = {"/message/m/{id}"})
+  @RequestMapping(method = GET, value = {"/messages/m/{id}"})
   public ModelAndView message(
           @PathVariable("id") String id) {
     Message message = messageService.getMessageById(id);
