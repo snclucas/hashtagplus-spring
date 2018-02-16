@@ -34,9 +34,48 @@
 
 <div th:replace="fragments/nav :: nav"></div>
 
+
+
+<div class="container"><h2>Example 3 </h2></div>
+<div id="exTab3" class="container">
+    <ul  class="nav nav-pills">
+        <li class="active">
+            <a  href="#1b" data-toggle="tab">Overview</a>
+        </li>
+        <li><a href="#2b" data-toggle="tab">Using nav-pills</a>
+        </li>
+        <li><a href="#3b" data-toggle="tab">Applying clearfix</a>
+        </li>
+        <li><a href="#4a" data-toggle="tab">Background color</a>
+        </li>
+    </ul>
+
+    <div class="tab-content clearfix">
+        <div class="tab-pane active" id="1b">
+            <h3>Same as example 1 but we have now styled the tab's corner</h3>
+        </div>
+        <div class="tab-pane" id="2b">
+            <h3>We use the class nav-pills instead of nav-tabs which automatically creates a background color for the tab</h3>
+        </div>
+        <div class="tab-pane" id="3b">
+            <h3>We applied clearfix to the tab-content to rid of the gap between the tab and the content</h3>
+        </div>
+        <div class="tab-pane" id="4b">
+            <h3>We use css to change the background color of the content to be equal to the tab</h3>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 <div class="container">
     <div class="row PageHead">
         <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Add message <span class="glyphicon glyphicon-plus"></span></a>
+        <a class="btn btn-info text-uppercase" href="#" id="setTopic" data-toggle="modal" data-target="#setTopicModal">Set topic <span class="glyphicon glyphicon-asterix"></span></a>
         <button id="clear_topic" class="btn btn-default">Clear topic</button>
         <button id="clear_hashtags" class="btn btn-default">Clear hashtags</button>
     </div>
@@ -54,6 +93,7 @@
 </div>
 
 <div th:replace="fragments/add_message_modal :: add_message_modal"></div>
+<div th:replace="fragments/set_topic_modal :: set_topic_modal"></div>
 
 </body>
 

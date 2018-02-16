@@ -5,6 +5,7 @@ import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +33,12 @@ public class MessageRestController {
     private HttpServletRequest context;
 
 
-    @RequestMapping(method=GET, value={"/api/message/{id}"})
+    @RequestMapping(method=GET, value={"/api/messages/m/{id}"})
     public Message message(
-            @PathVariable("id") String id,
-            @RequestParam(value="test", defaultValue="") String test) {
-        if(test.equals("egg"))
-            return messageService.getMessageById(id);
-        else
-            return new Message("Oops", "Egg", "0");
+            @PathVariable("id") String id) {
+        return ObjectId.isValid(id) ?
+                messageService.getMessageById(id) :
+                messageService.getMessageBySlug(id);
     }
 
     @RequestMapping(method=GET, value={"/api/messages"})

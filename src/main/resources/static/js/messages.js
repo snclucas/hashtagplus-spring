@@ -18,26 +18,39 @@ $(function () {
 });
 
 function getPathFromUrl(url) {
-    return url.split("?")[0];
+  return url.split("?")[0];
 }
 
 
 function clearTopic() {
-    var urlSearch = window.location.search;
-    var path = window.location.pathname.split("/")[1];
-    window.location.href = window.location.protocol + "//" + window.location.host + "/" + path + urlSearch;
+  var urlSearch = window.location.search;
+  var path = window.location.pathname.split("/")[1];
+  window.location.href = window.location.protocol + "//" + window.location.host + "/" + path + urlSearch;
 }
 
 function clearHashtags() {
-    var url = getPathFromUrl(window.location.href);
-    window.location.href = url;
+  var url = getPathFromUrl(window.location.href);
+  window.location.href = url;
 }
 
 
 $(function () {
-    $("form").on('submit', function (e) {
-        e.preventDefault();
-    });
-    $( "#clear_topic" ).click(function() { clearTopic(); });
-    $( "#clear_hashtags" ).click(function() { clearHashtags(); });
+  $("form").on('submit', function (e) {
+    e.preventDefault();
+  });
+  $("#clear_topic").click(function () {
+    clearTopic();
+  });
+  $("#clear_hashtags").click(function () {
+    clearHashtags();
+  });
+
+  $("#set_topic_modal_button").click(function () {
+    var topic = $("#set_topic_modal_topictext").val();
+    var urlSearch = window.location.search;
+    var path = window.location.pathname.split("/")[1];
+    window.location.href = window.location.protocol + "//" + window.location.host + "/" + path  + "/" + topic + urlSearch;
+
+    $('#modalwindow').modal('hide');
+  });
 });

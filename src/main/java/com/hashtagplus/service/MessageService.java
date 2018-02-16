@@ -38,6 +38,10 @@ public class MessageService {
         return messageRepository.findOne(id);
     }
 
+    public Message getMessageBySlug(String slug) {
+        return messageRepository.findOneBySlug(slug);
+    }
+
     public List<Message> getMessagesByUserAndHashtag(HtplUser user, String hashtag) {
         return messageRepository.findByUserIdAndHashtags(user.getId(), hashtag);
     }

@@ -72,7 +72,11 @@ public class MessageController {
   @RequestMapping(method = GET, value = {"/messages/m/{id}"})
   public ModelAndView message(
           @PathVariable("id") String id) {
-    Message message = messageService.getMessageById(id);
+
+    Message message = ObjectId.isValid(id) ?
+            messageService.getMessageById(id) :
+            messageService.getMessageBySlug(id);
+
     ModelAndView mav = new ModelAndView("message");
     mav.addObject("message", message);
     return mav;
@@ -123,10 +127,9 @@ public class MessageController {
             order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
 
     List<Message> messages;
-    if(!hashtags.equals("")) {
+    if (!hashtags.equals("")) {
       messages = this.messageHashtagService.getMessagesWithHashtag(hashtags);
-    }
-    else {
+    } else {
       messages = this.messageService.getAllMessages(htplUser, sort, page, limit);
     }
     return messages;
