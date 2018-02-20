@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div id="exTab3" class="container" th:fragment="tabs">
+    <ul  class="nav nav-pills">
+        <li class="active">
+            <a  href="#1b" data-toggle="tab" th:text="'List (' + ${#lists.size(messages)} + ')'" >List</a>
+        </li>
+        <li><a href="#2b" data-toggle="tab" th:text="'Media wall (' + ${#lists.size(withmedia)} + ')'" >Media wall</a>
+        </li>
+        <li><a href="#3b" data-toggle="tab">Events</a>
+        </li>
+    </ul>
+
+    <div class="tab-content clearfix">
+        <div class="tab-pane active" id="1b">
+            <div th:replace="fragments/message_list :: message_list"></div>
+        </div>
+        <div class="tab-pane" id="2b">
+            <div th:replace="fragments/image_list :: image_list"></div>
+        </div>
+        <div class="tab-pane" id="3b">
+            <h3>We applied clearfix to the tab-content to rid of the gap between the tab and the content</h3>
+        </div>
+        <div class="tab-pane" id="4b">
+            <h3>We use css to change the background color of the content to be equal to the tab</h3>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

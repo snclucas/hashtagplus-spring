@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -114,9 +115,14 @@ public class MessageController {
     HtplUser htplUser = (HtplUser) user;
     List<Message> messages = this.messageHashtagService.getMessagesWithTopicAndHashtags(topic, hashtags);
 
-    ModelAndView mav = new ModelAndView("messages");
+    List<Message> withMedia = messages.stream()
+            .filter(m -> m.hasImage)
+            .collect(Collectors.toList());
+
+            ModelAndView mav = new ModelAndView("messages");
     mav.addObject("messageFormData", new MessageFormData());
     mav.addObject("messages", messages);
+    mav.addObject("withmedia", withMedia);
     mav.addObject("user", null);
     return mav;
   }

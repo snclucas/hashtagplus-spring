@@ -4,6 +4,7 @@ import com.hashtagplus.model.*;
 import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.model.repo.AggDao;
 import com.hashtagplus.model.repo.MessageHashtagRepository;
+import com.hashtagplus.model.util.HTMLUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +33,14 @@ public class MessageHashtagService {
 
   public Message saveMessageWithHashtags(MessageFormData messageFormData, HtplUser user) {
     Message message = new Message(messageFormData.getTitle(), messageFormData.getText(), user.getId());
+
+    String messageText = messageFormData.getText();
+
+    List<String> images = HTMLUtils.getImages(messageText);
+
+    // Add all found image sources
+    images.stream().forEach(message::addImageSource);
+    message.setHasImage((images.size() > 0));
 
     List<Hashtag> hashtagList = new ArrayList<>();
     String[] hashtags = new String[]{};

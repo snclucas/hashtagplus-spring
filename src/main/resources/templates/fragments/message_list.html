@@ -4,32 +4,15 @@
 <head>
 </head>
 <body>
-<ul th:attr="data-messages='s'" id="message-list" class="event-list" th:fragment="message_list">
 
-    <li th:attr="data-message-prototype='s'" th:each="message : ${messages}">
+<div th:fragment="message_list" >
+    <div th:attr="data-message-prototype='s'" th:each="message : ${messages}">
+        <div th:replace="fragments/message_line :: message_line(${message})"></div>
+    </div>
+</div>
 
-        <time datetime="2014-07-20">
-            <span class="day">4</span>
-            <span class="month">103</span>
-        </time>
-        <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" />
-        <div class="info">
-            <h2 th:attr="data-message-title=''" class="title" th:text="${message.title}">Title</h2>
-            <p th:attr="data-message-text=''"  class="desc" th:text="${message.text}">Text</p>
-            <ul>
-                <li style="width:33%;">1 <span class="glyphicon glyphicon-ok"></span></li>
-                <li style="width:33%;">103 <span class="fa fa-envelope"></span></li>
-            </ul>
-        </div>
-        <div class="social">
-            <ul>
-                <li class="edit" style="width:33%;"><a href="#"><span class="glyphicon glyphicon-chevron-up"></span></a></li>
-                <li class="confirm" style="width:34%;"><a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></li>
-            </ul>
-        </div>
 
-    </li>
 
-</ul>
+
 </body>
 </html>

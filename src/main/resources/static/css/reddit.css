@@ -1,0 +1,288 @@
+
+.cssanimations .c-form-control-feedback-throbber, .cssanimations .c-form-throbber::after { background: none; box-sizing: border-box; animation: spin 0.75s linear infinite; border-width: 2px; border-style: solid; border-color: rgb(96, 96, 96) rgb(96, 96, 96) transparent transparent; border-image: initial; border-radius: 100%; }
+.link .usertext .md { padding: 5px 10px; }
+.new-comment .md:not(pre) > code, .link .md:not(pre) > code, .usertext.border .md:not(pre) > code, .new-comment .md pre, .link .md pre, .usertext.border .md pre { background-color: rgb(255, 255, 255); }
+textarea { background-color: white; color: black; }
+code { font-family: monospace, monospace; }
+.combined-search-page .searchfacets > h4.title { color: rgb(128, 128, 128); margin-bottom: 5px; }
+.search-result.has-thumbnail > .thumbnail { flex: 0 0 70px; margin-right: 10px; width: 70px; }
+.search-result.has-thumbnail > .thumbnail img { display: block; height: auto; width: 100%; }
+.search-expando.collapsed { max-height: 45px; position: relative; }
+.search-expando.collapsed::before { bottom: 0px; content: ""; height: 15px; left: 0px; position: absolute; width: 100%; background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%); }
+.search-expando-button.expanded .search-expando-button-label-expanded, .search-expando-button.collapsed .search-expando-button-label-collapsed { display: inline; }
+.searchfacets .title { margin: 5px; }
+.interstitial .buttons { display: flex; justify-content: center; margin-left: auto; margin-right: auto; margin-top: 30px; width: 400px; }
+.interstitial .buttons .c-btn { flex: 0 1 75%; font-weight: 500; margin-left: 5px; margin-right: 5px; padding-bottom: 8px; padding-top: 8px; }
+html { height: 100%; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td, iframe { margin: 0px; padding: 0px; }
+table { border-collapse: collapse; }
+fieldset, img { border: 0px; }
+address, caption, cite, code, dfn, em, strong, th, var { font-style: normal; font-weight: normal; }
+ol, ul { list-style: none; }
+caption, th { text-align: left; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+q::before, q::after { content: ""; }
+body { font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: x-small; line-height: normal; font-family: verdana, arial, helvetica, sans-serif; background-color: white; z-index: 1; min-height: 100%; }
+textarea { font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: small; line-height: normal; font-family: verdana, arial, helvetica, sans-serif; }
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance: button; cursor: pointer; padding: 2px 6px 3px; }
+button[disabled], html input[disabled] { cursor: default; }
+input[type="hidden"] { position: absolute; }
+h1 { font-size: 18px; font-weight: normal; margin: 10px 0px; }
+h2 { color: rgb(51, 102, 153); font-size: 13px; }
+h2 a { text-decoration: none; }
+h2 a:visited { color: rgb(51, 102, 153); }
+h2 a:hover { text-decoration: underline; }
+h3 { font-size: 110%; }
+a img { border: 0px none; }
+a { text-decoration: none; color: rgb(51, 102, 153); }
+[hidden] { display: none; }
+.hover a:hover { text-decoration: underline; }
+.flat-list { list-style-type: none; display: inline; }
+.flat-list li, .flat-list form { display: inline; white-space: nowrap; }
+.flat-list li a.gold { color: rgb(154, 125, 46); font-weight: bold; }
+.flat-list li.selected a { color: orangered; }
+.link .flat-list { display: block; padding: 1px 0px; }
+.link.compressed .flat-list { display: inline-block; padding: 0px 0px 1px; }
+.arrow { margin: 2px auto 0px; height: 14px; display: block; cursor: pointer; background-position: center center; background-repeat: no-repeat; width: 15px; outline: none; }
+.arrow.up { background-image: url("../img/sprite-reddit.bTLvdEETokI.png"); background-position: -42px -1647px; background-repeat: no-repeat; }
+.arrow.down { background-image: url("../img/sprite-reddit.bTLvdEETokI.png"); background-position: 0px -1647px; background-repeat: no-repeat; }
+.midcol { float: left; margin-right: 7px; margin-left: 7px; background: transparent; overflow: hidden; }
+body > .content .link.compressed .midcol { width: 15px; margin-right: 5px; }
+.entry { overflow: hidden; margin-left: 3px; opacity: 1; }
+.tagline, .search-result-meta { color: rgb(136, 136, 136); font-size: x-small; }
+.tagline a, .search-result-meta a { color: rgb(51, 102, 153); text-decoration: none; }
+.tagline .friend, .search-result-meta .friend { color: rgb(255, 69, 0); }
+.tagline .submitter, .search-result-meta .submitter { color: rgb(0, 85, 223); }
+.tagline .moderator, .green, .search-result-meta .moderator { color: rgb(34, 136, 34); }
+.tagline .admin, .search-result-meta .admin { color: rgb(255, 0, 17); }
+.tagline .alum, .search-result-meta .alum { color: rgb(190, 19, 55); }
+.tagline a.author.admin, .search-result-meta a.author.admin { font-weight: bold; }
+.tagline a:hover, .search-result-meta a:hover { text-decoration: underline; }
+.tagline .edited-timestamp, .search-result-meta .edited-timestamp { cursor: default; }
+.tagline .stickied-tagline, .search-result-meta .stickied-tagline { color: rgb(34, 136, 34); }
+.tagline .pinned-tagline, .search-result-meta .pinned-tagline { color: rgb(0, 137, 133); }
+.comment .tagline .stickied-tagline::before, .comment .search-result-meta .stickied-tagline::before { content: "- "; }
+.tagline .userattrs .cakeday, .search-result-meta .userattrs .cakeday { display: inline-block; text-indent: -9999px; width: 11px; height: 8px; background-image: url("sprite-reddit.bTLvdEETokI.png"); background-position: -52px -1687px; background-repeat: no-repeat; vertical-align: middle; }
+a.author { margin-right: 0.5em; }
+.tagline .subreddit .userattrs, .search-result-meta .subreddit .userattrs { margin-left: 0.5em; }
+.tagline .subreddit .admin-distinguish, .search-result-meta .subreddit .admin-distinguish { color: rgb(255, 0, 17); }
+.tagline .subreddit .moderator-distinguish, .search-result-meta .subreddit .moderator-distinguish { color: rgb(34, 136, 34); }
+.tagline .subreddit-subscribe, .search-result-meta .subreddit-subscribe { border: none; background: none; margin-right: 0.2em; padding: 0px; }
+.tagline .subreddit-subscribe::before, .search-result-meta .subreddit-subscribe::before { display: inline-block; content: ""; vertical-align: bottom; width: 12px; height: 12px; background-image: url("../icon_follow.png"); background-repeat: no-repeat; }
+.tagline .subreddit-subscribe:hover::before, .search-result-meta .subreddit-subscribe:hover::before { background-image: url("../icon_follow_pending.png"); background-repeat: no-repeat; }
+.tagline .subreddit-subscribe[disabled]::before, .search-result-meta .subreddit-subscribe[disabled]::before { background-image: url("../icon_approve.png"); background-repeat: no-repeat; }
+.tagline .subreddit-subscribe:hover ~ .subreddit, .tagline .subreddit-subscribe[disabled] ~ .subreddit, .search-result-meta .subreddit-subscribe:hover ~ .subreddit, .search-result-meta .subreddit-subscribe[disabled] ~ .subreddit { color: rgb(59, 197, 76); }
+.thing .parent .stamp, .thing .parent .author { margin-right: 0.5em; }
+.collapsed .flair { display: none; }
+.link .flair { font-size: x-small; margin-top: -1px; }
+.flairrow .tagline, .flairrow .search-result-meta { display: inline-block; margin-bottom: 8px; margin-left: 6px; text-align: left; width: 36ex; }
+.flairselector .title { font-size: x-small !important; }
+.thing .source-url { font-size: smaller; margin-right: 0.4em; }
+.thing .title { outline: none; margin-right: 0.4em; padding: 0px; overflow: hidden; unicode-bidi: isolate; }
+.thing .title { color: rgb(0, 0, 255); }
+.thing .title:visited { color: rgb(85, 26, 139); }
+.thing .source-url { color: rgb(0, 121, 211); }
+.thing .source-url:visited { color: rgb(85, 26, 139); }
+.thing.visited .title, .thing.visited .source-url { color: rgb(85, 26, 139); }
+.thing .title-styled-as-text, .thing.visited .title-styled-as-text, .thing .title-styled-as-text:link, .thing.visited .title-styled-as-text:link, .thing .title-styled-as-text:visited, .thing.visited .title-styled-as-text:visited, .thing .title-styled-as-text:hover, .thing.visited .title-styled-as-text:hover, .thing .title-styled-as-text:active, .thing.visited .title-styled-as-text:active { color: rgb(34, 34, 34); }
+.thing.stickied.link a.title { font-weight: bold; color: rgb(34, 136, 34); }
+.thing.sticky-pinned.link a.title { font-weight: bold; color: rgb(0, 137, 133); }
+.explore-item .midcol { display: none; }
+.explore-item .rank { display: none; }
+.explore-comment .tagline, .explore-comment .buttons, .explore-comment .thumbnail, .explore-comment .expando-button, .explore-comment .search-result-meta { display: none; }
+.organic-listing .link { background-color: rgb(248, 248, 248); padding-top: 5px; padding-bottom: 5px; min-height: 72px; }
+body.compressed-display .organic-listing .link { padding-top: 7px; padding-bottom: 7px; min-height: 37px; }
+.organic-listing .link, .organic-listing .link.compressed, .organic-listing .link.promotedlink { padding-left: 2px; margin-bottom: 0px; }
+.organic-listing .nextprev .arrow, .organic-listing .nextprev .throbber { width: 21px; height: 21px; margin: 5px 5px 2px 0px; }
+.organic-listing .nextprev .arrow { border: 1px solid rgb(179, 179, 179); display: inline-block; position: relative; text-indent: 50px; }
+.organic-listing .nextprev .arrow:hover { cursor: pointer; border: 1px solid rgb(51, 102, 153); }
+.organic-listing .nextprev .arrow:active { top: 1px; }
+.panestack-title .title { font-size: 16px; font-weight: normal; margin: 10px 0px; }
+.entry .buttons li { display: inline-block; border: none; padding-right: 4px; line-height: 1.6em; }
+.entry .buttons li + li { padding-left: 4px; }
+.entry .buttons li.stamp + li.stamp { margin-left: 4px; }
+.entry .buttons li a { color: rgb(136, 136, 136); font-weight: bold; padding: 0px 1px; }
+.entry .buttons li a.nonbutton { color: rgb(51, 102, 153); font-weight: normal; }
+.entry .buttons a:hover { text-decoration: underline; }
+.entry .buttons .status-msg { display: none; margin-right: 0.5em; }
+.entry .buttons .promoted-tag { color: rgb(36, 160, 237); font-weight: bold; padding: 0px 1px; }
+.thing .stub { display: none; }
+.link { margin: 0px 0px 8px; padding-left: 3px; }
+.link .score { text-align: center; color: rgb(198, 198, 198); }
+.link .title { font-size: medium; font-weight: normal; margin-bottom: 1px; }
+.link .child h3 { margin: 15px; text-transform: none; font-size: medium; }
+.rank { overflow: hidden; }
+.profile-page .link .rank, .single-page .link .rank { display: none; }
+.link .midcol { font-weight: bold; font-size: small; }
+.link .score.likes { color: rgb(255, 139, 96); }
+.link .score.dislikes { color: rgb(148, 148, 255); }
+.link .rank { float: left; margin-top: 15px; color: rgb(198, 198, 198); font-family: arial; font-size: medium; text-align: right; }
+.link.compressed .rank { margin-top: 10px; }
+.link.compressed .title { margin: -2px 0px 3px; }
+.link.compressed .score { color: rgb(136, 136, 136); }
+.link.compressed .subreddit { font-weight: bold; }
+.link.compressed .tagline, .link.compressed .search-result-meta { display: inline; margin-right: 12px; }
+.link.compressed .expando-button { display: none; }
+.score.likes, .score.dislikes { display: none; }
+.likes .score, .dislikes .score { display: none; }
+.likes .score.likes { display: inline; }
+.dislikes .score.dislikes { display: inline; }
+.likes div.score.likes { display: block; }
+.dislikes div.score.dislikes { display: block; }
+.warm-entry .rank { color: rgb(237, 161, 121); }
+.hot-entry .rank { color: rgb(228, 114, 52); }
+.cool-entry .rank { color: rgb(165, 171, 251); }
+.cold-entry .rank { color: rgb(73, 89, 247); }
+.gadget .midcol { width: 15px; margin: 0px; }
+.gadget .score { margin-left: 0.5em; }
+.quarantine-tool.collapsed .quarantine-info { display: none; }
+.ban-tool.collapsed .ban-info { display: none; }
+.comment.noncollapsed .usertext, .comment.noncollapsed .child, .comment.noncollapsed .buttons { display: block; }
+.comment.noncollapsed .midcol { visibility: visible; }
+body.show-controversial .comment.controversial > .entry .score::after { content: "†"; position: relative; top: -2px; }
+.comment.collapsed { padding-bottom: 10px; line-height: 14px; }
+.comment.collapsed .numchildren { display: inline; }
+.comment.collapsed .usertext, .comment.collapsed .child, .comment.collapsed .buttons { display: none; }
+.comment.collapsed .midcol { visibility: hidden; height: 1px; }
+.comment.collapsed .tagline, .comment.collapsed .tagline a, .comment.collapsed .search-result-meta, .comment.collapsed .search-result-meta a { color: gray; }
+.comment.collapsed .tagline:not(.expand), .comment.collapsed .tagline a:not(.expand), .comment.collapsed .search-result-meta:not(.expand), .comment.collapsed .search-result-meta a:not(.expand) { font-style: italic; }
+.comment.collapsed.collapsed-for-reason .score, .comment.collapsed.collapsed-for-reason .live-timestamp { display: none; }
+.comment.collapsed .safe-toggle-pref { display: none; }
+.comment .midcol { margin-left: 0px; width: 15px; }
+.comment .title { font-size: small; margin-top: 10px; }
+.comment .author { font-weight: bold; }
+.comment .child, .comment .showreplies { margin-top: 10px; margin-left: 15px; border-left: 1px dotted rgb(221, 221, 255); }
+.comment.deleted > .midcol { visibility: hidden; }
+.message.noncollapsed .child, .message.noncollapsed .buttons, .message.noncollapsed .md { display: block; }
+.message.noncollapsed .midcol { visibility: visible; }
+.message.collapsed > .entry .buttons, .message.collapsed > .entry .md { display: none; }
+.message.collapsed.threaded .tagline, .message.collapsed.threaded .tagline a, .message.collapsed.threaded .search-result-meta, .message.collapsed.threaded .search-result-meta a { color: gray; }
+.message.collapsed.threaded .tagline:not(.expand), .message.collapsed.threaded .tagline a:not(.expand), .message.collapsed.threaded .search-result-meta:not(.expand), .message.collapsed.threaded .search-result-meta a:not(.expand) { font-style: italic; }
+.message.collapsed.threaded .child { display: none; }
+.message.collapsed .midcol { visibility: hidden; height: 20px; }
+.message .collapsed .head { color: rgb(136, 136, 136); font-style: italic; }
+.message .tagline, .message .search-result-meta { color: rgb(68, 136, 85); }
+.message.message-parent > .entry, .message.message-reply > .entry { color: rgb(68, 136, 85); }
+.message.message-parent > .entry .md, .message.message-reply > .entry .md, .message.message-parent > .entry blockquote, .message.message-reply > .entry blockquote, .message.message-parent > .entry del, .message.message-reply > .entry del { color: inherit; }
+.message.recipient > .entry { color: black; }
+.message.message-reply.recipient > .entry .head, .message.message-parent.recipient > .entry .head { color: black; font-weight: bold; }
+.message .recipient a.author, .message .sender a.author, .message .subreddit { font-weight: bold; }
+.message.new > .entry .head { color: orangered; font-weight: bold; }
+.message.new > .entry { background-color: rgb(247, 247, 247); border: 1px solid rgb(233, 233, 233); padding: 6px; }
+.message.threaded .child { margin-left: 20px; border-left: 2px dashed rgb(231, 231, 231); }
+.message.message-reply:not(.threaded) .entry, .message.message-parent:not(.threaded) .entry { margin-left: 10px; border-left: 2px dashed rgb(231, 231, 231); }
+.message .child .message, .message .child .usertext { margin-top: 10px; margin-left: 12px; }
+.message.was-comment .child .message, .message.was-comment .child .usertext { margin-top: 0px; margin-left: 0px; }
+.message .entry { margin-left: 0px; }
+.message.message-parent .child .message, .message.message-reply .child .message { margin: 0px; padding: 0px; }
+.message.message-reply .entry, .message.message-parent .entry { padding-left: 10px; padding-bottom: 10px; }
+.message .buttons, .message .md { margin-left: 15px; }
+.message .entry .parent { border: 1px solid rgb(51, 102, 153); max-width: 60em; margin: 3px 10px; }
+.message .subject .title { font-weight: normal; font-style: italic; margin-left: 10px; }
+.message.was-comment .midcol { margin-left: 0px; }
+.message.was-comment .buttons, .message.was-comment .parent-link { margin-left: 0px; }
+.message.gold .tagline, .message.gold .correspondent, .message.gold .expand-btn, .message.gold .unread-button, .message.gold .block-button, .message.gold .report-button, .message.gold ul.buttons li.first, .message.gold .search-result-meta { display: none; }
+.message.gold .entry { margin: 0px; border: 0px; }
+.message.gold ul.buttons li a { font-size: 2em; text-shadow: rgb(255, 255, 255) 0px 0px 3px; color: rgb(122, 93, 14); }
+.message.gold ul.buttons, .message.gold ul.buttons li { margin: 0px; padding: 0px; }
+.message.gold.new > .entry { background-color: transparent; border: 0px; padding: 0px; }
+.subreddit { margin-bottom: 10px; }
+.subreddit p { margin-top: 0px; margin-bottom: 1px; }
+.subreddit .description { font-size: small; max-width: 60em; }
+.subreddit .key { display: block; }
+.subreddit .title { font-size: medium; margin-right: 5px; }
+.subreddit .midcol { margin-right: 5px; margin-top: 5px; text-align: right; width: 12em !important; }
+.clearleft { clear: left; height: 0px; }
+.sponsored .entry { margin-right: 20px; }
+.error-log .save-button { margin: 0px 5px 5px 0px; font-size: small; padding: 0px; }
+.button .arrow { width: 15px; }
+.button.thing { margin: 0px; padding: 0px; }
+.button .blog .score { white-space: nowrap; }
+.button .blog1 .arrow { float: left; margin-left: 2px; margin-right: 2px; }
+.button .blog1 .score { margin-top: 2px; margin-right: 5px; }
+.button .blog2 .arrow { width: 15px; margin-left: auto; margin-right: auto; }
+.button .blog2 .score .submit { display: block; font-size: x-small; line-height: 17px; }
+.button .blog2 .arrow { width: 15px; margin-left: auto; margin-right: auto; }
+.button .blog3 .score .submit { display: block; font-size: x-small; line-height: 17px; }
+.blog5 .clearleft { clear: left; }
+.blog5 .arrow { margin-right: 15px; margin-left: 5px; color: black; cursor: pointer; display: inline; background-position: left center; background-repeat: no-repeat; padding-left: 20px; }
+.blog5 .votes.disabled .arrow { color: rgb(136, 136, 136); }
+.blog5 .arrow:hover { text-decoration: none; }
+.blog5 .arrow b { font-size: larger; }
+.instructions .buttons { margin-left: 1em; max-width: 50em; }
+.instructions .buttons li { margin-top: 1em; border-bottom: 1px solid rgb(224, 224, 224); padding-bottom: 1em; }
+form input[type="checkbox"], form input[type="radio"] { margin: 2px 0.5em 0px 0px; }
+.entry .buttons li.reported-stamp { padding: 0px 4px; background-color: rgb(246, 230, 159); border: 1px solid black !important; }
+.comment.spam > .child, .message.spam > .child { background-color: white; }
+.comment.spam > .child { margin-left: 0px; padding-left: 15px; }
+.message.spam > .child { }
+.thing.banned-user .title { text-decoration: line-through; }
+.tagline .approval-checkmark, .search-result-meta .approval-checkmark { height: 1em; }
+.thumbnail { float: left; font-size: 0px; margin: 0px 5px 2px 0px; overflow: hidden; width: 70px; }
+a.thumbnail { position: relative; }
+.sheets .buttons { margin-left: 5px; }
+.subscription-box .title { font-size: medium; color: blue; margin-right: 5px; }
+.expando-button { float: left; height: 23px; width: 23px; margin: 2px 5px 2px 0px; background: none center center no-repeat scroll transparent; }
+.expando-button.selftext.collapsed { background-image: url("sprite-reddit.bTLvdEETokI.png"); background-position: -65px -1406px; background-repeat: no-repeat; }
+.expando-button.selftext.collapsed:hover, .eb-sch { background-image: url("sprite-reddit.bTLvdEETokI.png"); background-position: -36px -1406px; background-repeat: no-repeat; }
+.expando-button.video.collapsed { background-image: url("sprite-reddit.bTLvdEETokI.png"); background-position: -58px -1442px; background-repeat: no-repeat; }
+.expando-button.video.collapsed:hover, .eb-vch { background-image: url("sprite-reddit.bTLvdEETokI.png"); background-position: -29px -1442px; background-repeat: no-repeat; }
+.conversation .comment .midcol { display: none; }
+.subreddit .usertext .md { padding: 2px 5px; background-color: rgb(250, 250, 250); border: 1px solid rgb(204, 204, 204); border-radius: 7px; }
+.link .usertext-body .md { background-color: rgb(250, 250, 250); border: 1px solid rgb(51, 102, 153); border-radius: 7px; }
+.linefield .title { color: blue; font-weight: bold; padding: 1px 10px; }
+.linefield .title + .gray { font-size: x-small; }
+div.timeseries span.title { font-weight: bold; font-size: medium; font-variant: small-caps; }
+.sponsored-page .promotelink-editor .thing { border-color: rgb(184, 214, 245); font-size: 10px; }
+.sponsored-page .promotelink-editor .thing .title { padding: 0px; font-weight: normal; }
+.sponsored-page .promotelink-editor .thing .rank { display: none; }
+.sponsored-page .promotelink-editor .thing .flat-list.buttons { text-align: left; }
+.sponsored-page .promotelink-editor .thing a.thumbnail { line-height: 0; }
+.sponsored-page .editor .linefield > .title { padding: 0px; display: block; margin: 5px 0px; color: rgb(51, 102, 153); font-size: 15px; }
+.sponsored-page .editor .linefield > .title::before { position: absolute; width: 20px; height: 20px; right: 100%; border-radius: 10px; background: rgb(206, 227, 248); margin-right: -10px; }
+.sponsored-page .editor > .linefield > .title { font-weight: normal; font-size: 18px; line-height: 20px; margin: 10px; color: rgb(0, 76, 153); }
+.sponsored-page .editor .buttons { text-align: right; }
+.sponsored-page .editor .buttons button { margin-left: 5px; }
+dt { margin-left: 10px; font-weight: bold; }
+dd { margin-left: 20px; }
+.sidecontentbox .title h1 { display: inline; text-transform: uppercase; margin: 0px; color: gray; font-size: 130%; }
+.sidecontentbox.collapsible .title { cursor: pointer; }
+.titlebox .tagline, .titlebox .search-result-meta { margin: 5px 0px 5px 20px; }
+.linkinfo .score .number { font-size: 22px; font-weight: bold; }
+.linkinfo .score .word { font-size: 15px; font-weight: bold; }
+.thing .gold-form { margin: 10px 0px 10px 4px; min-height: 0px; }
+.server-seconds-public .title { float: left; padding-left: 20px; margin-right: 10px; }
+.comment-visits-box .title { font-weight: bold; font-size: 12px; }
+.modactionlisting td.timestamp, .modactionlisting td.subreddit { white-space: nowrap; }
+.developed-app.collapsed, .authorized-app { min-height: 100px; }
+.developed-app .collapsed { display: none; }
+.edit-app.collapsed, .edit-app-icon, .developed-app .collapsed { display: none; }
+.user-gilded > .entry .gilded-icon::before { width: 23px; }
+.gold-bubble div.history { margin: 5px 0px; padding-top: 2px; border-top: 1px solid rgb(226, 221, 207); }
+.gold-bubble div.history p { margin-bottom: 0px; }
+.gold-bubble div.history .progress { padding: 5px 0px; margin: 0px 7px; opacity: 0.8; }
+.gold-bubble div.history .progress .bar { border: 1px solid rgb(218, 208, 179); height: 12px; overflow: auto; border-radius: 10px; }
+.gold-bubble div.history .progress .bar span { display: block; height: 100%; background-color: rgb(243, 226, 135); background-image: linear-gradient(rgb(255, 248, 186) 0%, rgb(236, 207, 144) 100%); border-radius: 6px; }
+.gold-bubble div.history .progress p { float: right; font-weight: bold; font-size: 10px; color: rgb(90, 63, 26); line-height: 14px; margin-left: 6px; margin-top: 0px; }
+.gold-bubble div.history .progress p { margin-right: 0px; font-weight: normal; }
+.gold-subscription div.buttons { padding: 10px 0px; }
+.trending-subreddits ul, .trending-subreddits .comments { margin-left: 1em; }
+.trending-subreddits .comments { color: rgb(136, 136, 136); font-weight: bold; white-space: nowrap; }
+.trending-subreddits .comments:hover { text-decoration: underline; }
+.gold-wrap .buttons { margin-top: 10px; }
+.gold-only .link .score.dislikes { color: rgb(169, 141, 121); }
+.gold-only .link .score.likes { color: rgb(222, 193, 69); }
+.more-actions .title { color: rgb(136, 136, 136); }
+.more-actions .title:hover { cursor: pointer; }
+.full-context-info .parent { padding: 0px 9px; }
+.full-context-info .arrow { display: inline-block; margin-right: 100px; }
+.full-context-info .arrow::after { display: inline-block; margin-left: 20px; width: 100px; }
+.full-context-info .arrow.unvoted::after { content: "did not vote"; margin-left: 0px; }
+body:not(.loggedin) .give-gold-button, body:not(.loggedin):not(.feature-new-report-flow) .report-button { display: none; }
+.subreddit .midcol .sr-type-icon { margin-left: 3px; }
+.user-subreddit .title { color: black; display: inline-block; font-size: 18px; }
+.user-subreddit .midcol { margin-right: 10px; margin-top: 0px; }
+.reportedaccount .thumbnail, .reportedaccount .entry { display: table-cell; vertical-align: middle; }
+.pinnable-content.pinned .hide-when-pinned { display: none; }
+.pinnable-content.pinned .midcol { position: fixed; top: 7px; left: 20px; }
+.pinnable-content.pinned .top-matter { position: fixed; top: 7px; left: 335px; width: 100%; }

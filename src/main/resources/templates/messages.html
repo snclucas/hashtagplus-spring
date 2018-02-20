@@ -18,8 +18,8 @@
     <link href="/css/messages.css" rel="stylesheet" media="all"/>
     <link href="/css/hashtaglist.css" rel="stylesheet" media="all"/>
     <link href="/css/buttons.css" rel="stylesheet" media="all"/>
-
-
+    <link href="/css/reddit.css" rel="stylesheet" media="all"/>
+    <link href="/css/image_wall.css" rel="stylesheet" media="all"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -33,43 +33,6 @@
 <body>
 
 <div th:replace="fragments/nav :: nav"></div>
-
-
-
-<div class="container"><h2>Example 3 </h2></div>
-<div id="exTab3" class="container">
-    <ul  class="nav nav-pills">
-        <li class="active">
-            <a  href="#1b" data-toggle="tab">Overview</a>
-        </li>
-        <li><a href="#2b" data-toggle="tab">Using nav-pills</a>
-        </li>
-        <li><a href="#3b" data-toggle="tab">Applying clearfix</a>
-        </li>
-        <li><a href="#4a" data-toggle="tab">Background color</a>
-        </li>
-    </ul>
-
-    <div class="tab-content clearfix">
-        <div class="tab-pane active" id="1b">
-            <h3>Same as example 1 but we have now styled the tab's corner</h3>
-        </div>
-        <div class="tab-pane" id="2b">
-            <h3>We use the class nav-pills instead of nav-tabs which automatically creates a background color for the tab</h3>
-        </div>
-        <div class="tab-pane" id="3b">
-            <h3>We applied clearfix to the tab-content to rid of the gap between the tab and the content</h3>
-        </div>
-        <div class="tab-pane" id="4b">
-            <h3>We use css to change the background color of the content to be equal to the tab</h3>
-        </div>
-    </div>
-</div>
-
-
-
-
-
 
 
 <div class="container">
@@ -87,7 +50,7 @@
             <div th:replace="fragments/hashtag_list :: hashtag_list"></div>
         </div>
         <div class="[ col-xs-10 col-sm-10 ]">
-            <div th:replace="fragments/message_list :: message_list"></div>
+            <div th:replace="fragments/tabs :: tabs"></div>
         </div>
     </div>
 </div>
@@ -104,6 +67,9 @@
 
 <script src="/js/messages.js"></script>
 <script src="/js/hashtags.js"></script>
-<!-- <script src="js/ws.js"></script> -->
+
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+<script src="/js/image_wall.js"></script>
 
 </html>
