@@ -6,8 +6,11 @@
 <body>
 
 <div th:fragment="image_list" >
-    <div th:attr="data-message-prototype='s'" th:each="media : ${withmedia}">
-        <div th:replace="fragments/media_wall :: media_wall(${media})"></div>
+    <div class="grid">
+        <div class="grid-sizer"></div>
+        <div th:attr="data-message-prototype='s'" th:each="media : ${withmedia}">
+            <div th:replace="fragments/media_wall :: media_wall(${media})"></div>
+        </div>
     </div>
 </div>
 

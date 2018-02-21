@@ -95,9 +95,15 @@ public class MessageController {
     HtplUser htplUser = (HtplUser) user;
     List<Message> messages = getMessages(htplUser, sortby, order, page, limit, hashtags);
 
+
+    List<Message> withMedia = messages.stream()
+            .filter(m -> m.hasImage)
+            .collect(Collectors.toList());
+
     ModelAndView mav = new ModelAndView("messages");
     mav.addObject("messageFormData", new MessageFormData());
     mav.addObject("messages", messages);
+    mav.addObject("withmedia", withMedia);
     mav.addObject("user", null);
     return mav;
   }
@@ -119,7 +125,7 @@ public class MessageController {
             .filter(m -> m.hasImage)
             .collect(Collectors.toList());
 
-            ModelAndView mav = new ModelAndView("messages");
+    ModelAndView mav = new ModelAndView("messages");
     mav.addObject("messageFormData", new MessageFormData());
     mav.addObject("messages", messages);
     mav.addObject("withmedia", withMedia);

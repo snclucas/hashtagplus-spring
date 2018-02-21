@@ -36,11 +36,13 @@ public class MessageHashtagService {
 
     String messageText = messageFormData.getText();
 
-    List<String> images = HTMLUtils.getImages(messageText);
+    List<String> urls = HTMLUtils.extractURLS(messageText);
 
     // Add all found image sources
-    images.stream().forEach(message::addImageSource);
-    message.setHasImage((images.size() > 0));
+    urls.stream()
+            .filter(HTMLUtils::testImage)
+            .forEach(message::addImageSource);
+    message.setHasImage((message.imageSrc.size() > 0));
 
     List<Hashtag> hashtagList = new ArrayList<>();
     String[] hashtags = new String[]{};
