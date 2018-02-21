@@ -7,6 +7,10 @@ import com.hashtagplus.model.repo.MessageHashtagRepository;
 import com.hashtagplus.model.util.HTMLUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -50,26 +54,32 @@ public class MessageHashtagService {
       hashtags = messageFormData.getHashtags().split(",");
 
     for (String hashtag : hashtags) {
-      Hashtag hashtagToSave = new Hashtag(hashtag.replace(" ", ""));
-      hashtagToSave = hashtagService.saveHashtag(hashtagToSave);
-      hashtagList.add(hashtagToSave);
-      saveMessageHashtag(message, hashtagToSave, user);
+      if (!hashtag.equals(" ")) {
+        hashtag = hashtag.trim();
+        Hashtag hashtagToSave = new Hashtag(hashtag.replace(" ", " "));
+        hashtagToSave = hashtagService.saveHashtag(hashtagToSave);
+        hashtagList.add(hashtagToSave);
+        saveMessageHashtag(message, hashtagToSave, user);
+      }
     }
     message.setHashtags(hashtagList);
     return messageService.saveMessage(message);
   }
 
-  public List<Message> getMessagesWithHashtag(String hashtagsText) {
-    hashtagsText = hashtagsText.replace(" ", "");
+  public Page<MessageHashtag> getMessagesWithHashtag(String hashtagsText, HtplUser user, Sort sort, int pageNumber, int limit) {
+    Pageable request =
+            new PageRequest(pageNumber - 1, limit, sort);
+   // hashtagsText = hashtagsText.replace(" ", "");
     List<String> hashTagsTextList = Arrays.asList(hashtagsText.split(","));
 
     List<Hashtag> hashtagList = hashTagsTextList.stream()
             .map(ht -> hashtagService.findHashtag(ht))
             .collect(Collectors.toList());
 
-    List<MessageHashtag> messageHashtags = messageHashtagRepository.findMessageHashtagsByHashtagIdIn(hashtagList);
+    Page<MessageHashtag> messageHashtags = messageHashtagRepository.findMessageHashtagsByHashtagIdIn(hashtagList, request);
 
-    return messageHashtags.stream().map(MessageHashtag::getMessage).distinct().collect(Collectors.toList());
+    return messageHashtags;
+    //return messageHashtags.stream().map(MessageHashtag::getMessage).distinct().collect(Collectors.toList());
   }
 
   public List<MessageHashtag> getMessagesWithHashtags(List<String> hashtags) {

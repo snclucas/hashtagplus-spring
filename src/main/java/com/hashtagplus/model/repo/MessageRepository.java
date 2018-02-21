@@ -18,7 +18,7 @@ public interface MessageRepository extends MongoRepository<Message, String> {
   Message findOneBySlug(String slug);
 
   @Query(value = "{user_id: ?0}")
-  List<Message> findAll(String user_id, Pageable pageable);
+  Page<Message> findAll(String user_id, Pageable pageable);
 
   @Query(value = "{user_id: ?0, hashtags: ?1}")
   List<Message> findByUserIdAndHashtags(String user_id, String hashtag);

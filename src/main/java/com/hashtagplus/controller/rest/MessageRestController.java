@@ -7,6 +7,8 @@ import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +52,7 @@ public class MessageRestController {
         HtplUser user = (HtplUser) context.getAttribute("user_from_token");
         Sort sort = new Sort(
                 order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
-        return this.messageService.getAllMessages(user, sort, page, limit);
+        return this.messageService.getAllMessages(user, sort, page, limit).getContent();
     }
 
 
@@ -99,10 +101,19 @@ public class MessageRestController {
 
     @RequestMapping(method=GET, value={"/api/messages/2"})
     public List<Message> getMessagesWithHashtags(@RequestParam(value="hashtags", defaultValue="") String hashtags) {
+        String order = "asc";
+        String sortby = "created_at";
+        int limit = 100;
+        int pageNumber = 1;
+        Sort sort = new Sort(
+                order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
+
         List<String> hashtagsList = Arrays.asList(hashtags.split(","));
 
         String[] hashtagsArr = hashtags.split(",");
-        List<Message> messages = messageHashtagService.getMessagesWithHashtag(hashtagsArr[0]);
+      HtplUser user = (HtplUser) context.getAttribute("user_from_token");
+
+        List<Message> messages = messageHashtagService.getMessagesWithHashtag(hashtagsArr[0], user, sort, pageNumber, limit);
 
         List<MessageHashtag> messages2 = messageHashtagService.getMessagesWithHashtags(hashtagsList);
         return messages;

@@ -11,12 +11,22 @@
         <div class="midcol unvoted">
             <div class="arrow up" data-event-action="upvote" role="button" aria-label="upvote" tabindex="0"></div>
             <div class="score dislikes" title="5">5</div>
-            <div class="score unvoted" title="6">6</div>
+            <div class="score unvoted" title="6" th:text="${message.score}">score</div>
             <div class="score likes" title="7">7</div>
             <div class="arrow down" data-event-action="downvote" role="button" aria-label="downvote" tabindex="0"></div>
         </div>
         <a class="thumbnail" data-event-action="thumbnail" href="https://youtu.be/6FGDHTAzZss" data-href-url="https://youtu.be/6FGDHTAzZss">
-            <img src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" width="70" height="52" alt=""/>
+
+            <div th:switch="${message.hasImage}">
+                <p th:case="true">
+                    <img th:src="${message.imageSrc[0]}" width="70" height="52" alt=""/>
+                </p>
+                <p th:case="false">
+                    <img src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" width="70" height="52" alt=""/>
+                </p>
+            </div>
+
+
         </a>
         <div class="entry unvoted">
             <div class="top-matter">

@@ -1,21 +1,43 @@
 function populateHashtagList(listId, data) {
-  var items = [];
+  var urlParams = new URLSearchParams(window.location.search);
   $.each(data, function (id, hashtag) {
-      var url = new URL(window.location.href);
-
-
+    var urlParams2 = new URLSearchParams(urlParams.toString());
     var hashtagJSON = JSON.parse(hashtag.hashtag);
-      url.searchParams.append('hashtags', hashtagJSON.text);
+    var hashtagClass = "notice-info";
+    var entries = urlParams.entries();
+    var pair = null;
+    var inUrlQuery = false;
+    for (pair of entries) {
+      if (pair[0] === 'hashtag' && pair[1] === hashtagJSON.text) {
+        hashtagClass = "notice-danger";
+        inUrlQuery = true;
+        break;
+      }
+    }
 
-      console.log(url.searchParams.get("hashtags"));
-
-      $(listId).append('<div class="update-nag">' +
-          '<div class="update-split"><i class="glyphicon glyphicon-refresh"></i></div>' +
-          '<div class="update-text"><a href="'+url.toString()+'"><strong>'+ hashtagJSON.text + '('+hashtag.count+')</strong></a></div>' +
-          '</div>');
-  });
+    if(!inUrlQuery) {
+      urlParams2.append('hashtag', hashtagJSON.text);
+    } else {
+      var orig = urlParams2.getAll('hashtag');
+      var index = orig.indexOf(hashtagJSON.text);
+      if (index > -1) {
+        orig.splice(index, 1);
+      }
+      urlParams2.delete('hashtag');
+      $.each(orig, function (id, entry) {
+        urlParams2.append('hashtag', entry);
+      })
+    }
+    var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + urlParams2.toString();
+    $(listId).append('<div class="notice ' + hashtagClass + '"><a class="hashtag-list" href="' + newUrl + '">#' + hashtagJSON.text + '(' + hashtag.count + ')</a></div>');
+  })
+  ;
 }
 
+
+$("body").on('click', '.hashtag', function () {
+  console.log($(this).val());
+});
 
 $(function () {
   $.ajax({
@@ -25,7 +47,6 @@ $(function () {
     contentType: 'application/json',
     async: true,
     success: function (data) {
-      console.log(data);
       populateHashtagList($("#hashtag-list"), data);
     }
   });

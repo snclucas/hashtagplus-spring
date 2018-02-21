@@ -7,6 +7,7 @@ import com.hashtagplus.model.Message;
 import com.hashtagplus.model.repo.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,7 +29,7 @@ public class MessageService {
         return "Hello " + this.name;
     }
 
-    public List<Message> getAllMessages(HtplUser user, Sort sort, int pageNumber, int limit) {
+    public Page<Message> getAllMessages(HtplUser user, Sort sort, int pageNumber, int limit) {
         Pageable request =
                 new PageRequest(pageNumber - 1, limit, sort);
         return messageRepository.findAll(user.getId(), request);

@@ -35,12 +35,19 @@ If you having trouble in editing css. please send a mail to support@surjithctly.
 
 /*==========0. GLOBAL STYLES==============*/
 
-
 body {
     font-family:"Montserrat", Arial, Helvetica, sans-serif;
-    background:#FFF;
     position:relative;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: normal;
+    background-color: white;
+    z-index: 1;
+    min-height: 100%;
 }
+
 a {
     color:#2b4bc7;
 }

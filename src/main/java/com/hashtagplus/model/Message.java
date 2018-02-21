@@ -28,6 +28,8 @@ public class Message {
 
   public String user_id;
 
+  public int score;
+
   @DBRef(lazy = true)
   public List<Hashtag> hashtags = new ArrayList<>();
 
@@ -46,6 +48,7 @@ public class Message {
     this.text = text;
     this.user_id = user_id;
     this.hasImage = false;
+    this.score = 1;
 
     TimeZone tz = TimeZone.getTimeZone("UTC");
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
@@ -73,6 +76,14 @@ public class Message {
 
   public void setText(String text) {
     this.text = text;
+  }
+
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(final int score) {
+    this.score = score;
   }
 
   public List<Hashtag> getHashtags() {

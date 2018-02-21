@@ -1,9 +1,6 @@
 package com.hashtagplus.controller;
 
-import com.hashtagplus.model.Hashtag;
-import com.hashtagplus.model.HtplUser;
-import com.hashtagplus.model.HtplUserDetails;
-import com.hashtagplus.model.Message;
+import com.hashtagplus.model.*;
 import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
@@ -11,6 +8,7 @@ import com.hashtagplus.service.MessageService;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -89,8 +87,8 @@ public class MessageController {
           @RequestParam(value = "sortby", defaultValue = "created_at") String sortby,
           @RequestParam(value = "order", defaultValue = "asc") String order,
           @RequestParam(value = "page", defaultValue = "1") int page,
-          @RequestParam(value = "limit", defaultValue = "100") int limit,
-          @RequestParam(value = "hashtags", defaultValue = "") String hashtags) {
+          @RequestParam(value = "limit", defaultValue = "3") int limit,
+          @RequestParam(value = "hashtag", defaultValue = "") String hashtags) {
 
     HtplUser htplUser = (HtplUser) user;
     List<Message> messages = getMessages(htplUser, sortby, order, page, limit, hashtags);
@@ -116,7 +114,7 @@ public class MessageController {
           @RequestParam(value = "order", defaultValue = "asc") String order,
           @RequestParam(value = "page", defaultValue = "1") int page,
           @RequestParam(value = "limit", defaultValue = "100") int limit,
-          @RequestParam(value = "hashtags", defaultValue = "") String hashtags) {
+          @RequestParam(value = "hashtag", defaultValue = "") String hashtags) {
 
     HtplUser htplUser = (HtplUser) user;
     List<Message> messages = this.messageHashtagService.getMessagesWithTopicAndHashtags(topic, hashtags);
@@ -134,13 +132,14 @@ public class MessageController {
   }
 
 
-  private List<Message> getMessages(HtplUser htplUser, String sortby, String order, int page, int limit, String hashtags) {
+  private Page<Message> getMessages(HtplUser htplUser, String sortby, String order, int page, int limit, String hashtags) {
     Sort sort = new Sort(
             order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
 
-    List<Message> messages;
+    Page<Message> messages;
     if (!hashtags.equals("")) {
-      messages = this.messageHashtagService.getMessagesWithHashtag(hashtags);
+      Page<MessageHashtag> messageHashtags = this.messageHashtagService.getMessagesWithHashtag(hashtags, htplUser, sort, page, limit);
+      List<Message> mes = messageHashtags.getContent().stream().map(MessageHashtag::getMessage).distinct().collect(Collectors.toList());
     } else {
       messages = this.messageService.getAllMessages(htplUser, sort, page, limit);
     }
@@ -156,6 +155,7 @@ public class MessageController {
     //THIS DOESNT WORK, ALSO LOOK AT USERS
     return "messages";
   }
+
 
 
 }

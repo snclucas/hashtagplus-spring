@@ -4,6 +4,8 @@ import com.hashtagplus.model.Hashtag;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.MessageHashtag;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -34,7 +36,7 @@ public interface MessageHashtagRepository extends MongoRepository<MessageHashtag
   List<MessageHashtag> findByHashtagIn(@Param("ids") List<String> hashtags);
 
 
-  List<MessageHashtag> findMessageHashtagsByHashtagIdIn(List<Hashtag> hashtags);
+  Page<MessageHashtag> findMessageHashtagsByHashtagIdIn(List<Hashtag> hashtags, Pageable pageable);
 
 
   @Override

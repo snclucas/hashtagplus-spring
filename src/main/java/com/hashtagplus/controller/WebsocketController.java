@@ -64,7 +64,7 @@ public class WebsocketController {
                 order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
 
         HtplUser htplUser = new HtplUser(user.getName(), "", "", new ArrayList<GrantedAuthority>());
-        List<Message> messages = messageService.getAllMessages(htplUser, sort, 1, 100);
+        List<Message> messages = messageService.getAllMessages(htplUser, sort, 1, 100).getContent();
 
 
 
