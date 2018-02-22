@@ -1,7 +1,6 @@
 package com.hashtagplus.model;
 
 import com.hashtagplus.model.util.*;
-import com.mongodb.annotations.Immutable;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -24,7 +23,9 @@ public class Message {
   public String created_at;
   public String slug;
 
-  public Boolean hasImage;
+  public Boolean hasText;
+
+  public String contentType;
 
   public String user_id;
 
@@ -33,7 +34,7 @@ public class Message {
   @DBRef(lazy = true)
   public List<Hashtag> hashtags = new ArrayList<>();
 
-  public List<String> imageSrc = new ArrayList<>();
+  public List<MediaUrl> mediaUrls = new ArrayList<>();
 
   private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
   private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
@@ -47,8 +48,10 @@ public class Message {
     this.title = title;
     this.text = text;
     this.user_id = user_id;
-    this.hasImage = false;
+    this.hasText = true;
+
     this.score = 1;
+    this.contentType = "text/";
 
     TimeZone tz = TimeZone.getTimeZone("UTC");
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
@@ -58,8 +61,12 @@ public class Message {
     this.slug = toSlug(title);
   }
 
-  public void addImageSource(String src) {
-    imageSrc.add(src);
+  public void addMediaUrl(String url, String contentType) {
+    mediaUrls.add(new MediaUrl(url, contentType));
+  }
+
+  public void addMediaUrl(MediaUrl mediaUrl) {
+    mediaUrls.add(mediaUrl);
   }
 
   public String getTitle() {
@@ -76,6 +83,14 @@ public class Message {
 
   public void setText(String text) {
     this.text = text;
+  }
+
+  public String getContentType() {
+    return contentType;
+  }
+
+  public void setContentType(final String contentType) {
+    this.contentType = contentType;
   }
 
   public int getScore() {
@@ -102,12 +117,36 @@ public class Message {
     return user_id;
   }
 
-  public Boolean getHasImage() {
-    return hasImage;
+  public Boolean hasImage() {
+    return mediaUrls.stream().anyMatch(mu -> mu.contentType.startsWith("image/"));
   }
 
-  public void setHasImage(final Boolean hasImage) {
-    this.hasImage = hasImage;
+  public Boolean isImage() {
+    return contentType.startsWith("image/");
+  }
+
+  public Boolean hasVideo() {
+    return mediaUrls.stream().anyMatch(mu -> mu.contentType.startsWith("video/"));
+  }
+
+  public Boolean isVideo() {
+    return contentType.startsWith("video/");
+  }
+
+  public Boolean hasAudio() {
+    return mediaUrls.stream().anyMatch(mu -> mu.contentType.startsWith("audio/"));
+  }
+
+  public Boolean isAudio() {
+    return contentType.startsWith("audio/");
+  }
+
+  public Boolean hasMedia() {
+    return mediaUrls
+            .stream()
+            .anyMatch(mu -> mu.contentType.startsWith("audio/") ||
+            mu.contentType.startsWith("video/") ||
+            mu.contentType.startsWith("image/"));
   }
 
   public void setUser_id(String user_id) {
@@ -130,10 +169,14 @@ public class Message {
 
   private static String toSlug(String input) {
     String randomPart = new RandomString(6).nextString();
-    String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
-    String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
-    String slug = NONLATIN.matcher(normalized).replaceAll("");
-    return slug.toLowerCase(Locale.ENGLISH) + "-" + randomPart;
+    if(input.equals("")) {
+      return randomPart;
+    } else {
+      String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+      String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
+      String slug = NONLATIN.matcher(normalized).replaceAll("");
+      return slug.toLowerCase(Locale.ENGLISH) + "-" + randomPart;
+    }
   }
 
   @Override

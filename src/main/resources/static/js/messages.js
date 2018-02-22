@@ -17,6 +17,12 @@ $(function () {
   })
 });
 
+function setTabs() {
+
+
+
+}
+
 function setButtonStrip() {
   var urlParams = new URLSearchParams(window.location.search);
 
@@ -40,6 +46,27 @@ function setButtonStrip() {
   else {
     $('#btn_sort_by_score').removeClass('active');
     $('#btn_sort_by_date').addClass('active')
+  }
+
+  var tab = urlParams.get('tab');
+
+  $('#list_tab').removeClass('active')
+  $('#events_tab').removeClass('active')
+  $('#media_tab').removeClass('active')
+
+  $('#list_tab_content').hide();
+  $('#events_tab_content').hide();
+  $('#media_tab_content').hide();
+
+  if(tab === 'media') {
+    $('#media_tab').addClass('active');
+    $('#media_tab_content').show();
+  } else if(tab === 'events') {
+    $('#events_tab').addClass('active')
+    $('#events_tab_content').show();
+  } else {
+    $('#list_tab').addClass('active')
+    $('#list_tab_content').show();
   }
 
 }
@@ -101,8 +128,25 @@ $(function () {
   });
 
   $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-    var target = $(e.target).attr("href") // activated tab
-    alert(target);
+    var target = $(e.target).attr("data-tab") // activated tab
+    var urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('tab', target)
+    var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + urlParams.toString();
+    history.replaceState({ foo: "bar" }, "page 3", newUrl);
+
+
+    $('#list_tab_content').hide();
+    $('#events_tab_content').hide();
+    $('#media_tab_content').hide();
+
+    if(target === 'media') {
+      $('#media_tab_content').show();
+    } else if(target === 'events') {
+      $('#events_tab_content').show();
+    } else {
+      $('#list_tab_content').show();
+    }
+
   });
 
   $("#set_topic_modal_button").click(function () {

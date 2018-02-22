@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="event_list" >
+    <div th:attr="data-message-prototype='s'" th:each="event : ${events}">
+        <div th:replace="fragments/event_line :: event_line(${event})"></div>
+    </div>
+    <hr />
+    <p th:text="'Showing ' + ${limit} + ' messages of ' + ${total_messages} + ' | ' + ${total_pages} + ' pages'">Showing X messages of Y</p>
+</div>
+
+
+
+
+
+
+</body>
+</html>

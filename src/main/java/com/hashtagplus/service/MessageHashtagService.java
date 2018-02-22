@@ -5,17 +5,17 @@ import com.hashtagplus.model.form.MessageFormData;
 import com.hashtagplus.model.repo.AggDao;
 import com.hashtagplus.model.repo.MessageHashtagRepository;
 import com.hashtagplus.model.util.HTMLUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class MessageHashtagService {
@@ -40,22 +40,38 @@ public class MessageHashtagService {
 
     String messageText = messageFormData.getText();
 
-    List<String> urls = HTMLUtils.extractURLS(messageText);
+    HTMLUtils.TextComponents textComponents = HTMLUtils.processText(messageText);
 
-    // Add all found image sources
+    List<MediaUrl> urls = HTMLUtils.extractMediaURLS(textComponents.urls);
+    if(urls.size() > 0) {
+      message.setContentType(urls.get(0).getContentType());
+    }
+
+    // Add all found media sources
     urls.stream()
-            .filter(HTMLUtils::testImage)
-            .forEach(message::addImageSource);
-    message.setHasImage((message.imageSrc.size() > 0));
+            .filter(mu -> HTMLUtils.isMediaUrl(mu.getContentType()))
+            .forEach(message::addMediaUrl);
+
+    message.hasText = textComponents.hasText;
 
     List<Hashtag> hashtagList = new ArrayList<>();
-    String[] hashtags = new String[]{};
-    if (messageFormData.getHashtags() != null)
-      hashtags = messageFormData.getHashtags().split(",");
 
-    for (String hashtag : hashtags) {
+    List<String> hashtagsFromInput = new ArrayList<>();
+    if (messageFormData.getHashtags() != null) {
+      hashtagsFromInput = Arrays.asList(messageFormData.getHashtags().split(","));
+
+    }
+
+    List<String> combinedHashtags = Stream.concat(
+            hashtagsFromInput.stream(),
+            textComponents.hashtags.stream()).distinct().collect(Collectors.toList());
+
+    for (String hashtag : combinedHashtags) {
       if (!hashtag.equals(" ")) {
         hashtag = hashtag.trim();
+        if(hashtag.startsWith("#")) {
+          hashtag = hashtag.substring(1,hashtag.length()-1);
+        }
         Hashtag hashtagToSave = new Hashtag(hashtag.replace(" ", " "));
         hashtagToSave = hashtagService.saveHashtag(hashtagToSave);
         hashtagList.add(hashtagToSave);
@@ -99,7 +115,10 @@ public class MessageHashtagService {
   }
 
 
-  public List<Message> getMessagesWithTopicAndHashtags(String topic, String hashtagsText) {
+  public Page<MessageHashtag> getMessagesWithTopicAndHashtags(String topic, String hashtagsText, HtplUser user, Sort sort, int pageNumber, int limit) {
+    Pageable request =
+            new PageRequest(pageNumber - 1, limit, sort);
+
     hashtagsText = hashtagsText.replace(" ", "");
 
     Hashtag topicHashtag = hashtagService.findHashtag(topic);
@@ -111,8 +130,7 @@ public class MessageHashtagService {
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
-    List<MessageHashtag> messageHashtags = messageHashtagRepository.getMessagesWithTopicAndHashtags(topicHashtag, hashtagList);
-    return messageHashtags.stream().map(MessageHashtag::getMessage).collect(Collectors.toList());
+    return messageHashtagRepository.getMessagesWithTopicAndHashtags(topicHashtag, hashtagList, request);
   }
 
 }

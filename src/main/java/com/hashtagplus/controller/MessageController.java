@@ -8,8 +8,7 @@ import com.hashtagplus.service.MessageService;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -87,7 +86,7 @@ public class MessageController {
           @RequestParam(value = "sortby", defaultValue = "created_at") String sortby,
           @RequestParam(value = "order", defaultValue = "asc") String order,
           @RequestParam(value = "page", defaultValue = "1") int page,
-          @RequestParam(value = "limit", defaultValue = "3") int limit,
+          @RequestParam(value = "limit", defaultValue = "100") int limit,
           @RequestParam(value = "hashtag", defaultValue = "") String hashtags) {
 
     HtplUser htplUser = (HtplUser) user;
@@ -95,7 +94,12 @@ public class MessageController {
 
     List<Message> messages = result.messages;
     List<Message> withMedia = messages.stream()
-            .filter(m -> m.hasImage)
+            .filter(Message::hasMedia)
+            .collect(Collectors.toList());
+
+    List<Message> events = messageHashtags.getContent().stream()
+            .filter(mh -> mh.getHashtag().getText().equalsIgnoreCase("event"))
+            .map(MessageHashtag::getMessage)
             .collect(Collectors.toList());
 
     ModelAndView mav = new ModelAndView("messages");
@@ -124,16 +128,32 @@ public class MessageController {
           @RequestParam(value = "hashtag", defaultValue = "") String hashtags) {
 
     HtplUser htplUser = (HtplUser) user;
-    List<Message> messages = this.messageHashtagService.getMessagesWithTopicAndHashtags(topic, hashtags);
+    Sort sort = new Sort(
+            order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
+
+    Page<MessageHashtag> messageHashtags = this.messageHashtagService.getMessagesWithTopicAndHashtags(topic, hashtags, htplUser, sort, page, limit);
+
+    List<Message> messages = messageHashtags.getContent()
+            .stream().map(MessageHashtag::getMessage)
+            .distinct()
+            .collect(Collectors.toList());
 
     List<Message> withMedia = messages.stream()
-            .filter(m -> m.hasImage)
+            .filter(Message::hasMedia)
+            .collect(Collectors.toList());
+
+    List<Message> events = messageHashtags.getContent().stream()
+            .filter(mh -> mh.getHashtag().getText().equalsIgnoreCase("event"))
+            .map(MessageHashtag::getMessage)
             .collect(Collectors.toList());
 
     ModelAndView mav = new ModelAndView("messages");
     mav.addObject("messageFormData", new MessageFormData());
+    mav.addObject("events", events);
     mav.addObject("messages", messages);
-
+    mav.addObject("limit", (limit >= messageHashtags.getTotalElements()) ? messageHashtags.getTotalElements() : limit);
+    mav.addObject("total_messages", messageHashtags.getTotalElements());
+    mav.addObject("total_pages", messageHashtags.getTotalPages());
     mav.addObject("withmedia", withMedia);
     mav.addObject("user", null);
     return mav;
@@ -153,6 +173,13 @@ public class MessageController {
       result.totalNumberOfPages = messageHashtags.getTotalPages();
     } else {
       messages = this.messageService.getAllMessages(htplUser, sort, page, limit);
+
+      Pageable pageable =
+              new PageRequest(page - 1, limit, sort);
+      int start = pageable.getOffset();
+      int end = (start + pageable.getPageSize()) > messages.size() ? messages.size() : (start + pageable.getPageSize());
+      return new PageImpl<>(messages.subList(start, end), pageable, messages.size());
+
       result.messages = messages.getContent();
       result.totalNumberOfMessages = messages.getTotalElements();
       result.totalNumberOfPages = messages.getTotalPages();

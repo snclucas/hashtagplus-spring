@@ -3,12 +3,18 @@ package com.hashtagplus.service;
 import com.hashtagplus.model.HtplUserDetails;
 import com.hashtagplus.model.repo.UserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Component
 public class UserService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserDetailsRepository userRepository;
@@ -34,8 +40,9 @@ public class UserService {
         return userRepository.findByToken(token);
     }
 
-    public HtplUserDetails save(HtplUserDetails customUserDetails) {
-        return this.userRepository.insert(customUserDetails);
+    public HtplUserDetails save(HtplUserDetails userDetails) {
+        userDetails.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+        return this.userRepository.insert(userDetails);
     }
 
 }

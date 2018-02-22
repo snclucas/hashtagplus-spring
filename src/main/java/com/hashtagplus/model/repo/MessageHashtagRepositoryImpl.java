@@ -3,6 +3,9 @@ package com.hashtagplus.model.repo;
 
 import com.hashtagplus.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
@@ -52,7 +55,7 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
             .count().as("count");
   }
 
-  public List<MessageHashtag> getMessagesWithTopicAndHashtags(Hashtag topicHashtag, List<Hashtag> hashtags) {
+  public Page<MessageHashtag> getMessagesWithTopicAndHashtags(Hashtag topicHashtag, List<Hashtag> hashtags, Pageable pageable) {
     List<Criteria> orCriterias = new ArrayList<>(hashtags.size());
     Criteria topicCriteria = Criteria.where("hashtag.id").is(topicHashtag.id);
 
@@ -66,13 +69,17 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
       orCriteria = new Criteria();
     }
 
-    Query topicQuery = new Query().addCriteria(topicCriteria);
+    Query topicQuery = new Query().addCriteria(topicCriteria).with(pageable);
     List<MessageHashtag> withTopic = mongoTemplate.find(topicQuery, MessageHashtag.class);
 
     Query hashtagQuery = new Query().addCriteria(orCriteria);
     List<MessageHashtag> withHashtags = mongoTemplate.find(hashtagQuery, MessageHashtag.class);
 
-    return withTopic.stream().filter(withHashtags::contains).collect(Collectors.toList());
+    List<MessageHashtag> combined = withTopic.stream().filter(withHashtags::contains).collect(Collectors.toList());
+
+    int start = pageable.getOffset();
+    int end = (start + pageable.getPageSize()) > combined.size() ? combined.size() : (start + pageable.getPageSize());
+    return new PageImpl<>(combined.subList(start, end), pageable, combined.size());
   }
 
 }

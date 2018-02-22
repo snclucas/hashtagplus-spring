@@ -1,12 +1,13 @@
 package com.hashtagplus.model.util;
 
-import javax.imageio.*;
-import java.awt.image.*;
+import com.hashtagplus.model.MediaUrl;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class HTMLUtils {
 
@@ -23,22 +24,20 @@ public class HTMLUtils {
     return images;
   }
 
-
-  public static List<String> extractURLS(String text) {
-    List<String> urls = new ArrayList<>();
-    StringTokenizer tokenizer = new StringTokenizer(text, " ");
-
-    while(tokenizer.hasMoreTokens()) {
-      String next = tokenizer.nextToken();
-      if(next.startsWith("http") ||
-              next.startsWith("https")) {
-        urls.add(next);
-      }
-    }
-    return urls;
+  public static List<MediaUrl> extractMediaURLS(List<String> urls) {
+    return urls.stream()
+            .map(s -> new MediaUrl(s, HTMLUtils.getContentType(s)))
+            .filter(mu -> HTMLUtils.isMediaUrl(mu.getContentType()))
+            .collect(Collectors.toList());
   }
 
-  public static Boolean testImage(String urlString) {
+  public static Boolean isMediaUrl(String contentType) {
+    return contentType.startsWith("image/") ||
+            contentType.startsWith("audio/") ||
+            contentType.startsWith("video/");
+  }
+
+  private static String getContentType(String urlString) {
     HttpURLConnection urlConnection;
     try {
       urlConnection = (HttpURLConnection) new URL(urlString).openConnection();
@@ -51,17 +50,12 @@ public class HTMLUtils {
         urlConnection = (HttpURLConnection) new URL(urlString).openConnection();
         System.out.println("Redirect to URL : " + urlString);
       }
-      String contentType = urlConnection.getHeaderField("Content-Type");
-      if (contentType.startsWith("image/")) {
-        return true;
-      }
+      return urlConnection.getHeaderField("Content-Type");
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return false;
+    return "";
   }
-
-
 
   public static boolean exists(String URLName){
     try {
@@ -76,6 +70,44 @@ public class HTMLUtils {
     catch (Exception e) {
       e.printStackTrace();
       return false;
+    }
+  }
+
+
+  public static TextComponents processText(String text) {
+    List<String> urls = new ArrayList<>();
+    List<String> hashtags = new ArrayList<>();
+    List<String> mentions = new ArrayList<>();
+    StringTokenizer tokenizer = new StringTokenizer(text, " ");
+
+    int numTokens = tokenizer.countTokens();
+
+    while(tokenizer.hasMoreTokens()) {
+      String next = tokenizer.nextToken();
+      if(next.startsWith("http") ||
+              next.startsWith("https")) {
+        urls.add(next);
+      } else if(next.startsWith("#")) {
+        hashtags.add(next.substring(1,next.length()-1));
+      } else if(next.startsWith("@")) {
+        mentions.add(next.substring(1,next.length()-1));
+      }
+    }
+    boolean hasText = numTokens != (urls.size() + hashtags.size() + mentions.size());
+    return new TextComponents(urls, hashtags, mentions, hasText);
+  }
+
+  public static class TextComponents {
+    public boolean hasText = false;
+    public List<String> urls = new ArrayList<>();
+    public List<String> hashtags = new ArrayList<>();
+    public List<String> mentions = new ArrayList<>();
+
+    TextComponents(final List<String> urls, final List<String> hashtags, final List<String> mentions, boolean hasText) {
+      this.urls = urls;
+      this.hashtags = hashtags;
+      this.mentions = mentions;
+      this.hasText = hasText;
     }
   }
 

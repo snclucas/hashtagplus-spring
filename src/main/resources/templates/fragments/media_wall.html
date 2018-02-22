@@ -6,7 +6,7 @@
 <body>
 <div th:fragment="media_wall(media)" >
     <div class="grid-item">
-        <img th:src="${media.imageSrc[0]}" />
+        <img th:src="${media.mediaUrls[0].getUrl()}" />
     </div>
 </div>
 </body>

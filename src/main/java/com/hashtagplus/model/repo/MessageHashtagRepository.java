@@ -35,7 +35,7 @@ public interface MessageHashtagRepository extends MongoRepository<MessageHashtag
  // @Query(value="{ 'hashtag.$id' : ?0 }")
   List<MessageHashtag> findByHashtagIn(@Param("ids") List<String> hashtags);
 
-
+  //@Query(value="{'hashtags' : ?0, 'user_id' : ?1}")
   Page<MessageHashtag> findMessageHashtagsByHashtagIdIn(List<Hashtag> hashtags, Pageable pageable);
 
 
