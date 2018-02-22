@@ -91,9 +91,9 @@ public class MessageController {
           @RequestParam(value = "hashtag", defaultValue = "") String hashtags) {
 
     HtplUser htplUser = (HtplUser) user;
-    List<Message> messages = getMessages(htplUser, sortby, order, page, limit, hashtags);
+    Result result = getMessages(htplUser, sortby, order, page, limit, hashtags);
 
-
+    List<Message> messages = result.messages;
     List<Message> withMedia = messages.stream()
             .filter(m -> m.hasImage)
             .collect(Collectors.toList());
@@ -101,6 +101,13 @@ public class MessageController {
     ModelAndView mav = new ModelAndView("messages");
     mav.addObject("messageFormData", new MessageFormData());
     mav.addObject("messages", messages);
+    mav.addObject("limit", (limit >= result.totalNumberOfMessages) ? result.totalNumberOfMessages : limit);
+    mav.addObject("total_messages", result.totalNumberOfMessages);
+    mav.addObject("total_pages", result.totalNumberOfPages);
+
+    mav.addObject("from", page);
+    mav.addObject("to", limit);
+
     mav.addObject("withmedia", withMedia);
     mav.addObject("user", null);
     return mav;
@@ -126,24 +133,31 @@ public class MessageController {
     ModelAndView mav = new ModelAndView("messages");
     mav.addObject("messageFormData", new MessageFormData());
     mav.addObject("messages", messages);
+
     mav.addObject("withmedia", withMedia);
     mav.addObject("user", null);
     return mav;
   }
 
 
-  private Page<Message> getMessages(HtplUser htplUser, String sortby, String order, int page, int limit, String hashtags) {
+  private Result getMessages(HtplUser htplUser, String sortby, String order, int page, int limit, String hashtags) {
     Sort sort = new Sort(
             order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
-
+    Result result = new Result();
     Page<Message> messages;
     if (!hashtags.equals("")) {
       Page<MessageHashtag> messageHashtags = this.messageHashtagService.getMessagesWithHashtag(hashtags, htplUser, sort, page, limit);
       List<Message> mes = messageHashtags.getContent().stream().map(MessageHashtag::getMessage).distinct().collect(Collectors.toList());
+      result.messages = mes;
+      result.totalNumberOfMessages = messageHashtags.getTotalElements();
+      result.totalNumberOfPages = messageHashtags.getTotalPages();
     } else {
       messages = this.messageService.getAllMessages(htplUser, sort, page, limit);
+      result.messages = messages.getContent();
+      result.totalNumberOfMessages = messages.getTotalElements();
+      result.totalNumberOfPages = messages.getTotalPages();
     }
-    return messages;
+    return result;
   }
 
   @Secured({"ROLE_USER"})
@@ -156,6 +170,15 @@ public class MessageController {
     return "messages";
   }
 
+
+  static class Result {
+    List<Message> messages;
+    long totalNumberOfMessages;
+    int totalNumberOfPages;
+
+    Result() {}
+
+  }
 
 
 }

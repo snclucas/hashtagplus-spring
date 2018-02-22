@@ -9,7 +9,11 @@
     <div th:attr="data-message-prototype='s'" th:each="message : ${messages}">
         <div th:replace="fragments/message_line :: message_line(${message})"></div>
     </div>
+    <hr />
+    <p th:text="'Showing ' + ${limit} + ' messages of ' + ${total_messages} + ' | ' + ${total_pages} + ' pages'">Showing X messages of Y</p>
 </div>
+
+
 
 
 

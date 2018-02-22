@@ -15,7 +15,9 @@
             <div class="score likes" title="7">7</div>
             <div class="arrow down" data-event-action="downvote" role="button" aria-label="downvote" tabindex="0"></div>
         </div>
-        <a class="thumbnail" data-event-action="thumbnail" href="https://youtu.be/6FGDHTAzZss" data-href-url="https://youtu.be/6FGDHTAzZss">
+
+
+        <a class="thumbnail" data-event-action="thumbnail" th:href="@{|'http://'|(${message.score})}" >
 
             <div th:switch="${message.hasImage}">
                 <p th:case="true">
