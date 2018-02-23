@@ -6,6 +6,7 @@ import com.hashtagplus.model.Message;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.security.core.userdetails.User;
 
 public interface MessageRepository extends MongoRepository<Message, String> {
 
@@ -17,8 +18,11 @@ public interface MessageRepository extends MongoRepository<Message, String> {
   @Query(value = "{slug: ?0}")
   Message findOneBySlug(String slug);
 
-  @Query(value = "{user_id: ?0}")
-  Page<Message> findAll(String user_id, Pageable pageable);
+  @Query(value = "{username: ?0}")
+  Page<Message> findMessagesByUsername(String username, Pageable pageable);
+
+  //@Query(value = "{'username': ?0, 'privacy': ?1}")
+  Page<Message> findMessagesByUsernameOrPrivacy(String username, String privacy, Pageable pageable);
 
   @Query(value = "{user_id: ?0, hashtags: ?1}")
   List<Message> findByUserIdAndHashtags(String user_id, String hashtag);

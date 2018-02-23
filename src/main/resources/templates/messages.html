@@ -21,7 +21,6 @@
 
     <link href="/css/buttons.css" rel="stylesheet" media="all"/>
     <link href="/css/reddit.css" rel="stylesheet" media="all"/>
-    <link href="/css/image_wall.css" rel="stylesheet" media="all"/>
     <link href="/css/hashtaglist.css" rel="stylesheet" media="all"/>
 
 
@@ -32,6 +31,13 @@
     <![endif]-->
 
     <script src="/js/modernizr.js"></script>
+
+    <!-- Final Tiles Grid Gallery CSS -->
+    <link rel="stylesheet" href="/css/finaltilesgallery/finaltilesgallery.css"/>
+    <link rel="stylesheet" href="/css/finaltilesgallery/lightbox2.css"/>
+
+    <link rel="stylesheet" href="/css/bootstrap-slider.min.css"/>
+
 </head>
 
 <body>
@@ -41,14 +47,17 @@
 
 <div class="container">
     <div class="row PageHead">
-        <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Add message <span class="glyphicon glyphicon-plus"></span></a>
-        <a class="btn btn-info text-uppercase" href="#" id="setTopic" data-toggle="modal" data-target="#setTopicModal">Set topic <span class="glyphicon glyphicon-asterix"></span></a>
-        <button id="clear_topic" class="btn btn-default">Clear topic</button>
-        <button id="clear_hashtags" class="btn btn-default">Clear hashtags</button>
-        <button id="btn_sort_by_date" class="btn btn-default"><span class="glyphicon glyphicon-calendar"></span></button>
-        <button id="btn_sort_by_score" class="btn btn-default"><span class="glyphicon glyphicon-star"></span></button>
-        <button id="btn_order_asc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes"></span></button>
-        <button id="btn_order_desc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span></button>
+        <div class="col-lg-12">
+            <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Add message <span class="glyphicon glyphicon-plus"></span></a>
+            <a class="btn btn-info text-uppercase" href="#" id="setTopic" data-toggle="modal" data-target="#setTopicModal">Set topic <span class="glyphicon glyphicon-asterix"></span></a>
+            <button id="clear_topic" class="btn btn-default">Clear topic</button>
+            <button id="clear_hashtags" class="btn btn-default">Clear hashtags</button>
+            <button id="btn_sort_by_date" class="btn btn-default"><span class="glyphicon glyphicon-calendar"></span></button>
+            <button id="btn_sort_by_score" class="btn btn-default"><span class="glyphicon glyphicon-star"></span></button>
+            <button id="btn_order_asc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes"></span></button>
+            <button id="btn_order_desc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span></button>
+            <input id="ex13" type="text" data-slider-ticks="[0, 100, 200, 300, 400]" data-slider-ticks-snap-bounds="30" data-slider-ticks-labels='["$0", "$100", "$200", "$300", "$400"]'/>
+        </div>
     </div>
     <div class="row">
 
@@ -73,11 +82,26 @@
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 
+<script src="/js/bootstrap-slider.min.js"></script>
+
 <script src="/js/messages.js"></script>
 <script src="/js/hashtags.js"></script>
 
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 
-<script src="/js/image_wall.js"></script>
+
+<!-- Final Tiles Grid Gallery script -->
+<script src="/js/finaltilesgallery/jquery.finaltilesgallery.js"></script>
+
+<script>
+  $(function () {
+
+    //we call Final Tiles Grid Gallery without parameters,
+    //see reference for customisations: http://final-tiles-gallery.com/index.html#get-started
+    $(".final-tiles-gallery").finalTilesGallery({
+      layout: 'columns',
+      gridSize: 0
+    });
+  });
+</script>
 
 </html>

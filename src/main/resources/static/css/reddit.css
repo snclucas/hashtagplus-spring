@@ -74,7 +74,7 @@ a.author { margin-right: 0.5em; }
 .flairselector .title { font-size: x-small !important; }
 .thing .source-url { font-size: smaller; margin-right: 0.4em; }
 .thing .title { outline: none; margin-right: 0.4em; padding: 0px; overflow: hidden; unicode-bidi: isolate; }
-.thing .title { color: rgb(0, 0, 255); }
+.thing .title { color: #0B1ED7; }
 .thing .title:visited { color: rgb(85, 26, 139); }
 .thing .source-url { color: rgb(0, 121, 211); }
 .thing .source-url:visited { color: rgb(85, 26, 139); }
@@ -104,7 +104,12 @@ body.compressed-display .organic-listing .link { padding-top: 7px; padding-botto
 .thing .stub { display: none; }
 .link { margin: 0px 0px 8px; padding-left: 3px; }
 .link .score { text-align: center; color: rgb(198, 198, 198); }
-.link .title { font-size: medium; font-weight: normal; margin-bottom: 1px; }
+.link .title {
+    font-size: medium;
+    font-weight: normal;
+    margin-bottom: 1px;
+    text-decoration: none;
+}
 .link .child h3 { margin: 15px; text-transform: none; font-size: medium; }
 .rank { overflow: hidden; }
 .profile-page .link .rank, .single-page .link .rank { display: none; }

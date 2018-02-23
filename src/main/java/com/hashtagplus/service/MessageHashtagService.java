@@ -26,14 +26,14 @@ public class MessageHashtagService {
   private HashtagService hashtagService;
 
   public MessageHashtag saveMessageHashtag(Message message, Hashtag hashtag, HtplUser user) {
-    MessageHashtag mh = new MessageHashtag(message, hashtag, user.getId());
+    MessageHashtag mh = new MessageHashtag(message, hashtag, user.getUsername());
     return messageHashtagRepository.save(mh);
   }
 
 
   public Message saveMessageWithHashtags(MessageFormData messageFormData, HtplUser user) {
-    Message message = new Message(messageFormData.getTitle(), messageFormData.getText(), user.getId());
-
+    // XXX Message message = new Message(messageFormData.getTitle(), messageFormData.getText(), user.getUsername());
+    Message message = new Message(messageFormData.getTitle(), messageFormData.getText(), user.getUsername());
     String messageText = messageFormData.getText();
 
     HTMLUtils.TextComponents textComponents = HTMLUtils.processText(messageText);
@@ -52,11 +52,26 @@ public class MessageHashtagService {
 
     List<Hashtag> hashtagList = new ArrayList<>();
 
+    String topic = messageFormData.getTopic();
+
+    List<String> hashtags = textComponents.hashtags;
+
+    if(!topic.equals("")) {
+      hashtags.add(topic);
+    }
+
+    boolean msgPrivate = hashtags.stream()
+            .anyMatch(h -> h.equalsIgnoreCase("private"));
+
+    if(msgPrivate) {
+      message.setPrivacy("private");
+    }
+
     for (String hashtag : textComponents.hashtags) {
       if (!hashtag.equals(" ")) {
         hashtag = hashtag.trim();
         if(hashtag.startsWith("#")) {
-          hashtag = hashtag.substring(1,hashtag.length()-1);
+          hashtag = hashtag.substring(1,hashtag.length());
         }
         Hashtag hashtagToSave = new Hashtag(hashtag.replace(" ", " "));
         hashtagToSave = hashtagService.saveHashtag(hashtagToSave);
@@ -69,16 +84,29 @@ public class MessageHashtagService {
   }
 
   public Page<MessageHashtag> getMessagesWithHashtag(String hashtagsText, HtplUser user, Sort sort, int pageNumber, int limit) {
-    Pageable request =
+    Pageable pageable =
             new PageRequest(pageNumber - 1, limit, sort);
    // hashtagsText = hashtagsText.replace(" ", "");
     List<String> hashTagsTextList = Arrays.asList(hashtagsText.split(","));
 
     List<Hashtag> hashtagList = hashTagsTextList.stream()
             .map(ht -> hashtagService.findHashtag(ht))
+            .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
-    return messageHashtagRepository.findMessageHashtagsByHashtagIdIn(hashtagList, request);
+   // Page<MessageHashtag> dd = messageHashtagRepository.findMessageHashtagsByHashtagIdIn(hashtagList, pageable);
+
+    Page<MessageHashtag> dd = messageHashtagRepository.simon(hashtagList, user, pageable);
+    return dd;
+
+//    List<MessageHashtag> ddd = dd.getContent()
+//            .stream()
+//            //.filter(mh -> mh.getUser_id().equals(user.getId()))
+//            .collect(Collectors.toList());
+//
+//    int start = pageable.getOffset();
+//    int end = (start + pageable.getPageSize()) > ddd.size() ? ddd.size() : (start + pageable.getPageSize());
+//    return new PageImpl<>(ddd.subList(start, end), pageable, ddd.size());
   }
 
   public List<MessageHashtag> getMessagesWithHashtags(List<String> hashtags) {

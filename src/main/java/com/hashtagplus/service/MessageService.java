@@ -20,19 +20,16 @@ public class MessageService {
     @Value("${name:World}")
     private String name;
 
-    public String getHelloMessage() {
-        return "Hello " + this.name;
-    }
 
     public Page<MessageHashtag> getAllMessages(HtplUser user, Sort sort, int pageNumber, int limit) {
         Pageable request =
                 new PageRequest(pageNumber - 1, limit, sort);
 
-      Page<Message> messages = messageRepository.findAll(user.getId(), request);
+      Page<Message> messages = messageRepository.findMessagesByUsernameOrPrivacy(user.getUsername(), "public", request);
 
       List<MessageHashtag> messageHashtags =
               messages.getContent().stream()
-                      .map(m -> new MessageHashtag(m, new Hashtag(), user.getId())).collect(Collectors.toList());
+                      .map(m -> new MessageHashtag(m, new Hashtag(), user.getUsername())).collect(Collectors.toList());
 
       Pageable pageable = new PageRequest(pageNumber - 1, limit, sort);
       int start = pageable.getOffset();

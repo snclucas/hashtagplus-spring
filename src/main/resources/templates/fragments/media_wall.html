@@ -5,8 +5,10 @@
 </head>
 <body>
 <div th:fragment="media_wall(media)" >
-    <div class="grid-item">
-        <img th:src="${media.mediaUrls[0].getUrl()}" />
+    <div class="tile" data-ftg-ignore-size-factor="0">
+        <a class="tile-inner" href="#" data-lightbox="gallery"  data-title="Lorem ipsum" th:attr="href=${media.mediaUrls[0].getUrl()}" >
+            <img class="item" width="250" th:src="${media.mediaUrls[0].getUrl()}" th:attr="data-src=${media.mediaUrls[0].getUrl()}"/>
+        </a>
     </div>
 </div>
 </body>

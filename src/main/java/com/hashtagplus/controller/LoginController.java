@@ -12,4 +12,9 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping("/logout")
+    String logout(){
+        return "index";
+    }
+
 }

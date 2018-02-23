@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.userdetails.User;
 
 import java.text.DateFormat;
 import java.text.Normalizer;
@@ -23,11 +24,13 @@ public class Message {
   public String created_at;
   public String slug;
 
+  public String privacy;
+
   public Boolean hasText;
 
   public String contentType;
 
-  public String user_id;
+  public String username;
 
   public int score;
 
@@ -43,15 +46,17 @@ public class Message {
     this.id = new ObjectId().toString();
   }
 
-  public Message(String title, String text, String user_id) {
+  public Message(String title, String text, String username) {
     this();
     this.title = title;
     this.text = text;
-    this.user_id = user_id;
+    this.username = username;
     this.hasText = true;
 
     this.score = 1;
     this.contentType = "text/";
+
+    this.privacy = "public";
 
     TimeZone tz = TimeZone.getTimeZone("UTC");
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
@@ -113,8 +118,16 @@ public class Message {
     this.slug = toSlug(text);
   }
 
-  public String getUser_id() {
-    return user_id;
+  public String getPrivacy() {
+    return privacy;
+  }
+
+  public void setPrivacy(final String privacy) {
+    this.privacy = privacy;
+  }
+
+  public String getUser() {
+    return username;
   }
 
   public Boolean hasImage() {
@@ -149,8 +162,8 @@ public class Message {
             mu.contentType.startsWith("image/"));
   }
 
-  public void setUser_id(String user_id) {
-    this.user_id = user_id;
+  public void setUser(String username) {
+    this.username = username;
   }
 
   public void setCreatedOnNow() {

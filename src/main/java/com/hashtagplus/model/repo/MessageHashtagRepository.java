@@ -1,6 +1,7 @@
 package com.hashtagplus.model.repo;
 
 import com.hashtagplus.model.Hashtag;
+import com.hashtagplus.model.HtplUser;
 import com.hashtagplus.model.Message;
 import com.hashtagplus.model.MessageHashtag;
 import org.bson.types.ObjectId;
@@ -35,8 +36,9 @@ public interface MessageHashtagRepository extends MongoRepository<MessageHashtag
  // @Query(value="{ 'hashtag.$id' : ?0 }")
   List<MessageHashtag> findByHashtagIn(@Param("ids") List<String> hashtags);
 
-  //@Query(value="{'hashtags' : ?0, 'user_id' : ?1}")
-  Page<MessageHashtag> findMessageHashtagsByHashtagIdIn(List<Hashtag> hashtags, Pageable pageable);
+  //@Query(value="{'hashtags' : [?0], 'user_id' : ?1}")
+  //@Query(value="{'hashtags' : ?0")
+  //Page<MessageHashtag> findMessageHashtagsByHashtagIdIn(List<Hashtag> hashtags, Pageable pageable);
 
 
   @Override

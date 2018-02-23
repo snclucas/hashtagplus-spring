@@ -46,7 +46,7 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
 
   private MatchOperation getMatchOperation(HtplUser user) {
     String user_id = user.getId();
-    Criteria userCriteria = where("user_id").is(user_id);
+    Criteria userCriteria = where("username").is(user.getUsername());
     return match(userCriteria);
   }
 
@@ -80,6 +80,23 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
     int start = pageable.getOffset();
     int end = (start + pageable.getPageSize()) > combined.size() ? combined.size() : (start + pageable.getPageSize());
     return new PageImpl<>(combined.subList(start, end), pageable, combined.size());
+  }
+
+
+  public Page<MessageHashtag> simon(List<Hashtag> hashtags, HtplUser user, Pageable pageable) {
+    Criteria criteria = Criteria.where("hashtag.id").in(hashtags);
+    Query query = new Query().addCriteria(criteria).with(pageable);
+    List<MessageHashtag> withHashtags = mongoTemplate.find(query, MessageHashtag.class);
+
+    // message can be null if original message was deleted but the MEssageHashtag was not
+    List<MessageHashtag> filtered = withHashtags.stream()
+            .filter(mh -> mh.getMessage() != null &&
+                    (mh.getMessage().getPrivacy().equalsIgnoreCase("public") ||
+                            mh.getUsername().equals(user.getId())))
+            .collect(Collectors.toList());
+    int start = pageable.getOffset();
+    int end = (start + pageable.getPageSize()) > filtered.size() ? filtered.size() : (start + pageable.getPageSize());
+    return new PageImpl<>(filtered.subList(start, end), pageable, filtered.size());
   }
 
 }

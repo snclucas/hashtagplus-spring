@@ -16,12 +16,18 @@
                         <input type="text" id="title" th:field="*{title}" name="title" class="form-control" placeholder="Title (optional)"/>
                     </div>
                     <div class="form-group">
-                        <textarea type="text" id="text" th:field="*{text}" name="text" class="form-control" placeholder="Message text"></textarea>
+                        <textarea type="text" id="message_text" th:field="*{text}" name="text" class="form-control" placeholder="Message text"></textarea>
                     </div>
+                    <input
+                            type="hidden"
+                            th:name="topic"
+                            th:value="${topic}" />
                     <input
                             type="hidden"
                             th:name="${_csrf.parameterName}"
                             th:value="${_csrf.token}" />
+                    <p id="message_privacy">Message is public</p>
+                    <hr />
                     <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Save message</button>
                 </form>
             </div>

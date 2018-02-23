@@ -88,9 +88,9 @@ public class HTMLUtils {
               next.startsWith("https")) {
         urls.add(next);
       } else if(next.startsWith("#")) {
-        hashtags.add(next.substring(1,next.length()-1));
+        hashtags.add(next.substring(1,next.length()));
       } else if(next.startsWith("@")) {
-        mentions.add(next.substring(1,next.length()-1));
+        mentions.add(next.substring(1,next.length()));
       }
     }
     boolean hasText = numTokens != (urls.size() + hashtags.size() + mentions.size());

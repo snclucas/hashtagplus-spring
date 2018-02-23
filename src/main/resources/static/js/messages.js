@@ -10,18 +10,11 @@ $(function () {
       data: $("#add_message_form").serialize(),
       async: true,
       success: function (data) {
-        console.log("dddd");
         window.location.reload();
       }
     });
   })
 });
-
-function setTabs() {
-
-
-
-}
 
 function setButtonStrip() {
   var urlParams = new URLSearchParams(window.location.search);
@@ -146,6 +139,20 @@ $(function () {
     } else {
       $('#list_tab_content').show();
     }
+
+
+
+    $('#message_text').on('keypress', function (e) {
+      console.log($('#message_text').val())
+    });
+
+// With JQuery
+    $("#ex13").slider({
+      ticks: [0, 100, 200, 300, 400],
+      ticks_labels: ['$0', '$100', '$200', '$300', '$400'],
+      ticks_snap_bounds: 30
+    });
+
 
   });
 

@@ -35,35 +35,6 @@ public class MessageController {
   private MessageHashtagService messageHashtagService;
 
 
-  @GetMapping("/save")
-  @ResponseBody
-  public String save() {
-    List<Hashtag> hashtags = new ArrayList<>();
-
-    Hashtag h1 = new Hashtag("tree");
-    Hashtag h2 = new Hashtag("egg");
-
-    h1.id = new ObjectId().toString();
-    h2.id = new ObjectId().toString();
-
-    hashtags.add(h1);
-    hashtags.add(h2);
-
-    Message m = new Message("test2", "new message2", "0");
-    m.setHashtags(hashtags);
-    //  m.id = new ObjectId();
-
-    // h1.setMessage(m);
-    // h2.setMessage(m);
-
-    hashtagService.saveHashtag(h1);
-    hashtagService.saveHashtag(h2);
-
-    m = this.messageService.saveMessage(m);
-
-    return m.toString();
-  }
-
   @Secured({"ROLE_USER"})
   @RequestMapping(method = GET, value = {"/messages/m/{id}"})
   public ModelAndView message(
@@ -87,8 +58,12 @@ public class MessageController {
           @RequestParam(value = "limit", defaultValue = "100") int limit,
           @RequestParam(value = "hashtag", defaultValue = "") String hashtags) {
 
+    Sort sort = new Sort(
+            order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
     HtplUser htplUser = (HtplUser) user;
+
     Page<MessageHashtag> result = getMessages(htplUser, sortby, order, page, limit, hashtags);
+
 
     List<Message> messages = result.getContent().stream()
             .map(MessageHashtag::getMessage)
@@ -98,11 +73,8 @@ public class MessageController {
             .filter(Message::hasMedia)
             .collect(Collectors.toList());
 
-    Sort sort = new Sort(
-            order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
     Page<MessageHashtag> eventsMH = this.messageHashtagService.getMessagesWithHashtag("event", htplUser, sort, page, limit);
 
-    //This will not work
     List<Message> events = eventsMH.getContent().stream()
             .map(MessageHashtag::getMessage)
             .collect(Collectors.toList());
@@ -115,11 +87,12 @@ public class MessageController {
     mav.addObject("limit", (limit >= result.getTotalElements()) ? result.getTotalElements() : limit);
     mav.addObject("total_messages", result.getTotalElements());
     mav.addObject("total_pages", result.getTotalPages());
-
+    mav.addObject("current_user", htplUser.getUsername());
     mav.addObject("from", page);
     mav.addObject("to", limit);
 
     mav.addObject("withmedia", withMedia);
+    mav.addObject("topic", "");
     mav.addObject("user", null);
     return mav;
   }
@@ -162,10 +135,10 @@ public class MessageController {
     mav.addObject("total_messages", messageHashtags.getTotalElements());
     mav.addObject("total_pages", messageHashtags.getTotalPages());
     mav.addObject("withmedia", withMedia);
+    mav.addObject("topic", topic);
     mav.addObject("user", null);
     return mav;
   }
-
 
   private Page<MessageHashtag> getMessages(HtplUser htplUser, String sortby, String order, int page, int limit, String hashtags) {
     Sort sort = new Sort(

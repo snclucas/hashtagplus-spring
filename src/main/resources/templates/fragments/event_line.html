@@ -17,19 +17,19 @@
         </div>
 
 
-        <a class="thumbnail" data-event-action="thumbnail" th:href="@{|'http://'|(${event.score})}" >
-
-            <div th:switch="${event.hasImage()}">
-                <p th:case="true">
+        <div th:switch="${event.hasImage()}">
+            <p th:case="true">
+                <a class="thumbnail" data-event-action="thumbnail" th:attr="href=${event.mediaUrls[0].getUrl()}" >
                     <img th:src="${event.mediaUrls[0].getUrl()}" width="70" height="52" alt=""/>
-                </p>
-                <p th:case="false">
+                </a>
+            </p>
+            <p th:case="false">
+                <a class="thumbnail" data-event-action="thumbnail" th:attr="href=@{/message}" >
                     <img src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" width="70" height="52" alt=""/>
-                </p>
-            </div>
+                </a>
+            </p>
+        </div>
 
-
-        </a>
         <div class="entry unvoted">
             <div class="top-matter">
                 <p class="title">

@@ -14,4 +14,6 @@ public interface  MessageHashtagRepositoryCustom {
     List<AggDao> aggregate(HtplUser user);
 
     Page<MessageHashtag> getMessagesWithTopicAndHashtags(Hashtag topicHashtag, List<Hashtag> hashtags, Pageable pageable);
+
+    Page<MessageHashtag> simon(List<Hashtag> hashtags, HtplUser user, Pageable pageable);
 }
