@@ -10,15 +10,13 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -90,24 +88,33 @@ public class MessageController {
           @RequestParam(value = "hashtag", defaultValue = "") String hashtags) {
 
     HtplUser htplUser = (HtplUser) user;
-    Result result = getMessages(htplUser, sortby, order, page, limit, hashtags);
+    Page<MessageHashtag> result = getMessages(htplUser, sortby, order, page, limit, hashtags);
 
-    List<Message> messages = result.messages;
+    List<Message> messages = result.getContent().stream()
+            .map(MessageHashtag::getMessage)
+            .collect(Collectors.toList());
+
     List<Message> withMedia = messages.stream()
             .filter(Message::hasMedia)
             .collect(Collectors.toList());
 
-    List<Message> events = messageHashtags.getContent().stream()
-            .filter(mh -> mh.getHashtag().getText().equalsIgnoreCase("event"))
+    Sort sort = new Sort(
+            order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
+    Page<MessageHashtag> eventsMH = this.messageHashtagService.getMessagesWithHashtag("event", htplUser, sort, page, limit);
+
+    //This will not work
+    List<Message> events = eventsMH.getContent().stream()
             .map(MessageHashtag::getMessage)
             .collect(Collectors.toList());
 
     ModelAndView mav = new ModelAndView("messages");
     mav.addObject("messageFormData", new MessageFormData());
     mav.addObject("messages", messages);
-    mav.addObject("limit", (limit >= result.totalNumberOfMessages) ? result.totalNumberOfMessages : limit);
-    mav.addObject("total_messages", result.totalNumberOfMessages);
-    mav.addObject("total_pages", result.totalNumberOfPages);
+    mav.addObject("withMedia", withMedia);
+    mav.addObject("events", events);
+    mav.addObject("limit", (limit >= result.getTotalElements()) ? result.getTotalElements() : limit);
+    mav.addObject("total_messages", result.getTotalElements());
+    mav.addObject("total_pages", result.getTotalPages());
 
     mav.addObject("from", page);
     mav.addObject("to", limit);
@@ -160,31 +167,14 @@ public class MessageController {
   }
 
 
-  private Result getMessages(HtplUser htplUser, String sortby, String order, int page, int limit, String hashtags) {
+  private Page<MessageHashtag> getMessages(HtplUser htplUser, String sortby, String order, int page, int limit, String hashtags) {
     Sort sort = new Sort(
             order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
-    Result result = new Result();
-    Page<Message> messages;
     if (!hashtags.equals("")) {
-      Page<MessageHashtag> messageHashtags = this.messageHashtagService.getMessagesWithHashtag(hashtags, htplUser, sort, page, limit);
-      List<Message> mes = messageHashtags.getContent().stream().map(MessageHashtag::getMessage).distinct().collect(Collectors.toList());
-      result.messages = mes;
-      result.totalNumberOfMessages = messageHashtags.getTotalElements();
-      result.totalNumberOfPages = messageHashtags.getTotalPages();
+      return this.messageHashtagService.getMessagesWithHashtag(hashtags, htplUser, sort, page, limit);
     } else {
-      messages = this.messageService.getAllMessages(htplUser, sort, page, limit);
-
-      Pageable pageable =
-              new PageRequest(page - 1, limit, sort);
-      int start = pageable.getOffset();
-      int end = (start + pageable.getPageSize()) > messages.size() ? messages.size() : (start + pageable.getPageSize());
-      return new PageImpl<>(messages.subList(start, end), pageable, messages.size());
-
-      result.messages = messages.getContent();
-      result.totalNumberOfMessages = messages.getTotalElements();
-      result.totalNumberOfPages = messages.getTotalPages();
+      return this.messageService.getAllMessages(htplUser, sort, page, limit);
     }
-    return result;
   }
 
   @Secured({"ROLE_USER"})
@@ -196,16 +186,5 @@ public class MessageController {
     //THIS DOESNT WORK, ALSO LOOK AT USERS
     return "messages";
   }
-
-
-  static class Result {
-    List<Message> messages;
-    long totalNumberOfMessages;
-    int totalNumberOfPages;
-
-    Result() {}
-
-  }
-
 
 }

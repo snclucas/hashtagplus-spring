@@ -1,8 +1,6 @@
 package com.hashtagplus.controller;
 
-import com.hashtagplus.model.HtplUser;
-import com.hashtagplus.model.HtplUserDetails;
-import com.hashtagplus.model.Message;
+import com.hashtagplus.model.*;
 import com.hashtagplus.model.repo.AggDao;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
@@ -54,7 +52,7 @@ public class WebsocketController {
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
-    public List<Message> greeting(@AuthenticationPrincipal Principal user,
+    public List<MessageHashtag> greeting(@AuthenticationPrincipal Principal user,
                                   String message) throws Exception {
         //Thread.sleep(1000); // simulated delay
 
@@ -64,7 +62,7 @@ public class WebsocketController {
                 order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
 
         HtplUser htplUser = new HtplUser(user.getName(), "", "", new ArrayList<GrantedAuthority>());
-        List<Message> messages = messageService.getAllMessages(htplUser, sort, 1, 100).getContent();
+        List<MessageHashtag> messages = messageService.getAllMessages(htplUser, sort, 1, 100).getContent();
 
 
 

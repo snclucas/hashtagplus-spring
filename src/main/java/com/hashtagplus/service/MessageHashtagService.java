@@ -6,16 +6,12 @@ import com.hashtagplus.model.repo.AggDao;
 import com.hashtagplus.model.repo.MessageHashtagRepository;
 import com.hashtagplus.model.util.HTMLUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class MessageHashtagService {
@@ -56,17 +52,7 @@ public class MessageHashtagService {
 
     List<Hashtag> hashtagList = new ArrayList<>();
 
-    List<String> hashtagsFromInput = new ArrayList<>();
-    if (messageFormData.getHashtags() != null) {
-      hashtagsFromInput = Arrays.asList(messageFormData.getHashtags().split(","));
-
-    }
-
-    List<String> combinedHashtags = Stream.concat(
-            hashtagsFromInput.stream(),
-            textComponents.hashtags.stream()).distinct().collect(Collectors.toList());
-
-    for (String hashtag : combinedHashtags) {
+    for (String hashtag : textComponents.hashtags) {
       if (!hashtag.equals(" ")) {
         hashtag = hashtag.trim();
         if(hashtag.startsWith("#")) {
@@ -92,10 +78,7 @@ public class MessageHashtagService {
             .map(ht -> hashtagService.findHashtag(ht))
             .collect(Collectors.toList());
 
-    Page<MessageHashtag> messageHashtags = messageHashtagRepository.findMessageHashtagsByHashtagIdIn(hashtagList, request);
-
-    return messageHashtags;
-    //return messageHashtags.stream().map(MessageHashtag::getMessage).distinct().collect(Collectors.toList());
+    return messageHashtagRepository.findMessageHashtagsByHashtagIdIn(hashtagList, request);
   }
 
   public List<MessageHashtag> getMessagesWithHashtags(List<String> hashtags) {
@@ -116,8 +99,7 @@ public class MessageHashtagService {
 
 
   public Page<MessageHashtag> getMessagesWithTopicAndHashtags(String topic, String hashtagsText, HtplUser user, Sort sort, int pageNumber, int limit) {
-    Pageable request =
-            new PageRequest(pageNumber - 1, limit, sort);
+    Pageable request = new PageRequest(pageNumber - 1, limit, sort);
 
     hashtagsText = hashtagsText.replace(" ", "");
 

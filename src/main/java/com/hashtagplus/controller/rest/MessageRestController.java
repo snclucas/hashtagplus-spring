@@ -51,7 +51,11 @@ public class MessageRestController {
     HtplUser user = (HtplUser) context.getAttribute("user_from_token");
     Sort sort = new Sort(
             order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
-    return this.messageService.getAllMessages(user, sort, page, limit).getContent();
+
+    List<MessageHashtag> messages = this.messageService.getAllMessages(user, sort, page, limit).getContent();
+    return messages.stream()
+            .map(MessageHashtag::getMessage)
+            .collect(Collectors.toList());
   }
 
 

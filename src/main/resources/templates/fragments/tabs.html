@@ -9,7 +9,7 @@
     <ul class="nav nav-tabs">
         <li id="list_tab"><a href="#list_tab_content" data-tab="list" data-toggle="tab" th:text="'List (' + ${#lists.size(messages)} + ')'" >List</a></li>
         <li id="media_tab"><a href="#media_tab_content" data-tab="media" data-toggle="tab" th:text="'Media wall (' + ${#lists.size(withmedia)} + ')'" >Media wall</a></li>
-        <li id="events_tab"><a href="#events_tab_content" data-tab="events" data-toggle="tab">Events</a></li>
+        <li id="events_tab"><a href="#events_tab_content" data-tab="events" data-toggle="tab" th:text="'Event (' + ${#lists.size(events)} + ')'" >Events</a></li>
     </ul>
 
     <div class="tab-content clearfix">
