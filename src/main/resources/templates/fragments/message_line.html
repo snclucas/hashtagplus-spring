@@ -48,10 +48,10 @@
                 </p>
                 <ul class="flat-list buttons">
                     <li class="first"><a href="https://www.reddit.com/r/videos/comments/7ynitq/me_and_a_few_friends_crashed_a_gucci_store_and/" class="bylink comments may-blank" rel="nofollow">31 comments</a></li>
-                    <li class="share"><a class="post-sharing-button" href="javascript: void 0;">share</a></li>
+                    <li class="share"><a class="post-sharing-button" th:href="@{'/m/' + ${message.id} + '/share'}">share</a></li>
                     <li class="link-save-button save-button login-required"><a href="https://www.reddit.com/controversial/#">save</a></li>
-                    <li class="share"><a href="" class="reportbtn access-required" data-event-action="report">report</a></li>
-                    <li class="share" th:if="${message.username} == ${current_user}" ><a href="" class="reportbtn access-required" data-event-action="report">delete</a></li>
+                    <li class="share"><a th:href="@{'/m/' + ${message.id} + '/report'}" class="reportbtn access-required" data-event-action="report">report</a></li>
+                    <li class="share" th:if="${message.username} == ${current_user}" ><a th:href="@{'/m/' + ${message.id} + '/delete'}" class="reportbtn access-required" data-event-action="report">delete</a></li>
                 </ul>
             </div>
         </div>
