@@ -52,7 +52,7 @@ public class MessageRestController {
     Sort sort = new Sort(
             order.equalsIgnoreCase("asc")?Sort.Direction.ASC:Sort.Direction.DESC, sortby);
 
-    List<MessageHashtag> messages = this.messageService.getAllMessages(user, sort, page, limit).getContent();
+    List<MessageHashtag> messages = this.messageService.getAllMessages(user, sort, page, limit, "public").getContent();
     return messages.stream()
             .map(MessageHashtag::getMessage)
             .collect(Collectors.toList());
@@ -103,7 +103,9 @@ public class MessageRestController {
 
 
   @RequestMapping(method=GET, value={"/api/messages/2"})
-  public List<Message> getMessagesWithHashtags(@RequestParam(value="hashtags", defaultValue="") String hashtags) {
+  public List<Message> getMessagesWithHashtags(
+          @RequestParam(value="hashtags", defaultValue="") String hashtags,
+          @RequestParam(value="privacy", defaultValue="public") String privacy) {
     String order = "asc";
     String sortby = "created_at";
     int limit = 100;
@@ -116,7 +118,7 @@ public class MessageRestController {
     String[] hashtagsArr = hashtags.split(",");
     HtplUser user = (HtplUser) context.getAttribute("user_from_token");
 
-    Page<MessageHashtag> messages = messageHashtagService.getMessagesWithHashtag(hashtagsArr[0], user, sort, pageNumber, limit);
+    Page<MessageHashtag> messages = messageHashtagService.getMessagesWithHashtag(hashtagsArr[0], user, sort, pageNumber, limit, privacy);
 
     List<MessageHashtag> messages2 = messageHashtagService.getMessagesWithHashtags(hashtagsList);
 

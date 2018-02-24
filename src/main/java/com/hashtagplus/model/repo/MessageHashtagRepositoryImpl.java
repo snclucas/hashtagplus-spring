@@ -83,7 +83,7 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
   }
 
 
-  public Page<MessageHashtag> simon(List<Hashtag> hashtags, HtplUser user, Pageable pageable) {
+  public Page<MessageHashtag> simon(List<Hashtag> hashtags, HtplUser user, Pageable pageable, String privacy) {
     Criteria criteria = Criteria.where("hashtag.id").in(hashtags);
     Query query = new Query().addCriteria(criteria).with(pageable);
     List<MessageHashtag> withHashtags = mongoTemplate.find(query, MessageHashtag.class);
@@ -91,7 +91,7 @@ public class MessageHashtagRepositoryImpl implements MessageHashtagRepositoryCus
     // message can be null if original message was deleted but the MEssageHashtag was not
     List<MessageHashtag> filtered = withHashtags.stream()
             .filter(mh -> mh.getMessage() != null &&
-                    (mh.getMessage().getPrivacy().equalsIgnoreCase("public") ||
+                    (mh.getMessage().getPrivacy().equalsIgnoreCase(privacy) ||
                             mh.getUsername().equals(user.getId())))
             .collect(Collectors.toList());
     int start = pageable.getOffset();

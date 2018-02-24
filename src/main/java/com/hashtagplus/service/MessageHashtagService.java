@@ -83,7 +83,8 @@ public class MessageHashtagService {
     return messageService.saveMessage(message);
   }
 
-  public Page<MessageHashtag> getMessagesWithHashtag(String hashtagsText, HtplUser user, Sort sort, int pageNumber, int limit) {
+  public Page<MessageHashtag> getMessagesWithHashtag(String hashtagsText, HtplUser user,
+                                                     Sort sort, int pageNumber, int limit, String privacy) {
     Pageable pageable =
             new PageRequest(pageNumber - 1, limit, sort);
    // hashtagsText = hashtagsText.replace(" ", "");
@@ -96,7 +97,7 @@ public class MessageHashtagService {
 
    // Page<MessageHashtag> dd = messageHashtagRepository.findMessageHashtagsByHashtagIdIn(hashtagList, pageable);
 
-    Page<MessageHashtag> dd = messageHashtagRepository.simon(hashtagList, user, pageable);
+    Page<MessageHashtag> dd = messageHashtagRepository.simon(hashtagList, user, pageable, privacy);
     return dd;
 
 //    List<MessageHashtag> ddd = dd.getContent()

@@ -62,7 +62,7 @@ public class WebsocketController {
                 order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
 
         HtplUser htplUser = new HtplUser(user.getName(), "", "", new ArrayList<GrantedAuthority>());
-        List<MessageHashtag> messages = messageService.getAllMessages(htplUser, sort, 1, 100).getContent();
+        List<MessageHashtag> messages = messageService.getAllMessages(htplUser, sort, 1, 100, "public").getContent();
 
 
 

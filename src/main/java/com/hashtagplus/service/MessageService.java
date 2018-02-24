@@ -21,11 +21,11 @@ public class MessageService {
     private String name;
 
 
-    public Page<MessageHashtag> getAllMessages(HtplUser user, Sort sort, int pageNumber, int limit) {
+    public Page<MessageHashtag> getAllMessages(HtplUser user, Sort sort, int pageNumber, int limit, String privacy) {
         Pageable request =
                 new PageRequest(pageNumber - 1, limit, sort);
 
-      Page<Message> messages = messageRepository.findMessagesByUsernameOrPrivacy(user.getUsername(), "public", request);
+      Page<Message> messages = messageRepository.findMessagesByUsernameOrPrivacy(user.getUsername(), privacy, request);
 
       List<MessageHashtag> messageHashtags =
               messages.getContent().stream()

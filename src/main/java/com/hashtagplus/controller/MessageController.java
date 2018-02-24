@@ -56,13 +56,14 @@ public class MessageController {
           @RequestParam(value = "order", defaultValue = "asc") String order,
           @RequestParam(value = "page", defaultValue = "1") int page,
           @RequestParam(value = "limit", defaultValue = "100") int limit,
+          @RequestParam(value = "privacy", defaultValue = "public") String privacy,
           @RequestParam(value = "hashtag", defaultValue = "") String hashtags) {
 
     Sort sort = new Sort(
             order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
     HtplUser htplUser = (HtplUser) user;
 
-    Page<MessageHashtag> result = getMessages(htplUser, sortby, order, page, limit, hashtags);
+    Page<MessageHashtag> result = getMessages(htplUser, sortby, order, page, limit, hashtags, privacy);
 
 
     List<Message> messages = result.getContent().stream()
@@ -73,7 +74,7 @@ public class MessageController {
             .filter(Message::hasMedia)
             .collect(Collectors.toList());
 
-    Page<MessageHashtag> eventsMH = this.messageHashtagService.getMessagesWithHashtag("event", htplUser, sort, page, limit);
+    Page<MessageHashtag> eventsMH = this.messageHashtagService.getMessagesWithHashtag("event", htplUser, sort, page, limit, privacy);
 
     List<Message> events = eventsMH.getContent().stream()
             .map(MessageHashtag::getMessage)
@@ -140,13 +141,14 @@ public class MessageController {
     return mav;
   }
 
-  private Page<MessageHashtag> getMessages(HtplUser htplUser, String sortby, String order, int page, int limit, String hashtags) {
+  private Page<MessageHashtag> getMessages(HtplUser htplUser, String sortby, String order,
+                                           int page, int limit, String hashtags, String privacy) {
     Sort sort = new Sort(
             order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
     if (!hashtags.equals("")) {
-      return this.messageHashtagService.getMessagesWithHashtag(hashtags, htplUser, sort, page, limit);
+      return this.messageHashtagService.getMessagesWithHashtag(hashtags, htplUser, sort, page, limit, privacy);
     } else {
-      return this.messageService.getAllMessages(htplUser, sort, page, limit);
+      return this.messageService.getAllMessages(htplUser, sort, page, limit, privacy);
     }
   }
 
