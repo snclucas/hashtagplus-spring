@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
 @Component
 public class MessageHashtagService {
@@ -54,20 +54,26 @@ public class MessageHashtagService {
 
     String topic = messageFormData.getTopic();
 
-    List<String> hashtags = textComponents.hashtags;
+    List<String> hashtagsFromText = textComponents.hashtags;
+    String hashtagsFromBodyString = messageFormData.getHashtags();
+    List<String> hashtagsFromBody = Arrays.asList( hashtagsFromBodyString.split(","));
 
-    if(!topic.equals("")) {
-      hashtags.add(topic);
+    List<String> combinedHashtags = Stream.concat(hashtagsFromText.stream(), hashtagsFromBody.stream())
+            .collect(Collectors.toList());
+
+    if(!topic.equals("") && combinedHashtags.stream()
+            .anyMatch(h -> !h.equalsIgnoreCase(topic))) {
+      combinedHashtags.add(topic);
     }
 
-    boolean msgPrivate = hashtags.stream()
+    boolean msgPrivate = combinedHashtags.stream()
             .anyMatch(h -> h.equalsIgnoreCase("private"));
 
     if(msgPrivate) {
       message.setPrivacy("private");
     }
 
-    for (String hashtag : textComponents.hashtags) {
+    for (String hashtag : combinedHashtags) {
       if (!hashtag.equals(" ")) {
         hashtag = hashtag.trim();
         if(hashtag.startsWith("#")) {

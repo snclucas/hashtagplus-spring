@@ -5,7 +5,9 @@ public class MessageFormData {
 
   public String title;
   public String text;
-  public String topic;
+  public String topic = "";
+
+  public String hashtags;
 
   public MessageFormData() {}
 
@@ -13,6 +15,7 @@ public class MessageFormData {
     this.title = title;
     this.text = text;
     this.topic = topic;
+    this.hashtags = hashtags;
   }
 
   public String getText() {
@@ -38,5 +41,13 @@ public class MessageFormData {
 
   public void setTopic(final String topic) {
     this.topic = topic;
+  }
+
+  public String getHashtags() {
+    return hashtags;
+  }
+
+  public void setHashtags(String hashtags) {
+    this.hashtags = hashtags;
   }
 }

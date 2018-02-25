@@ -14,7 +14,23 @@ $(function () {
       }
     });
   })
+
+
 });
+
+function deleteMessage(id) {
+  $.ajax({
+    type: 'POST',
+    url: '/api/messages/' + id + '/delete',
+    dataType: "json",
+    async: true,
+    success: function (data) {
+      window.location.reload();
+    }
+  });
+}
+
+
 
 function setButtonStrip() {
   var urlParams = new URLSearchParams(window.location.search);

@@ -46,4 +46,5 @@ public interface MessageHashtagRepository extends MongoRepository<MessageHashtag
   void deleteAll();
 
   void deleteMessageHashtagsByMessage(Message message);
+
 }

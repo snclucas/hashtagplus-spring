@@ -31,4 +31,9 @@ public interface MessageRepository extends MongoRepository<Message, String> {
   List<Message> findAllByHashtag(String user_id);
 
   //List<Message> findByUserInAndHashtagIn(List<String> emails, List<String> pinCodes);
+
+  long deleteMessageById(String id);
+
+  long deleteById(String id);
+
 }

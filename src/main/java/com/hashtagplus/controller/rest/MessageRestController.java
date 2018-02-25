@@ -6,6 +6,7 @@ import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
 import org.bson.types.ObjectId;
+import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +65,12 @@ public class MessageRestController {
 
 
 
-
+  @RequestMapping(method=POST, value={"/api/messages/{id}/delete"},
+          produces={"application/json"},
+          consumes={"application/json"})
+  public String deleteMessageJSON(@PathVariable("id") String id) {
+    return deleteMessage(id);
+  }
 
 
   @RequestMapping(method=POST, value={"/api/messages/add"},
@@ -85,7 +91,24 @@ public class MessageRestController {
     return messageHashtagService.saveMessageWithHashtags(messageFormData, user);
   }
 
+  private String deleteMessage(String id) {
+    HtplUser user = (HtplUser) context.getAttribute("user_from_token");
+    long result = messageService.deleteMessage(user, id);
 
+    JSONObject jsonString = new JSONObject();
+
+    try {
+      if(result > 0) {
+        jsonString.put("result", "success");
+        jsonString.put("message", "Entity with id " + id + " deleted.");
+      } else {
+        jsonString.put("result", "error");
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    return jsonString.toString();
+  }
 
 
 
