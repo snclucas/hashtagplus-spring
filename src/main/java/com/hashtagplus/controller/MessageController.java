@@ -35,15 +35,34 @@ public class MessageController {
   @Secured({"ROLE_USER"})
   @RequestMapping(method = GET, value = {"/messages/m/{id}"})
   public ModelAndView message(
-          @PathVariable("id") String id) {
+          @AuthenticationPrincipal UserDetails user,
+          @PathVariable("id") String id,
+          @RequestParam(value = "sortby", defaultValue = "created_at") String sortby,
+          @RequestParam(value = "order", defaultValue = "asc") String order,
+          @RequestParam(value = "page", defaultValue = "1") int page,
+          @RequestParam(value = "limit", defaultValue = "100") int limit,
+          @RequestParam(value = "privacy", defaultValue = "public") String privacy,
+          @RequestParam(value = "hashtag", defaultValue = "") String hashtags) {
+
+    Sort sort = new Sort(
+            order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortby);
+    HtplUser htplUser = (HtplUser) user;
 
     Message message = ObjectId.isValid(id) ?
             messageService.getMessageById(id) :
             messageService.getMessageBySlug(id);
 
+    Page<MessageHashtag> commentsMH = messageService.getCommentsForMessageById(message.id, htplUser, sort, page, limit, privacy);
+
+    List<Message> comments = commentsMH.getContent().stream()
+            .map(MessageHashtag::getMessage)
+            .collect(Collectors.toList());
+
     ModelAndView mav = new ModelAndView("message");
-    mav.addObject("commentFormData", new CommentFormData());
+    mav.addObject("messageFormData", new MessageFormData());
     mav.addObject("message", message);
+    mav.addObject("topic", "");
+    mav.addObject("comments", comments);
     return mav;
   }
 
@@ -66,6 +85,7 @@ public class MessageController {
 
     List<Message> messages = result.getContent().stream()
             .map(MessageHashtag::getMessage)
+            .filter(m -> m.getParent() == null || m.getParent().equals(""))
             .collect(Collectors.toList());
 
     List<Message> withMedia = messages.stream()
@@ -92,6 +112,7 @@ public class MessageController {
 
     mav.addObject("withmedia", withMedia);
     mav.addObject("topic", "");
+    mav.addObject("parent", "none");
     mav.addObject("user", null);
     return mav;
   }
@@ -135,6 +156,7 @@ public class MessageController {
     mav.addObject("total_pages", messageHashtags.getTotalPages());
     mav.addObject("withmedia", withMedia);
     mav.addObject("topic", topic);
+    mav.addObject("parent", "none");
     mav.addObject("user", null);
     return mav;
   }

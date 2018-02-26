@@ -94,16 +94,16 @@ public class HTMLUtils {
       }
     }
     boolean hasText = numTokens != (urls.size() + hashtags.size() + mentions.size());
-    return new TextComponents(urls, hashtags, mentions, hasText);
+    return new TextComponents(urls, hashtags, mentions, Boolean.toString(hasText));
   }
 
   public static class TextComponents {
-    public boolean hasText = false;
+    public String hasText = "false";
     public List<String> urls = new ArrayList<>();
     public List<String> hashtags = new ArrayList<>();
     public List<String> mentions = new ArrayList<>();
 
-    TextComponents(final List<String> urls, final List<String> hashtags, final List<String> mentions, boolean hasText) {
+    TextComponents(final List<String> urls, final List<String> hashtags, final List<String> mentions, String hasText) {
       this.urls = urls;
       this.hashtags = hashtags;
       this.mentions = mentions;

@@ -65,7 +65,7 @@ public class MessageRestController {
 
 
 
-  @RequestMapping(method=POST, value={"/api/messages/{id}/delete"},
+  @RequestMapping(method=POST, value={"/api/messages/m/{id}/delete"},
           produces={"application/json"},
           consumes={"application/json"})
   public String deleteMessageJSON(@PathVariable("id") String id) {
@@ -73,18 +73,18 @@ public class MessageRestController {
   }
 
 
-  @RequestMapping(method=POST, value={"/api/messages/{id}/addcomment"},
-          produces={"application/json"},
-          consumes={"application/json"})
-  public Message addCommentFromJSON(@RequestBody CommentFormData commentFormData ) {
-    return addComment(commentFormData);
-  }
-
-  @RequestMapping(method = RequestMethod.POST, value={"/api/messages/{id}/addcomment"},
-          headers = "content-type=application/x-www-form-urlencoded")
-  public Message addCommentFromForm(@ModelAttribute CommentFormData commentFormData ) {
-    return addComment(commentFormData);
-  }
+//  @RequestMapping(method=POST, value={"/api/messages/m/{id}/addcomment"},
+//          produces={"application/json"},
+//          consumes={"application/json"})
+//  public Message addCommentFromJSON(@RequestBody CommentFormData commentFormData ) {
+//    return addComment(commentFormData);
+//  }
+//
+//  @RequestMapping(method = RequestMethod.POST, value={"/api/messages/{id}/addcomment"},
+//          headers = "content-type=application/x-www-form-urlencoded")
+//  public Message addCommentFromForm(@ModelAttribute CommentFormData commentFormData ) {
+//    return addComment(commentFormData);
+//  }
 
 
 
@@ -103,10 +103,10 @@ public class MessageRestController {
     return createMessage(messageFormData);
   }
 
-  private Message addComment(CommentFormData commentFormData ) {
-    HtplUser user = (HtplUser) context.getAttribute("user_from_token");
-    return messageService.saveComment(commentFormData, user);
-  }
+//  private Message addComment(CommentFormData commentFormData ) {
+//    HtplUser user = (HtplUser) context.getAttribute("user_from_token");
+//    return messageService.saveComment(commentFormData, user);
+//  }
 
   private Message createMessage(MessageFormData messageFormData ) {
     HtplUser user = (HtplUser) context.getAttribute("user_from_token");

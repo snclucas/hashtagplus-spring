@@ -3,6 +3,7 @@ package com.hashtagplus.service;
 import com.hashtagplus.model.*;
 import com.hashtagplus.model.form.*;
 import com.hashtagplus.model.repo.MessageRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
@@ -28,19 +29,38 @@ public class MessageService {
   private String name;
 
 
+  public Page<MessageHashtag> getCommentsForMessageById(String parent, HtplUser user, Sort sort, int pageNumber, int limit, String privacy) {
+    return getAllMessages(user, sort, pageNumber, limit, privacy, parent);
+  }
+
   public Page<MessageHashtag> getAllMessages(HtplUser user, Sort sort, int pageNumber, int limit, String privacy) {
+    return getAllMessages(user, sort, pageNumber, limit, privacy, "");
+  }
+
+  private Page<MessageHashtag> getAllMessages(HtplUser user, Sort sort, int pageNumber, int limit, String privacy, String parent) {
     Pageable request =
             new PageRequest(pageNumber - 1, limit, sort);
 
     Page<Message> messages = messageRepository.findMessagesByUsernameOrPrivacy(user.getUsername(), privacy, request);
 
-    List<MessageHashtag> messageHashtags =
-            messages.getContent().stream()
-                    .map(m -> new MessageHashtag(m, new Hashtag(), user.getUsername())).collect(Collectors.toList());
+    List<MessageHashtag> messageHashtags;
+    if(ObjectId.isValid(parent)) {
+      messageHashtags =
+              messages.getContent().stream()
+                      .filter(m -> m.getParent().equals(parent))
+                      .map(m -> new MessageHashtag(m, new Hashtag(), user.getUsername()))
+                      .collect(Collectors.toList());
+    } else {
+      messageHashtags =
+              messages.getContent().stream()
+                      .filter(m -> m.getParent().equals(""))
+                      .map(m -> new MessageHashtag(m, new Hashtag(), user.getUsername()))
+                      .collect(Collectors.toList());
+    }
 
     Pageable pageable = new PageRequest(pageNumber - 1, limit, sort);
     int start = pageable.getOffset();
-    int end = (start + pageable.getPageSize()) > messages.getContent().size() ? messages.getContent().size() : (start + pageable.getPageSize());
+    int end = (start + pageable.getPageSize()) > messageHashtags.size() ? messageHashtags.size() : (start + pageable.getPageSize());
     return new PageImpl<>(messageHashtags.subList(start, end), pageable, messageHashtags.size());
   }
 
@@ -63,16 +83,16 @@ public class MessageService {
   public Message saveMessage(Message message) {
     return messageRepository.save(message);
   }
-
-  public Message saveComment(CommentFormData commentFormData, HtplUser user) {
-    Message parent = getMessageById(commentFormData.getParent());
-    if(parent != null) {
-      Message comment = new Message("", commentFormData.getText(), user.getUsername());
-      parent.addComment(comment);
-      return comment;
-    }
-    return null;
-  }
+//
+//  public Message saveComment(CommentFormData commentFormData, HtplUser user) {
+//    Message parent = getMessageById(commentFormData.getParent());
+//    if(parent != null) {
+//      Message comment = new Message("", commentFormData.getText(), user.getUsername());
+//      parent.addComment(comment);
+//      return saveMessage(parent);
+//    }
+//    return null;
+//  }
 
   public void deleteMessage(Message message) {
     messageRepository.delete(message);

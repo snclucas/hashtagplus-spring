@@ -19,14 +19,14 @@ public class Message {
   @Id
   public String id;
 
-  public String title;
-  public String text;
+  public String title = "";
+  public String text = "";
   public String created_at;
   public String slug;
 
   public String privacy;
 
-  public Boolean hasText;
+  public String hasText;
 
   public String contentType;
 
@@ -37,11 +37,13 @@ public class Message {
   @DBRef(lazy = true)
   public List<Hashtag> hashtags = new ArrayList<>();
 
+  @DBRef(lazy = true)
   public List<Message> comments = new ArrayList<>();
 
   public List<MediaUrl> mediaUrls = new ArrayList<>();
 
-  public Message parent;
+  //@DBRef
+  public String parent = "";;
 
   private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
   private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
@@ -55,7 +57,7 @@ public class Message {
     this.title = title;
     this.text = text;
     this.username = username;
-    this.hasText = true;
+    this.hasText = "true";
 
     this.score = 1;
     this.contentType = "text/";
@@ -94,7 +96,7 @@ public class Message {
     this.text = text;
   }
 
-  public Boolean hasText() {
+  public String hasText() {
     return hasText;
   }
 
@@ -182,6 +184,15 @@ public class Message {
     this.comments.add(comment);
   }
 
+
+  public String getParent() {
+    return parent;
+  }
+
+  public void setParent(final String parent) {
+    this.parent = parent;
+  }
+
   public void setCreatedOnNow() {
     TimeZone tz = TimeZone.getTimeZone("UTC");
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
@@ -198,7 +209,7 @@ public class Message {
 
   private static String toSlug(String input) {
     String randomPart = new RandomString(6).nextString();
-    if(input.equals("")) {
+    if(input == null || input.equals("")) {
       return randomPart;
     } else {
       String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");

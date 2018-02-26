@@ -36,6 +36,16 @@ public class MessageHashtagService {
     Message message = new Message(messageFormData.getTitle(), messageFormData.getText(), user.getUsername());
     String messageText = messageFormData.getText();
 
+    String parent = messageFormData.getParent();
+    if(parent != null && !parent.equals("")) {
+      Message parentMessage = messageService.getMessageById(parent);
+      if(parentMessage != null) {
+        message.setParent(parentMessage.id);
+        parentMessage.addComment(message);
+        messageService.saveMessage(parentMessage);
+      }
+    }
+
     HTMLUtils.TextComponents textComponents = HTMLUtils.processText(messageText);
 
     List<MediaUrl> urls = HTMLUtils.extractMediaURLS(textComponents.urls);

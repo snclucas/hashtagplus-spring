@@ -8,7 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
 
     <!--==============GOOGLE FONT - OPEN SANS================= -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
@@ -44,32 +44,64 @@
 
     <div class="row PageHead">
         <div class="col-lg-12">
-            <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addCommentModal">Add comment <span class="glyphicon glyphicon-plus"></span></a>
+            <a class="btn btn-info text-uppercase" th:href="@{/messages}">
+                <span class="glyphicon glyphicon-chevron-left"></span>Back
+            </a>
+            <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal"
+               data-target="#addMessageModal">Add comment</a>
+            <button id="btn_sort_by_date" class="btn btn-default"><span class="glyphicon glyphicon-calendar"></span></button>
+            <button id="btn_sort_by_score" class="btn btn-default"><span class="glyphicon glyphicon-star"></span></button>
+            <button id="btn_order_asc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes"></span></button>
+            <button id="btn_order_desc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span></button>
+            <button id="btn_privacy" class="btn btn-default"><span class="glyphicon glyphicon-lock"></span></button>
         </div>
-        <hr />
+        <hr/>
     </div>
 
     <div class="row">
+        <th:block th:switch="${message.hasText()}">
+            <div th:case="'true'">
+                <div th:replace="fragments/message_line :: message_line(${message})"></div>
+            </div>
+            <div th:case="'false'">
+                <img th:if="${message.isImage()} == true" class="item"
+                     th:src="${message.mediaUrls[0].getUrl()}" th:attr="data-src=${message.mediaUrls[0].getUrl()}"/>
 
-        <div th:replace="fragments/message_line :: message_line(${message})"></div>
+                <br/>
+                <div class="btn-group" role="group" aria-label="Basic example">
 
+                        <button type="button" class="btn btn-labeled" th:each="hashtag : ${message.hashtags}">
+                            <div th:text="'#'+${hashtag.text}">hashtag</div>
+                        </button>
 
-
+                </div>
+            </div>
+        </th:block>
     </div>
-
+    <hr/>
     <div class="row">
+        <div class="col-lg-10 offset-lg-2">
+            <div th:attr="data-message-prototype='s'" th:each="comment : ${comments}">
 
-        <div th:attr="data-message-prototype='s'" th:each="comment : ${message.comments}">
-            <div th:replace="fragments/message_line :: message_line(${comment})"></div>
+                <th:block th:switch="${comment.hasText()}">
+                    <div th:case="'true'">
+                        <div th:replace="fragments/message_line :: message_line(${comment})"></div>
+                    </div>
+                    <div th:case="'false'">
+                        <img th:if="${comment.isImage()} == true" class="item" width="250"
+                             th:src="${comment.mediaUrls[0].getUrl()}" th:attr="data-src=${comment.mediaUrls[0].getUrl()}"/>
+                    </div>
+                </th:block>
+
+            </div>
         </div>
-
     </div>
 </div>
 
-
-<div th:replace="fragments/add_comment_modal :: add_comment_modal"></div>
+<div th:replace="fragments/add_message_modal :: add_message_modal(${message.id})"></div>
 
 <div th:replace="fragments/commonjs :: commonjs"></div>
+<script src="/js/messages.js"></script>
 </body>
 
 

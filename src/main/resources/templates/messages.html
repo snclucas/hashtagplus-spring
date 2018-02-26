@@ -48,7 +48,7 @@
 <div class="container">
     <div class="row PageHead">
         <div class="col-lg-12">
-            <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Add message <span class="glyphicon glyphicon-plus"></span></a>
+            <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Add message</a>
             <a class="btn btn-info text-uppercase" href="#" id="setTopic" data-toggle="modal" data-target="#setTopicModal">Set topic <span class="glyphicon glyphicon-asterix"></span></a>
             <button id="clear_topic" class="btn btn-default">Clear topic</button>
             <button id="clear_hashtags" class="btn btn-default">Clear hashtags</button>
@@ -73,7 +73,7 @@
     </div>
 </div>
 
-<div th:replace="fragments/add_message_modal :: add_message_modal"></div>
+<div th:replace="fragments/add_message_modal :: add_message_modal(${parent})"></div>
 <div th:replace="fragments/set_topic_modal :: set_topic_modal"></div>
 
 </body>

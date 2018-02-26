@@ -7,6 +7,8 @@ public class MessageFormData {
   public String text;
   public String topic = "";
 
+  public String parent;
+
   public String hashtags = "";
 
   public MessageFormData() {}
@@ -49,5 +51,13 @@ public class MessageFormData {
 
   public void setHashtags(String hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public String getParent() {
+    return parent;
+  }
+
+  public void setParent(String parent) {
+    this.parent = parent;
   }
 }

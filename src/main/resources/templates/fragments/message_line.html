@@ -38,7 +38,7 @@
                     <a class="title may-blank outbound" data-event-action="title" href="https://youtu.be/6FGDHTAzZss" tabindex="1" data-href-url="https://youtu.be/6FGDHTAzZss" th:text="${message.title}">Title</a>
                 </p>
 
-                <p class="title" th:if="${message.title == ''}">
+                <p class="title" th:if="${message.title == '' || message.parent != 'none'}">
                     <a class="title may-blank outbound" data-event-action="title" href="https://youtu.be/6FGDHTAzZss" tabindex="1" data-href-url="https://youtu.be/6FGDHTAzZss" th:text="${message.text}">Text</a>
                 </p>
 
