@@ -54,26 +54,28 @@ public class MessageHashtagService {
 
     String topic = messageFormData.getTopic();
 
-    List<String> hashtagsFromText = textComponents.hashtags;
+    List<String> hashtags = textComponents.hashtags;
+
     String hashtagsFromBodyString = messageFormData.getHashtags();
-    List<String> hashtagsFromBody = Arrays.asList( hashtagsFromBodyString.split(","));
-
-    List<String> combinedHashtags = Stream.concat(hashtagsFromText.stream(), hashtagsFromBody.stream())
-            .collect(Collectors.toList());
-
-    if(!topic.equals("") && combinedHashtags.stream()
-            .anyMatch(h -> !h.equalsIgnoreCase(topic))) {
-      combinedHashtags.add(topic);
+    if(!hashtagsFromBodyString.equals("")) {
+      List<String> hashtagsFromBody = Arrays.asList( hashtagsFromBodyString.split(","));
+      hashtags = Stream.concat(hashtags.stream(), hashtagsFromBody.stream())
+              .collect(Collectors.toList());
     }
 
-    boolean msgPrivate = combinedHashtags.stream()
+    if(!topic.equals("") && hashtags.stream()
+            .anyMatch(h -> !h.equalsIgnoreCase(topic))) {
+      hashtags.add(topic);
+    }
+
+    boolean msgPrivate = hashtags.stream()
             .anyMatch(h -> h.equalsIgnoreCase("private"));
 
     if(msgPrivate) {
       message.setPrivacy("private");
     }
 
-    for (String hashtag : combinedHashtags) {
+    for (String hashtag : hashtags) {
       if (!hashtag.equals(" ")) {
         hashtag = hashtag.trim();
         if(hashtag.startsWith("#")) {

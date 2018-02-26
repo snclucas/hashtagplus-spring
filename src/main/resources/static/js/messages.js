@@ -22,10 +22,14 @@ function deleteMessage(id) {
   $.ajax({
     type: 'POST',
     url: '/api/messages/' + id + '/delete',
+    contentType: 'application/json',
     dataType: "json",
     async: true,
     success: function (data) {
       window.location.reload();
+    },
+    error: function (error) {
+      console.log(error);
     }
   });
 }
@@ -114,6 +118,18 @@ $(function () {
   $("form").on('submit', function (e) {
     e.preventDefault();
   });
+
+  $("li[data-delete-message]").click(function (e) {
+    e.preventDefault();
+    var result = confirm("Want to delete?");
+    if (result) {
+      var id = $(this).data('delete-message');
+      deleteMessage(id);
+    }
+
+  });
+
+
   $("#clear_topic").click(function () {
     clearTopic();
   });

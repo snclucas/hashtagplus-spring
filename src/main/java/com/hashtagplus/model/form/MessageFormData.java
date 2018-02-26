@@ -7,7 +7,7 @@ public class MessageFormData {
   public String text;
   public String topic = "";
 
-  public String hashtags;
+  public String hashtags = "";
 
   public MessageFormData() {}
 

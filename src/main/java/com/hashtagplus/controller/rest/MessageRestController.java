@@ -1,7 +1,7 @@
 package com.hashtagplus.controller.rest;
 
 import com.hashtagplus.model.*;
-import com.hashtagplus.model.form.MessageFormData;
+import com.hashtagplus.model.form.*;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
@@ -73,6 +73,23 @@ public class MessageRestController {
   }
 
 
+  @RequestMapping(method=POST, value={"/api/messages/{id}/addcomment"},
+          produces={"application/json"},
+          consumes={"application/json"})
+  public Message addCommentFromJSON(@RequestBody CommentFormData commentFormData ) {
+    return addComment(commentFormData);
+  }
+
+  @RequestMapping(method = RequestMethod.POST, value={"/api/messages/{id}/addcomment"},
+          headers = "content-type=application/x-www-form-urlencoded")
+  public Message addCommentFromForm(@ModelAttribute CommentFormData commentFormData ) {
+    return addComment(commentFormData);
+  }
+
+
+
+
+
   @RequestMapping(method=POST, value={"/api/messages/add"},
           produces={"application/json"},
           consumes={"application/json"})
@@ -84,6 +101,11 @@ public class MessageRestController {
           headers = "content-type=application/x-www-form-urlencoded")
   public Message createMessagesFromForm(@ModelAttribute MessageFormData messageFormData ) {
     return createMessage(messageFormData);
+  }
+
+  private Message addComment(CommentFormData commentFormData ) {
+    HtplUser user = (HtplUser) context.getAttribute("user_from_token");
+    return messageService.saveComment(commentFormData, user);
   }
 
   private Message createMessage(MessageFormData messageFormData ) {

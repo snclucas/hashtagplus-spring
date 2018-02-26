@@ -1,7 +1,7 @@
 package com.hashtagplus.controller;
 
 import com.hashtagplus.model.*;
-import com.hashtagplus.model.form.MessageFormData;
+import com.hashtagplus.model.form.*;
 import com.hashtagplus.service.HashtagService;
 import com.hashtagplus.service.MessageHashtagService;
 import com.hashtagplus.service.MessageService;
@@ -29,9 +29,6 @@ public class MessageController {
   private MessageService messageService;
 
   @Autowired
-  private HashtagService hashtagService;
-
-  @Autowired
   private MessageHashtagService messageHashtagService;
 
 
@@ -45,6 +42,7 @@ public class MessageController {
             messageService.getMessageBySlug(id);
 
     ModelAndView mav = new ModelAndView("message");
+    mav.addObject("commentFormData", new CommentFormData());
     mav.addObject("message", message);
     return mav;
   }

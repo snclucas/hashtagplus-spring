@@ -37,7 +37,11 @@ public class Message {
   @DBRef(lazy = true)
   public List<Hashtag> hashtags = new ArrayList<>();
 
+  public List<Message> comments = new ArrayList<>();
+
   public List<MediaUrl> mediaUrls = new ArrayList<>();
+
+  public Message parent;
 
   private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
   private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
@@ -88,6 +92,10 @@ public class Message {
 
   public void setText(String text) {
     this.text = text;
+  }
+
+  public Boolean hasText() {
+    return hasText;
   }
 
   public String getContentType() {
@@ -164,6 +172,14 @@ public class Message {
 
   public void setUser(String username) {
     this.username = username;
+  }
+
+  public List<Message> getComments() {
+    return comments;
+  }
+
+  public void addComment(Message comment) {
+    this.comments.add(comment);
   }
 
   public void setCreatedOnNow() {

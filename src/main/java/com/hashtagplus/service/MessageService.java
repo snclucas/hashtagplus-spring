@@ -1,6 +1,7 @@
 package com.hashtagplus.service;
 
 import com.hashtagplus.model.*;
+import com.hashtagplus.model.form.*;
 import com.hashtagplus.model.repo.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,6 +62,16 @@ public class MessageService {
 
   public Message saveMessage(Message message) {
     return messageRepository.save(message);
+  }
+
+  public Message saveComment(CommentFormData commentFormData, HtplUser user) {
+    Message parent = getMessageById(commentFormData.getParent());
+    if(parent != null) {
+      Message comment = new Message("", commentFormData.getText(), user.getUsername());
+      parent.addComment(comment);
+      return comment;
+    }
+    return null;
   }
 
   public void deleteMessage(Message message) {
