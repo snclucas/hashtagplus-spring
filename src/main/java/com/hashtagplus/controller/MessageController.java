@@ -52,6 +52,8 @@ public class MessageController {
             messageService.getMessageById(id) :
             messageService.getMessageBySlug(id);
 
+    List<MessageHashtag> messageHashtags = messageHashtagService.getHashtagsWithMessage(message);
+
     Page<MessageHashtag> commentsMH = messageService.getCommentsForMessageById(message.id, htplUser, sort, page, limit, privacy);
 
     List<Message> comments = commentsMH.getContent().stream()
@@ -61,8 +63,10 @@ public class MessageController {
     ModelAndView mav = new ModelAndView("message");
     mav.addObject("messageFormData", new MessageFormData());
     mav.addObject("message", message);
+    mav.addObject("messageHashtags", messageHashtags);
     mav.addObject("topic", "");
     mav.addObject("comments", comments);
+    mav.addObject("user", htplUser);
     return mav;
   }
 

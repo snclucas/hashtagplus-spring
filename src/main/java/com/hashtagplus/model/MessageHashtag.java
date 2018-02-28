@@ -8,52 +8,71 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "message_hashtag")
 public class MessageHashtag {
 
-    @Id
-    public String id;
+  @Id
+  public String id;
 
-    @DBRef
-    public Message message;
+  @DBRef
+  public Message message;
 
-    public String username;
+  public String username;
 
-    @DBRef
-    public Hashtag hashtag;
+  @DBRef
+  public Hashtag hashtag;
 
-    public MessageHashtag() {
-        this.id = new ObjectId().toString();
-    }
+  public int score = 1;
+
+  public MessageHashtag() {
+    this.id = new ObjectId().toString();
+  }
 
 
-    public MessageHashtag(Message message, Hashtag hashtag, String username) {
-        this();
-        this.message = message;
-        this.hashtag = hashtag;
-        this.username = username;
-    }
+  public MessageHashtag(Message message, Hashtag hashtag, String username) {
+    this();
+    this.message = message;
+    this.hashtag = hashtag;
+    this.username = username;
+  }
 
-    public Message getMessage() {
-        return message;
-    }
+  public Message getMessage() {
+    return message;
+  }
 
-    public void setMessage(Message message) {
-        this.message = message;
-    }
+  public void setMessage(Message message) {
+    this.message = message;
+  }
 
-    public Hashtag getHashtag() {
-        return hashtag;
-    }
+  public Hashtag getHashtag() {
+    return hashtag;
+  }
 
-    public void setHashtag(Hashtag hashtag) {
-        this.hashtag = hashtag;
-    }
+  public void setHashtag(Hashtag hashtag) {
+    this.hashtag = hashtag;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(final int score) {
+    this.score = score;
+  }
+
+  public int incrementScore() {
+    return ++score;
+  }
+
+  public int decrementScore() {
+    return --score;
+  }
 
   @Override
   public boolean equals(final Object o) {

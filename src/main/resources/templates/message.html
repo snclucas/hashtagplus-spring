@@ -8,8 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
     <!--==============GOOGLE FONT - OPEN SANS================= -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
 
@@ -23,6 +22,8 @@
     <link href="/css/messages.css" rel="stylesheet" media="all"/>
 
     <link href="/css/reddit.css" rel="stylesheet" media="all"/>
+
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -45,19 +46,19 @@
     <div class="row PageHead">
         <div class="col-lg-12">
             <a class="btn btn-info text-uppercase" th:href="@{/messages}">
-                <span class="glyphicon glyphicon-chevron-left"></span>Back
+                <span class="oi oi-caret-left" title="oi-caret-left" aria-hidden="true"></span> Back
             </a>
             <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal"
                data-target="#addMessageModal">Add comment</a>
-            <button id="btn_sort_by_date" class="btn btn-default"><span class="glyphicon glyphicon-calendar"></span></button>
-            <button id="btn_sort_by_score" class="btn btn-default"><span class="glyphicon glyphicon-star"></span></button>
-            <button id="btn_order_asc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes"></span></button>
-            <button id="btn_order_desc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span></button>
-            <button id="btn_privacy" class="btn btn-default"><span class="glyphicon glyphicon-lock"></span></button>
+            <button type="button" id="btn_sort_by_date" class="btn btn-default"><span class="oi oi-calendar" title="oi-calendar" aria-hidden="true"></span></button>
+            <button type="button" id="btn_sort_by_score" class="btn btn-default"><span class="oi oi-star" title="oi-star" aria-hidden="true"></span></button>
+            <button type="button" id="btn_order_asc" class="btn btn-default"><span class="oi oi-sort-ascending" title="oi-sort-ascending" aria-hidden="true"></span></button>
+            <button type="button" id="btn_order_desc" class="btn btn-default"><span class="oi oi-sort-descending" title="oi-sort-descending" aria-hidden="true"></span></button>
+            <button type="button" id="btn_privacy" class="btn btn-default"><span class="oi oi-lock-locked" title="oi-lock-locked" aria-hidden="true"></span></button>
         </div>
         <hr/>
     </div>
-
+    <hr/>
     <div class="row">
         <th:block th:switch="${message.hasText()}">
             <div th:case="'true'">
@@ -69,11 +70,14 @@
 
                 <br/>
                 <div class="btn-group" role="group" aria-label="Basic example">
-
-                        <button type="button" class="btn btn-labeled" th:each="hashtag : ${message.hashtags}">
-                            <div th:text="'#'+${hashtag.text}">hashtag</div>
+                    <th:block  th:each="messageHashtag : ${messageHashtags}" th:switch="${messageHashtag.username} == ${user.username}">
+                        <button th:case="true" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" th:title="'Score: ' + ${messageHashtag.score}">
+                            <div th:text="'#'+${messageHashtag.hashtag.text}">hashtag</div>
                         </button>
-
+                        <button th:case="false" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" th:title="'Score: ' + ${messageHashtag.score}">
+                            <div th:text="'#'+${messageHashtag.hashtag.text}">hashtag</div>
+                        </button>
+                    </th:block>
                 </div>
             </div>
         </th:block>

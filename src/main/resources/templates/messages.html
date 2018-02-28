@@ -48,15 +48,17 @@
 <div class="container">
     <div class="row PageHead">
         <div class="col-lg-12">
-            <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal" data-target="#addMessageModal">Add message</a>
-            <a class="btn btn-info text-uppercase" href="#" id="setTopic" data-toggle="modal" data-target="#setTopicModal">Set topic <span class="glyphicon glyphicon-asterix"></span></a>
-            <button id="clear_topic" class="btn btn-default">Clear topic</button>
-            <button id="clear_hashtags" class="btn btn-default">Clear hashtags</button>
-            <button id="btn_sort_by_date" class="btn btn-default"><span class="glyphicon glyphicon-calendar"></span></button>
-            <button id="btn_sort_by_score" class="btn btn-default"><span class="glyphicon glyphicon-star"></span></button>
-            <button id="btn_order_asc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes"></span></button>
-            <button id="btn_order_desc" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span></button>
-            <button id="btn_privacy" class="btn btn-default"><span class="glyphicon glyphicon-lock"></span></button>
+            <a class="btn btn-info text-uppercase" th:href="@{/messages}">
+                <span class="glyphicon glyphicon-chevron-left"></span>Back
+            </a>
+            <a class="btn btn-info text-uppercase" href="#" id="reply" data-toggle="modal"
+               data-target="#addMessageModal">Add comment</a>
+            <button type="button" id="btn_sort_by_date" class="btn btn-default"><span class="oi oi-calendar" title="oi-calendar" aria-hidden="true"></span></button>
+            <button type="button" id="btn_sort_by_score" class="btn btn-default"><span class="oi oi-star" title="oi-star" aria-hidden="true"></span></button>
+            <button type="button" id="btn_order_asc" class="btn btn-default"><span class="oi oi-sort-ascending" title="oi-sort-ascending" aria-hidden="true"></span></button>
+            <button type="button" id="btn_order_desc" class="btn btn-default"><span class="oi oi-sort-descending" title="oi-sort-descending" aria-hidden="true"></span></button>
+            <button type="button" id="btn_privacy" class="btn btn-default"><span class="oi oi-lock-locked" title="oi-lock-locked" aria-hidden="true"></span></button>
+
 
         </div>
     </div>
