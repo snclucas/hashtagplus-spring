@@ -71,10 +71,10 @@
                 <br/>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <th:block  th:each="messageHashtag : ${messageHashtags}" th:switch="${messageHashtag.username} == ${user.username}">
-                        <button th:case="true" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" th:title="'Score: ' + ${messageHashtag.score}">
+                        <button th:case="true" type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" th:title="'Score: ' + ${messageHashtag.score}">
                             <div th:text="'#'+${messageHashtag.hashtag.text}">hashtag</div>
                         </button>
-                        <button th:case="false" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" th:title="'Score: ' + ${messageHashtag.score}">
+                        <button th:case="false" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" th:title="'Score: ' + ${messageHashtag.score}">
                             <div th:text="'#'+${messageHashtag.hashtag.text}">hashtag</div>
                         </button>
                     </th:block>
