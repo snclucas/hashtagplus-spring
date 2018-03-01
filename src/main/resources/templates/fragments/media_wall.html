@@ -4,12 +4,36 @@
 <head>
 </head>
 <body>
-<div th:fragment="media_wall(media)" >
-    <div class="tile" data-ftg-ignore-size-factor="0">
-        <a class="tile-inner" href="#" data-lightbox="gallery"  data-title="Lorem ipsum" th:attr="href=${media.mediaUrls[0].getUrl()}" >
-            <img class="item" width="250" th:src="${media.mediaUrls[0].getUrl()}" th:attr="data-src=${media.mediaUrls[0].getUrl()}"/>
-        </a>
+
+    <div class="media-box Category1 Category3" th:fragment="media_wall(media)" >
+        <div class="media-box-image">
+            <div data-width="320" data-height="213" th:attr="data-thumbnail=${media.mediaUrls[0].getUrl()}"></div>
+
+            <div class="thumbnail-overlay">
+                <div class="thumbnail-overlay-animated" data-from="top">
+                    <span class="mb-open-popup thumbnail-overlay-button" th:attr="data-src=${media.mediaUrls[0].getUrl()}" data-title="Nostrud exercitation">
+                        View Image
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="media-box-content">
+            <div class="media-box-title">Nostrud exercitation</div>
+            <div class="media-box-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ea commodi perferendis voluptates.
+            </div>
+        </div>
+
+        <div class="media-box-footer">
+            <div class="media-box-social-buttons">
+                <a href=""><i class="fa fa-facebook"></i></a>
+                <a href=""><i class="fa fa-twitter"></i></a>
+                <a href=""><i class="fa fa-google-plus"></i></a>
+                <a href=""><i class="fa fa-pinterest"></i></a>
+            </div>
+        </div>
     </div>
-</div>
+
 </body>
 </html>

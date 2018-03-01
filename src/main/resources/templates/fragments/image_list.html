@@ -5,18 +5,15 @@
 </head>
 <body>
 
-<div th:fragment="image_list">
 
-        <div id="gallery" class="final-tiles-gallery" th:if="${not #lists.isEmpty(withmedia)}">
-            <div class="ftg-items">
-                <div th:attr="data-message-prototype='s'" th:each="media : ${withmedia}">
-                    <div th:replace="fragments/media_wall :: media_wall(${media})"></div>
-                </div>
-            </div>
+<div th:fragment="image_list" th:if="${not #lists.isEmpty(withmedia)}">
+    <div class="grid" >
+        <div th:each="media : ${withmedia}">
+<div th:replace="fragments/media_wall :: media_wall(${media})"></div>
         </div>
-
-
+    </div>
 </div>
+
 
 
 </body>

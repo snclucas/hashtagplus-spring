@@ -66,16 +66,15 @@ public class MessageHashtagService {
 
     List<String> hashtags = textComponents.hashtags;
 
+    if(!topic.equals("")) {
+      hashtags.add(topic);
+    }
+
     String hashtagsFromBodyString = messageFormData.getHashtags();
     if(!hashtagsFromBodyString.equals("")) {
       List<String> hashtagsFromBody = Arrays.asList( hashtagsFromBodyString.split(","));
-      hashtags = Stream.concat(hashtags.stream(), hashtagsFromBody.stream())
+      hashtags = Stream.concat(hashtags.stream(), hashtagsFromBody.stream()).distinct()
               .collect(Collectors.toList());
-    }
-
-    if(!topic.equals("") && hashtags.stream()
-            .anyMatch(h -> !h.equalsIgnoreCase(topic))) {
-      hashtags.add(topic);
     }
 
     boolean msgPrivate = hashtags.stream()

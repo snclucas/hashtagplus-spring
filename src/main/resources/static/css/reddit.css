@@ -102,7 +102,7 @@ body.compressed-display .organic-listing .link { padding-top: 7px; padding-botto
 .entry .buttons .status-msg { display: none; margin-right: 0.5em; }
 .entry .buttons .promoted-tag { color: rgb(36, 160, 237); font-weight: bold; padding: 0px 1px; }
 .thing .stub { display: none; }
-.link { margin: 0px 0px 8px; padding-left: 3px; }
+.link { margin: 0px 0px 28px; padding-left: 3px; }
 .link .score { text-align: center; color: rgb(198, 198, 198); }
 .link .title {
     font-size: medium;

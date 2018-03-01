@@ -4,8 +4,8 @@
 <head>
 </head>
 <body>
-<div th:fragment="message_line(message)" >
-    <div class=" thing id-t3_7ynitq even link" id="thing_t3_7ynitq" data-score="6" th:if="${message.hasText} == 'true'" >
+<div th:fragment="comment_line(message)" >
+    <div class=" thing id-t3_7ynitq even link" id="thing_t3_7ynitq" data-score="6">
         <p class="parent"></p>
         <span class="rank">2</span>
         <div class="midcol unvoted">
@@ -36,7 +36,7 @@
                     <a class="title may-blank outbound" data-event-action="title" href="https://youtu.be/6FGDHTAzZss" tabindex="1" data-href-url="https://youtu.be/6FGDHTAzZss" th:text="${message.title}">Title</a>
                 </p>
 
-                <p class="title" th:if="${message.title == ''}">
+                <p class="title" th:if="${message.title == '' || message.parent != 'none'}">
                     <a class="title may-blank outbound" data-event-action="title" href="https://youtu.be/6FGDHTAzZss" tabindex="1" data-href-url="https://youtu.be/6FGDHTAzZss" th:text="${message.text}">Text</a>
                 </p>
 
@@ -53,7 +53,7 @@
                 </ul>
             </div>
         </div>
-
+        
         <div class="child"></div>
         <div class="clearleft"></div>
     </div>
