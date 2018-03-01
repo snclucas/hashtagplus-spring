@@ -7,9 +7,9 @@
 
 <div id="tabs" class="container" th:fragment="tabs">
     <ul class="nav nav-tabs">
-        <li id="list_tab"><a href="#list_tab_content" data-tab="list" data-toggle="tab" th:text="'List (' + ${#lists.size(messages)} + ')'" >List</a></li>
-        <li id="media_tab"><a href="#media_tab_content" data-tab="media" data-toggle="tab" th:text="'Media wall (' + ${#lists.size(withmedia)} + ')'" >Media wall</a></li>
-        <li id="events_tab"><a href="#events_tab_content" data-tab="events" data-toggle="tab" th:text="'Event (' + ${#lists.size(events)} + ')'" >Events</a></li>
+        <li class="nav-item"><a class="nav-link" id="list_tab" href="#list_tab_content" data-tab="list" data-toggle="tab" th:text="'List (' + ${#lists.size(messages)} + ')'" >List</a></li>
+        <li class="nav-item"><a class="nav-link" id="media_tab" href="#media_tab_content" data-tab="media" data-toggle="tab" th:text="'Media wall (' + ${#lists.size(withmedia)} + ')'" >Media wall</a></li>
+        <li class="nav-item"><a class="nav-link" id="events_tab" href="#events_tab_content" data-tab="events" data-toggle="tab" th:text="'Event (' + ${#lists.size(events)} + ')'" >Events</a></li>
     </ul>
 
     <div class="tab-content clearfix">

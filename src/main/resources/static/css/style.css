@@ -124,7 +124,7 @@ p {
     background-color: transparent;
 }
 .navbar-default + div {
-    margin-top: 68px;
+    margin-top: 28px;
 }
 .btn-lg {
     font-size:18px;
