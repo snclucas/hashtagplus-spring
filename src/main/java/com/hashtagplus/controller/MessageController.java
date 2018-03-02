@@ -186,4 +186,14 @@ public class MessageController {
     return "messages";
   }
 
+
+  @RequestMapping(method = GET, value = {"/test"})
+  public ModelAndView getTest() {
+
+    ModelAndView mav = new ModelAndView("test");
+
+    return mav;
+  }
+
+
 }

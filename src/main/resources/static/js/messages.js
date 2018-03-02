@@ -172,7 +172,7 @@ $(function () {
     window.location.search = urlParams;
   });
 
-  $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("data-tab");// activated tab
     var urlParams = new URLSearchParams(window.location.search);
     urlParams.set('tab', target);

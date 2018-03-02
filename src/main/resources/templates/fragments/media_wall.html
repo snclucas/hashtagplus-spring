@@ -5,7 +5,8 @@
 </head>
 <body>
 
-    <div class="media-box Category1 Category3" th:fragment="media_wall(media)" >
+<div th:fragment="media_wall(media)" >
+    <div class="media-box Category1 Category3">
         <div class="media-box-image">
             <div data-width="320" data-height="213" th:attr="data-thumbnail=${media.mediaUrls[0].getUrl()}"></div>
 
@@ -34,6 +35,8 @@
             </div>
         </div>
     </div>
+
+</div>
 
 </body>
 </html>

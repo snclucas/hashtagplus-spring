@@ -33,16 +33,109 @@
 
     <script src="/js/modernizr.js"></script>
 
-    <!-- Final Tiles Grid Gallery CSS -->
-    <link rel="stylesheet" href="/css/finaltilesgallery/finaltilesgallery.css"/>
-    <link rel="stylesheet" href="/css/finaltilesgallery/lightbox2.css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
 
-    <link rel="stylesheet" href="/css/bootstrap-slider.min.css"/>
+    <link rel="stylesheet" href="/css/demo.css"/>
 
     <link rel="stylesheet" href="/plugin/components/Font Awesome/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="/plugin/components/Magnific Popup/magnific-popup.css"/> <!-- Only if you are going to use Magnific Popup -->
-    <link rel="stylesheet" href="/plugin/components/Fancybox/jquery.fancybox.min.css"/> <!-- Only if you are going to use fancybox -->
-    <link rel="stylesheet" href="/plugin/css/mediaBoxes.css"/>
+    <link rel="stylesheet" href="/plugin/components/Fancybox/jquery.fancybox.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/plugin/css/mediaBoxes.css"/>
+
+
+    <style>
+        /* == LETS MODIFY SOME COLORS AND STYLE FOR THE DEMO == */
+
+        /* Remove the margin-bottom of the text */
+        .media-box-content .media-box-text{
+            margin-bottom: 0 !important;
+        }
+
+        /* Change the style of the text */
+        .media-box-text{
+            color: #777;
+            line-height: 21px;
+        }
+
+        /* Footer style */
+        .media-box-footer{
+            -webkit-box-shadow: inset 0 5px 5px -5px rgba(0,0,0,0.1);
+            -moz-box-shadow: inset 0 5px 5px -5px rgba(0,0,0,0.1);
+            box-shadow: inset 0 5px 5px -5px rgba(0,0,0,0.1);
+        }
+
+        /* Change the color red to something blue */
+        .media-boxes-filter>li a.selected {
+            background: #1cbac8 !important;
+        }
+        .media-box-quote{
+            background: #1cbac8;
+        }
+        .thumbnail-overlay-button{
+            background: rgba(28, 186, 200, 1);
+            color: #fff;
+        }
+        .thumbnail-overlay-button:hover{
+            background: rgba(28, 186, 200, 1);
+        }
+
+        /* Change style of overlay */
+        .thumbnail-overlay{
+            background: rgba(0,0,0,.3);
+        }
+
+        /* Center the filters */
+        .filters-container{
+            text-align: center;
+        }
+
+        /* Remove background of videos with overlay always visible */
+        .overlay-always-visible{
+            background: none;
+
+            -webkit-transition: background .3s linear;
+            -moz-transition: background .3s linear;
+            -o-transition: background .3s linear;
+            -ms-transition: background .3s linear;
+            transition: background .3s linear;
+        }
+        .overlay-always-visible:hover{
+            background: rgba(0,0,0,.3);
+        }
+
+        /* change style of filter menu */
+        .media-boxes-filter>li {
+            margin: 0;
+        }
+        .media-boxes-filter>li:last-child a{
+            border-right: 1px solid #EBEBEB;
+            border-radius: 0 4px 4px 0;
+        }
+        .media-boxes-filter>li:first-child a{
+            border-radius: 4px 0 0 4px;
+        }
+        .media-boxes-filter>li a {
+            border-bottom: 1px solid #EBEBEB;
+            border-left: 1px solid #EBEBEB;
+            border-top: 1px solid #EBEBEB;
+            border-right: none;
+
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            -o-box-shadow: none;
+            -ms-box-shadow: none;
+            box-shadow: none;
+        }
+        .media-boxes-filter>li a.selected {
+            -webkit-box-shadow: none !important;
+            -moz-box-shadow: none !important;
+            -ms-box-shadow: none !important;
+            box-shadow: none !important;
+        }
+        .media-boxes-filter>li a:hover{
+            background: #fff;
+            color: #676767;
+        }
+    </style>
 
 </head>
 
@@ -63,8 +156,6 @@
             <button type="button" id="btn_order_asc" class="btn btn-default"><span class="oi oi-sort-ascending" title="oi-sort-ascending" aria-hidden="true"></span></button>
             <button type="button" id="btn_order_desc" class="btn btn-default"><span class="oi oi-sort-descending" title="oi-sort-descending" aria-hidden="true"></span></button>
             <button type="button" id="btn_privacy" class="btn btn-default"><span class="oi oi-lock-locked" title="oi-lock-locked" aria-hidden="true"></span></button>
-
-
         </div>
     </div>
     <div class="row">
@@ -80,6 +171,7 @@
     </div>
 </div>
 
+
 <div th:replace="fragments/add_message_modal :: add_message_modal(${parent})"></div>
 <div th:replace="fragments/set_topic_modal :: set_topic_modal"></div>
 
@@ -87,24 +179,12 @@
 
 <div th:replace="fragments/commonjs :: commonjs"></div>
 
-<script src="/webjars/sockjs-client/sockjs.min.js"></script>
-<script src="/webjars/stomp-websocket/stomp.min.js"></script>
-
-<script src="/js/bootstrap-slider.min.js"></script>
-
 <script src="/js/messages.js"></script>
 <script src="/js/hashtags.js"></script>
 
 
-
-<!-- Final Tiles Grid Gallery script -->
-<script src="/js/finaltilesgallery/jquery.finaltilesgallery.js"></script>
-
-
-
-<!-- jQuery 1.8+
 <script src="/plugin/components/jQuery/jquery-1.11.3.min.js"></script>
--->
+
 
 <!-- Media Boxes JS files -->
 <script src="/plugin/components/Isotope/jquery.isotope.min.js"></script>
@@ -118,6 +198,19 @@
 <script src="/plugin/js/jquery.mediaBoxes.dropdown.js"></script>
 <script src="/plugin/js/jquery.mediaBoxes.js"></script>
 
-<script src="/js/image_wall.js"></script>
+<script>
+  $('#grid').mediaBoxes({
+    filterContainer: '#filter',
+    columns: 3,
+    boxesToLoadStart: 8,
+    boxesToLoad: 6,
+    horizontalSpaceBetweenBoxes: 30,
+    verticalSpaceBetweenBoxes: 30,
+  });
+</script>
+
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="/js/demo.js"></script>
 
 </html>
