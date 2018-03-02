@@ -172,10 +172,10 @@ $(function () {
     window.location.search = urlParams;
   });
 
-  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    var target = $(e.target).attr("data-tab") // activated tab
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+    var target = $(e.target).attr("data-tab");// activated tab
     var urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('tab', target)
+    urlParams.set('tab', target);
     var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + urlParams.toString();
     history.replaceState({foo: "bar"}, "page 3", newUrl);
 
