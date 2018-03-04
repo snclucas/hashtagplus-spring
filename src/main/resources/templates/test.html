@@ -1,0 +1,198 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Media Grid - Responsive jQuery Grid Plugin | Media Boxes Portfolio</title>
+
+    <link rel="icon" href="img/favicon.ico" type="image/png"/>
+
+    <meta name="description" content="Lets create a grid with some social buttons, videos, sounds and more. You can put any HTML inside the boxes."/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0"/>
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'/>
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" href="/css/demo.css"/>
+
+    <link rel="stylesheet" href="/plugin/components/Font Awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/plugin/components/Fancybox/jquery.fancybox.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../plugin/css/mediaBoxes.css"/>
+
+    <style>
+
+        /* == LETS MODIFY SOME COLORS AND STYLE FOR THE DEMO == */
+
+        /* Remove the margin-bottom of the text */
+        .media-box-content .media-box-text{
+            margin-bottom: 0 !important;
+        }
+
+        /* Change the style of the text */
+        .media-box-text{
+            color: #777;
+            line-height: 21px;
+        }
+
+        /* Footer style */
+        .media-box-footer{
+            -webkit-box-shadow: inset 0 5px 5px -5px rgba(0,0,0,0.1);
+            -moz-box-shadow: inset 0 5px 5px -5px rgba(0,0,0,0.1);
+            box-shadow: inset 0 5px 5px -5px rgba(0,0,0,0.1);
+        }
+
+        /* Change the color red to something blue */
+        .media-boxes-filter>li a.selected {
+            background: #1cbac8 !important;
+        }
+        .media-box-quote{
+            background: #1cbac8;
+        }
+        .thumbnail-overlay-button{
+            background: rgba(28, 186, 200, 1);
+            color: #fff;
+        }
+        .thumbnail-overlay-button:hover{
+            background: rgba(28, 186, 200, 1);
+        }
+
+        /* Change style of overlay */
+        .thumbnail-overlay{
+            background: rgba(0,0,0,.3);
+        }
+
+        /* Center the filters */
+        .filters-container{
+            text-align: center;
+        }
+
+        /* Remove background of videos with overlay always visible */
+        .overlay-always-visible{
+            background: none;
+
+            -webkit-transition: background .3s linear;
+            -moz-transition: background .3s linear;
+            -o-transition: background .3s linear;
+            -ms-transition: background .3s linear;
+            transition: background .3s linear;
+        }
+        .overlay-always-visible:hover{
+            background: rgba(0,0,0,.3);
+        }
+
+        /* change style of filter menu */
+        .media-boxes-filter>li {
+            margin: 0;
+        }
+        .media-boxes-filter>li:last-child a{
+            border-right: 1px solid #EBEBEB;
+            border-radius: 0 4px 4px 0;
+        }
+        .media-boxes-filter>li:first-child a{
+            border-radius: 4px 0 0 4px;
+        }
+        .media-boxes-filter>li a {
+            border-bottom: 1px solid #EBEBEB;
+            border-left: 1px solid #EBEBEB;
+            border-top: 1px solid #EBEBEB;
+            border-right: none;
+
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            -o-box-shadow: none;
+            -ms-box-shadow: none;
+            box-shadow: none;
+        }
+        .media-boxes-filter>li a.selected {
+            -webkit-box-shadow: none !important;
+            -moz-box-shadow: none !important;
+            -ms-box-shadow: none !important;
+            box-shadow: none !important;
+        }
+        .media-boxes-filter>li a:hover{
+            background: #fff;
+            color: #676767;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="grid-section">
+
+
+    <div class="content grid-container">
+
+        <br/>
+
+        <div id="grid">
+
+            <div class="media-box Category1 Category2">
+                <div class="media-box-content">
+                    <div class="media-box-title">Dolor sit amet</div>
+                    <div class="media-box-text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ea commodi perferendis voluptates.
+                    </div>
+                </div>
+
+                <div class="media-box-image">
+                    <div data-width="590" data-height="332" data-thumbnail="https://i.vimeocdn.com/video/148596367_590x332.jpg"></div>
+
+                    <div class="thumbnail-overlay overlay-always-visible iframe-on-grid" data-type="iframe" data-src="http://vimeo.com/22884674">
+                        <span class="fa fa-play media-box-play-button"></span>
+                    </div>
+                </div>
+
+                <div class="media-box-footer">
+                    <div class="media-box-social-buttons">
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-google-plus"></i></a>
+                        <a href=""><i class="fa fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script src="/plugin/components/jQuery/jquery-1.11.3.min.js"></script>
+
+<script src="/plugin/components/Isotope/jquery.isotope.min.js"></script>
+<script src="/plugin/components/imagesLoaded/jquery.imagesLoaded.min.js"></script>
+<script src="/plugin/components/Transit/jquery.transit.min.js"></script>
+<script src="/plugin/components/jQuery Easing/jquery.easing.js"></script>
+<script src="/plugin/components/Waypoints/waypoints.min.js"></script>
+<script src="/plugin/components/Modernizr/modernizr.custom.min.js"></script>
+<script src="/plugin/components/Fancybox/jquery.fancybox.min.js"></script> <!-- only if you use Fancybox -->
+<script src="/plugin/js/jquery.mediaBoxes.dropdown.js"></script>
+<script src="/plugin/js/jquery.mediaBoxes.js"></script>
+
+<script>
+
+  $('#grid').mediaBoxes({
+    filterContainer: '#filter',
+    columns: 3,
+    boxesToLoadStart: 8,
+    boxesToLoad: 6,
+    horizontalSpaceBetweenBoxes: 30,
+    verticalSpaceBetweenBoxes: 30,
+  });
+
+</script>
+
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="/js/demo.js"></script>
+
+</body>
+</html>
